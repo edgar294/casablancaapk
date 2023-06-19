@@ -25,6 +25,8 @@ export default {
     CREATE_RECORD_TAB: 'Create Record Tab',
     CREATE_RECORD_DRAWER: 'Create Record Drawer',
 
+    CREATE_RECORD_FORM: 'Create-Record-Form',
+
     VERIFY_RECORD: 'Verify-Record',
     VERIFY_RECORD_TAB: 'Verify Record Tab',
     VERIFY_RECORD_DRAWER: 'Verify Record Drawer',

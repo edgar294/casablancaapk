@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, ScrollView, SafeAreaView } from 'react-native';
 import React from 'react';
-import { COLORS } from '../../constants';
+import { ROUTES, COLORS } from '../../constants';
 import Button from '../../components/Button';
 import InnerButton from '../../components/InnerButton';
 
@@ -9,14 +9,17 @@ import Logo from '../../assets/images/logo.svg';
 import Graphic from '../../assets/images/graphic.png'
 
 
-const Home = () => {
+const Home = ({ navigation }) => {
     const validate = () => {
         console.log('Hello world')
     }
 
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <Button title="Crear Registro" onPress={validate} />                        
+            <Button 
+                title="Crear Registro" 
+                onPress={() => navigation.navigate(ROUTES.CREATE_RECORD_FORM)}
+            />
             <ScrollView contentInsetAdjustmentBehavior='automatic'>
                 <View style={styles.row}>
                     <Logo width={60} height={60} />

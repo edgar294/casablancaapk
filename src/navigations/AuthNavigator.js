@@ -4,7 +4,7 @@ import {
     Login,
     ForgotPassword,
     Register,
-    CreateRecordForm
+    CreateRecordForm,
 } from '../screens';
 import { COLORS, ROUTES } from '../constants';
 import DrawerNavigator from './DrawerNavigator';
@@ -35,7 +35,6 @@ function AuthNavigator() {
                 options={{ headerShown: false }}
             />
             <Stack.Screen name={ROUTES.REGISTER} component={Register} />
-            <Stack.Screen name={ROUTES.CREATE_RECORD_FORM} component={CreateRecordForm} />
             <Stack.Screen
                 name={ROUTES.HOME}
                 component={DrawerNavigator}

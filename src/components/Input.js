@@ -18,7 +18,7 @@ const Input = ({
     const [isFocused, setIsFocused] = React.useState(false);
     
     return (
-        <View style={{ marginBottom: 20 }}>            
+        <View style={{ marginBottom: 15 }}>
             <View
                 style={[
                     style.inputContainer,
@@ -73,7 +73,7 @@ const style = StyleSheet.create({
         color: COLORS.gray,
     },
     inputContainer: {
-        height: 45,        
+        height: 35,
         flexDirection: 'row',
         paddingHorizontal: 15,
         borderRadius: 50,

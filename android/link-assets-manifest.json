@@ -1,0 +1,89 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/drawer-cover.jpeg",
+      "sha1": "6f84ff9da085bc4eca13ad5a21f0c23689175540"
+    },
+    {
+      "path": "src/assets/icons/LOGO.svg",
+      "sha1": "37b39234f4dde97e77c33bf76972d6e2afdab15e"
+    },
+    {
+      "path": "src/assets/images/btn_ingresos.svg",
+      "sha1": "c1bf28b9739d18c35b25a8ea14daaae09a1a5520"
+    },
+    {
+      "path": "src/assets/images/btn_logout.svg",
+      "sha1": "a4092a6ff3b44274207701e08d1ca4fbdf9a3155"
+    },
+    {
+      "path": "src/assets/images/btn_perfil.svg",
+      "sha1": "b82dd09cf2e8884d7117ada27b10ab9156530485"
+    },
+    {
+      "path": "src/assets/images/btn_salidas.svg",
+      "sha1": "0e00e2ebf4d3e405b85292c1c61347ff1bdf624c"
+    },
+    {
+      "path": "src/assets/images/btn_verificacion.svg",
+      "sha1": "8e9302ebfd0d20523817108c28baab04f9b7571e"
+    },
+    {
+      "path": "src/assets/images/graphic.png",
+      "sha1": "ebdd73d6f30e5b91b087d51d14b4836e37b6ec58"
+    },
+    {
+      "path": "src/assets/images/icon_bulbos_home.svg",
+      "sha1": "6b877c3162b9d92d2a12efa3e01627f642e7e22d"
+    },
+    {
+      "path": "src/assets/images/icon_canastilla_home.svg",
+      "sha1": "878bac1b67c40ce8ce306278d0f93025ee5b53c7"
+    },
+    {
+      "path": "src/assets/images/icon_file_btn_azul.svg",
+      "sha1": "69ec23586e48dde7a31a9d21b53526f7beeadd04"
+    },
+    {
+      "path": "src/assets/images/icon_forgot_password.svg",
+      "sha1": "d11c797d83161a259c92c96955b3c02a56173a03"
+    },
+    {
+      "path": "src/assets/images/icon_qr_btnazul.svg",
+      "sha1": "65f1ee09144f430e2d902cd29581e9a5a06e9dac"
+    },
+    {
+      "path": "src/assets/images/icon_user_login.svg",
+      "sha1": "9d5146338b0dbfbeb7cbc6107a059abcb9ac6713"
+    },
+    {
+      "path": "src/assets/images/icon_user_password.svg",
+      "sha1": "06f205b752db142b582d84be205f397d379f329f"
+    },
+    {
+      "path": "src/assets/images/img_perfil.png",
+      "sha1": "d71ca86fad2adeef704b3465661e4bd9eb31423e"
+    },
+    {
+      "path": "src/assets/images/logo.png",
+      "sha1": "bb5dd49fe8502a72e3e48f04bf5f5473151ad592"
+    },
+    {
+      "path": "src/assets/images/logo.svg",
+      "sha1": "ff2f78f3411fcbefa6812fc83c5b566633e9a84b"
+    },
+    {
+      "path": "src/assets/images/logo_horizontal.png",
+      "sha1": "d0322af661764709d21e87e7eb26a13f9ffea85c"
+    },
+    {
+      "path": "src/assets/images/logo_horizontal.svg",
+      "sha1": "d1e74cc4d8ddce7c4fb657aaf815d75c9d931137"
+    },
+    {
+      "path": "src/assets/user.jpg",
+      "sha1": "e77aec70ba4fef2bf4e0f661828e7d946b8419bb"
+    }
+  ]
+}

@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet, Platform, TouchableOpacity, View } from 'react-native';
 import { COLORS, ROUTES, IMGS } from '../constants';
-import { CreateRecord, VerifyRecord, ReportOutput, Dashboard } from '../screens';
+import { CreateRecord, VerifyRecord, ReportOutput, Dashboard, ScanQR, CreateRecordForm } from '../screens';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SettingsNavigator from './SettingsNavigator';
 import CustomTabBarButton from '../components/CustomTabBarButton';
@@ -31,22 +31,19 @@ function BottomTabNavigator() {
                 tabBarStyle: styles.tabBarStyle,
                 tabBarActiveTintColor: COLORS.primary,
                 tabBarIcon: ({ color, size, focused }) => {
-                    return <BtnPefil width={25} height={25} />
                     let iconName;
-
-                    if (route.name === ROUTES.HOME_TAB) {
-                        iconName = focused ? 'ios-home-sharp' : 'ios-home-outline';
-                    } else if (route.name === ROUTES.SETTINGS_NAVIGATOR) {
+                    if (route.name === ROUTES.DASHBOARD) {
+                        iconName = focused ? 'person-circle-sharp' : 'person-circle-outline';
+                    } else if (route.name === ROUTES.CREATE_RECORD) {
                         iconName = focused ? 'settings' : 'settings-outline';
-                    } else if (route.name === ROUTES.WALLET) {
-                        iconName = focused ? 'wallet' : 'wallet-outline';
-                    } else if (route.name === ROUTES.NOTIFICATIONS) {
+                    } else if (route.name === ROUTES.VERIFY_RECORD) {
+                        iconName = focused ? 'ios-checkbox' : 'ios-checkbox-outline';
+                    } else if (route.name === ROUTES.REPORT_OUTPUT) {
                         iconName = focused
                             ? 'md-notifications-sharp'
                             : 'md-notifications-outline';
                     }
-
-                    return <Icon name={iconName} size={22} color={color} />;
+                    return <Icon name={iconName} size={30} color={color} />
                 },
                 header: () => {
                     return (
@@ -86,6 +83,7 @@ function BottomTabNavigator() {
                     headerShown: true,
                     tabBarButton: props => <CustomTabBarButton {...props} />,
                 }}
+                initialParams={{ code: null }}
             />
             <Tab.Screen
                 name={ROUTES.REPORT_OUTPUT}
@@ -94,6 +92,28 @@ function BottomTabNavigator() {
                     headerShown: true,
                     tabBarButton: props => (
                         <CustomTabBarButton route="settings" {...props} />
+                    ),
+                }}
+                initialParams={{ origin: '' }}
+            />
+            <Tab.Screen
+                name={ROUTES.SCAN_QR}
+                component={ScanQR}
+                options={{
+                    headerShown: true,
+                    tabBarButton: props => (
+                        <CustomTabBarButton route="settings" {...props} hide={true} />
+                    ),
+                }}
+                initialParams={{ origin: '' }}
+            />
+            <Tab.Screen
+                name={ROUTES.CREATE_RECORD_FORM}
+                component={CreateRecordForm}
+                options={{
+                    headerShown: true,
+                    tabBarButton: props => (
+                        <CustomTabBarButton route="settings" {...props} hide={true} />
                     ),
                 }}
             />

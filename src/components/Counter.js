@@ -21,7 +21,7 @@ const Counter = ({
     return (
         <View>        
             <Text style={{ color: COLORS.dark, textAlign: 'center' }}>{ label }</Text>
-            <View style={[style.row, { marginBottom: 20 }]}>            
+            <View style={[style.row, { marginBottom: 20 }]}>
                 <View style={style.col25}>
                     <TouchableOpacity>
                         <Text style={[ style.btnCounter, { backgroundColor: COLORS.danger}]} >-</Text>

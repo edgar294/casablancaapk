@@ -12,7 +12,7 @@ export { default as CreateRecord } from './home/CreateRecord';
 export { default as CreateRecordForm } from './home/CreateRecordForm';
 export { default as VerifyRecord } from './home/VerifyRecord';
 export { default as ReportOutput } from './home/ReportOutput';
-
+export { default as ScanQR } from './home/ScanQR';
 
 // Auth Screens
 export { default as Login } from './auth/Login';

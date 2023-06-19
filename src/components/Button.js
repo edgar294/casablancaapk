@@ -35,7 +35,7 @@ export default Button;
 
 const styles = StyleSheet.create({ 
     button: {
-        height: 55,
+        height: 47,
         width: '100%',        
         justifyContent: 'center',
         alignItems: 'center',
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     buttonWrapper: {        
         marginVertical: 10,
         backgroundColor: COLORS.primary,
-        height: 55,
+        height: 47,
         marginTop: 12,
         shadowColor: '#000',
         shadowOffset: {

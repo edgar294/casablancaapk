@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
     StyleSheet,
     Text,
-    View,    
+    View,
     SafeAreaView,
     TouchableOpacity,
 } from 'react-native';
@@ -13,13 +13,13 @@ import { useNavigation } from '@react-navigation/native';
 
 import Button from '../../components/Button';
 import Input from '../../components/Input';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '../../components/Loader';
 
 
 const Login = props => {
     // const {navigation} = props;
-    const navigation = useNavigation();    
+    const navigation = useNavigation();
     const [inputs, setInputs] = React.useState({ email: '', password: '' });
     const [errors, setErrors] = React.useState({});
     const [loading, setLoading] = React.useState(false);
@@ -44,7 +44,7 @@ const Login = props => {
         setLoading(true);
         setTimeout(async () => {
             setLoading(false);
-            let userData = await AsyncStorage.getItem('userData');
+            // let userData = await AsyncStorage.getItem('userData');
             if (userData) {
                 userData = JSON.parse(userData);
                 if (
@@ -52,10 +52,10 @@ const Login = props => {
                     inputs.password == userData.password
                 ) {
                     navigation.navigate('HomeScreen');
-                    AsyncStorage.setItem(
-                        'userData',
-                        JSON.stringify({ ...userData, loggedIn: true }),
-                    );
+                    // AsyncStorage.setItem(
+                    //     'userData',
+                    //     JSON.stringify({ ...userData, loggedIn: true }),
+                    // );
                 } else {
                     Alert.alert('Error', 'Invalid Details');
                 }
@@ -81,7 +81,7 @@ const Login = props => {
                         <Logo width={300} height={200} style={styles.mr7} />
                     </View>
 
-                    <Text style={styles.brandName}>Bienvenidos</Text>
+                    <Text style={styles.brandName}>BIENVENIDOS</Text>
                     <Text style={styles.loginContinueTxt}>Sistema de Inventarios</Text>
 
                     <Input
@@ -103,22 +103,25 @@ const Login = props => {
                         error={errors.email}
                         withBg={true}
                     />
-
-                    <View >
+                    <Button
+                        title="INGRESAR"
+                        onPress={() => navigation.navigate(ROUTES.HOME)}
+                    />
+                    {/* <View >
                         <LinearGradient
                             colors={[COLORS.primary, COLORS.primary]}
                             style={styles.linearGradient}
                             start={{ y: 0.0, x: 0.0 }}
-                            end={{ y: 1.0, x: 0.0 }}>
+                            end={{ y: 1.0, x: 0.0 }}>*/}
                             {/******************** LOGIN BUTTON *********************/}
-                            <TouchableOpacity
+                            {/* <TouchableOpacity
                                 onPress={() => navigation.navigate(ROUTES.HOME)}
                                 activeOpacity={0.7}
                                 style={styles.loginBtn}>
                                 <Text style={styles.loginText}>Ingresar</Text>
                             </TouchableOpacity>
                         </LinearGradient>
-                    </View>
+                    </View>  */}
 
                     {/***************** FORGOT PASSWORD BUTTON *****************/}
                     <TouchableOpacity
@@ -167,7 +170,7 @@ const styles = StyleSheet.create({
         color: COLORS.gray,
         marginBottom: 24,
         fontWeight: 'bold',
-    },    
+    },
     // Login Btn Styles
     loginBtnWrapper: {
         height: 55,

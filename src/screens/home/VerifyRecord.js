@@ -7,20 +7,79 @@ import InnerButton from '../../components/InnerButton';
 import UserImage from '../../assets/user.jpg'
 import Logo from '../../assets/images/logo.svg';
 import Graphic from '../../assets/images/graphic.png'
+import { FlatList } from 'react-native-gesture-handler';
 
 
-const VerifyRecord = ({ navigation }) => {
-    const validate = () => {
-        console.log('Hello world')
+const VerifyRecord = ({ navigation, route }) => {
+    const [data, setData] = React.useState([])
+    React.useEffect(() => {
+        const { code } = route.params;
+        (code) ? addItemToTable(code) : {}
+        return () => {
+        }
+    }, [route.params])
+
+    const addItemToTable = (item) => {
+        setData(data => [...data, {
+            id: data.length + 2,
+            name: item
+        }]);
     }
 
+    const renderRow = (item) => {
+        console.log(item.item.name)
+        return (
+            <View style={{ flex: 1, flexDirection: 'row', paddingVertical: 5, borderBottomWidth: 1 }}>
+                <View style={{ width: 50 }}>
+                    <Text style={{ fontSize: 16, textAlign: 'center', color: COLORS.dark }}>
+                        {item.item.id}
+                    </Text>
+                </View>
+                <View>
+                    <Text style={{ fontSize: 16, color: COLORS.dark }}>
+                        {item.item.name}
+                    </Text>
+                </View>
+            </View>
+        )
+    }
+
+    const Table = () => {
+        return (
+            <View style={{ width: '100%' }}>
+                <View style={{ flex: 1, flexDirection: 'row', paddingVertical: 5, borderBottomWidth: 1 }}>
+                    <View style={{ width: 100 }}>
+                        <Text style={{ fontSize: 16, textAlign: 'center', color: COLORS.dark, textAlign: 'center' }}>
+                            BODEGA
+                        </Text>
+                    </View>
+                    <View style={{ width: 100 }}>
+                        <Text style={{ fontSize: 16, color: COLORS.dark, textAlign: 'center'  }}>
+                            CANASTILLA
+                        </Text>
+                    </View>
+                    <View style={{ width: 100 }}>
+                        <Text style={{ fontSize: 16, color: COLORS.dark, textAlign: 'center'  }}>
+                            BULBOS
+                        </Text>
+                    </View>
+                </View>
+                <FlatList
+                    data={data}
+                    renderItem={renderRow}
+                    keyExtractor={(item) => `key-${item.id}`}
+                >
+                </FlatList>
+            </View>
+        )
+    }
     return (
-        <SafeAreaView style={[styles.mainContainer, { width: '90%', marginLeft: '5%'}]}>
+        <SafeAreaView style={[styles.mainContainer,]}>
             <Button
                 title="Verificar Registro"
-                onPress={() => navigation.navigate(ROUTES.CREATE_RECORD_FORM)}
+                onPress={() => navigation.navigate(ROUTES.SCAN_QR, { origin: ROUTES.VERIFY_RECORD })}
             />
-            <ScrollView contentInsetAdjustmentBehavior='automatic'>
+            <ScrollView contentInsetAdjustmentBehavior='automatic' style={{ width: '100%' }}>
                 <View style={styles.row}>
                     <Logo width={60} height={60} />
                     <View style={styles.col}>
@@ -29,7 +88,7 @@ const VerifyRecord = ({ navigation }) => {
                         <View style={{ display: 'flex', flexDirection: 'row' }}>
                             <Text style={{ color: COLORS.secondary }}>Verificados 1000</Text>
                             <Text style={{ color: COLORS.dark, marginHorizontal: 8 }}>|</Text>
-                            <Text style={{ color: COLORS.danger }}>Sin Verificar 1000</Text>                                
+                            <Text style={{ color: COLORS.danger }}>Sin Verificar 1000</Text>
                         </View>
                     </View>
                 </View>
@@ -41,9 +100,12 @@ const VerifyRecord = ({ navigation }) => {
                         <View style={{ display: 'flex', flexDirection: 'row' }}>
                             <Text style={{ color: COLORS.secondary }}>Verificados 1000</Text>
                             <Text style={{ color: COLORS.dark, marginHorizontal: 8 }}>|</Text>
-                            <Text style={{ color: COLORS.danger }}>Sin Verificar 1000</Text>                                
+                            <Text style={{ color: COLORS.danger }}>Sin Verificar 1000</Text>
                         </View>
                     </View>
+                </View>
+                <View style={styles.row}>
+                    <Table />
                 </View>
                 <View style={{ marginBottom: 90 }}></View>
             </ScrollView>

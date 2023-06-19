@@ -9,7 +9,7 @@ const Home = () => {
     return (
         <View style={styles.mainContainer}>
             <View style={styles.row}>                
-                <Logo width={60} height={60} />
+                <Logo width={80} height={80} />
                 <View style={styles.col}>
                     <Text style={styles.h3}>BIENVENIDO</Text>
                     <Text style={styles.p}>Nombre de Usuario</Text>
@@ -22,14 +22,14 @@ const Home = () => {
                 </View>
             </View>
             <View style={styles.row}>
-                <Logo width={60} height={60} />
+                <Logo width={70} height={70} />
                 <View style={styles.col}>
                     <Text style={styles.h1}>CANASTILLAS</Text>
                     <Text style={styles.h2}>TOTAL: 1000</Text>
                 </View>
             </View>
             <View style={styles.row}>                
-                <Logo width={60} height={60} />
+                <Logo width={70} height={70} />
                 <View style={styles.col}>
                     <Text style={styles.h1}>BULBOS</Text>
                     <Text style={styles.h2}>TOTAL: 1000</Text>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: 'row',
         alignItems: 'center',        
-        marginVertical: 10
+        marginVertical: 6
     },
     col: {        
         flexDirection: 'column',

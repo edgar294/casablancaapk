@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet, Modal, TouchableOpacity, ActivityIndicator, FlatList, SafeAreaView } from 'react-native';
 import { COLORS, IMGS } from '../constants';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+// import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const CustomPicker = ({
     label = "",
@@ -45,7 +46,7 @@ const CustomPicker = ({
     }
 
     return (
-        <View style={{ marginBottom: 20, width: '100%' }}>
+        <View style={{ marginBottom: 15, width: '100%' }}>
             <View
                 style={[
                     style.inputContainer,
@@ -68,7 +69,7 @@ const CustomPicker = ({
                     <Text style={style.textInput}>
                         {selected ? selected : label}
                     </Text>
-                    <Icon name="arrow-down-drop-circle" size={24} color={COLORS.dark} style={{
+                    <Icon name="ios-caret-down" size={24} color={COLORS.dark} style={{
                         position: 'absolute',
                         right: 0
                     }} />
@@ -144,7 +145,7 @@ const style = StyleSheet.create({
         color: COLORS.gray,
     },
     inputContainer: {
-        height: 45,
+        height: 35,
         flexDirection: 'row',
         paddingHorizontal: 15,
         borderRadius: 50,

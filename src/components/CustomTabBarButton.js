@@ -4,11 +4,11 @@ import { COLORS } from '../constants';
 import Svg, { Path } from 'react-native-svg';
 
 const CustomTabBarButton = props => {
-    const { route, children, accessibilityState, onPress } = props;    
+    const { route, children, accessibilityState, onPress, hide=false } = props;
 
     if (accessibilityState.selected) {
         return (
-            <View style={styles.btnWrapper}>
+            <View style={[styles.btnWrapper, (hide) ? { display: 'none' } : {}]}>
                 <View style={{ flexDirection: 'row' }}>
                     <View
                         style={[
@@ -53,6 +53,7 @@ const CustomTabBarButton = props => {
                         borderTopLeftRadius: route === 'home' ? 10 : 0,
                         borderTopRightRadius: route === 'settings' ? 10 : 0,
                     },
+                    , (hide) ? { display: 'none' } : {}
                 ]}>
                 {children}
             </TouchableOpacity>

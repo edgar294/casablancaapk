@@ -9,6 +9,7 @@ export { default as Profile } from './home/Profile';
 
 export { default as Dashboard } from './home/Dashboard';
 export { default as CreateRecord } from './home/CreateRecord';
+export { default as CreateRecordForm } from './home/CreateRecordForm';
 export { default as VerifyRecord } from './home/VerifyRecord';
 export { default as ReportOutput } from './home/ReportOutput';
 

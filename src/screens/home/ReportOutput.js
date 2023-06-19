@@ -12,7 +12,7 @@ const Home = () => {
                 backgroundColor: COLORS.bgColor,
                 color: '#fff'
             }}>
-            <Text>Home!!!!</Text>
+            <Text>ReportOutput</Text>
         </View>
     );
 };

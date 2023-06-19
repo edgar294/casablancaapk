@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import {
     StyleSheet,
     Text,
-    View,    
+    View,
+    TextInput,
     SafeAreaView,
     TouchableOpacity,
+    Keyboard
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { COLORS, ROUTES, IMGS } from '../../constants';
-import Logo from '../../assets/images/logo.svg';
+import Logo from '../../assets/images/logo.png';
+import UserIcon from '../../assets/images/btn_ingresos.svg'
 import { useNavigation } from '@react-navigation/native';
 
 import Button from '../../components/Button';
@@ -19,7 +22,7 @@ import Loader from '../../components/Loader';
 
 const Login = props => {
     // const {navigation} = props;
-    const navigation = useNavigation();    
+    const navigation = useNavigation();
     const [inputs, setInputs] = React.useState({ email: '', password: '' });
     const [errors, setErrors] = React.useState({});
     const [loading, setLoading] = React.useState(false);
@@ -83,34 +86,45 @@ const Login = props => {
 
                     <Text style={styles.brandName}>Bienvenidos</Text>
                     <Text style={styles.loginContinueTxt}>Sistema de Inventarios</Text>
+                    <TextInput style={styles.input} placeholder="Password" /> 
+                    {/* <View style={{ marginVertical: 20 }}>
+                        <Input
+                            onChangeText={text => handleOnchange(text, 'email')}
+                            onFocus={() => handleError(null, 'email')}
+                            iconName={IMGS.iconUserLogin}
+                            label="Email"
+                            placeholder="Enter your email address"
+                            error={errors.email}
+                        />
+                        <Input
+                            onChangeText={text => handleOnchange(text, 'password')}
+                            onFocus={() => handleError(null, 'password')}
+                            iconName={IMGS.iconUserPass}
+                            label="Password"
+                            placeholder="Enter your password"
+                            error={errors.password}
+                            password
+                        />
+                        <Button title="Log In" onPress={validate} />
+                        <Text
+                            onPress={() => navigation.navigate('RegistrationScreen')}
+                            style={{
+                                color: COLORS.black,
+                                fontWeight: 'bold',
+                                textAlign: 'center',
+                                fontSize: 16,
+                            }}>
+                            Don't have account ?Register
+                        </Text>                        
+                    </View> */}
 
-                    <Input
-                        onChangeText={text => handleOnchange(text, 'email')}
-                        onFocus={() => handleError(null, 'email')}
-                        iconName={IMGS.iconUserLogin}
-                        label="Usuario"
-                        placeholder="Usuario"
-                        error={errors.email}
-                        withBg={true}
-                    />
-
-                    <Input
-                        onChangeText={text => handleOnchange(text, 'password')}
-                        onFocus={() => handleError(null, 'password')}
-                        iconName={IMGS.iconUserLogin}
-                        label="Contrasena"
-                        placeholder="Contrasena"
-                        error={errors.email}
-                        withBg={true}
-                    />
-
-                    <View >
+                    {/******************** LOGIN BUTTON *********************/}
+                    {/* <View style={styles.loginBtnWrapper}>
                         <LinearGradient
                             colors={[COLORS.primary, COLORS.primary]}
                             style={styles.linearGradient}
                             start={{ y: 0.0, x: 0.0 }}
                             end={{ y: 1.0, x: 0.0 }}>
-                            {/******************** LOGIN BUTTON *********************/}
                             <TouchableOpacity
                                 onPress={() => navigation.navigate(ROUTES.HOME)}
                                 activeOpacity={0.7}
@@ -118,10 +132,10 @@ const Login = props => {
                                 <Text style={styles.loginText}>Ingresar</Text>
                             </TouchableOpacity>
                         </LinearGradient>
-                    </View>
+                    </View> */}
 
                     {/***************** FORGOT PASSWORD BUTTON *****************/}
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                         onPress={() =>
                             navigation.navigate(ROUTES.FORGOT_PASSWORD, {
                                 userId: 'X0001',
@@ -129,7 +143,7 @@ const Login = props => {
                         }
                         style={styles.forgotPassBtn}>
                         <Text style={styles.forgotPassText}>¿Olvidates tu contraseña?</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
             </View>
         </SafeAreaView>
@@ -144,7 +158,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 16,
-        backgroundColor: COLORS.white
     },
     container: {
         padding: 15,
@@ -155,19 +168,28 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     brandName: {
-        fontSize: 54,
+        fontSize: 64,
         textAlign: 'center',
         fontWeight: 'bold',
         color: COLORS.primary,
         opacity: 0.9,
     },
     loginContinueTxt: {
-        fontSize: 30,
+        fontSize: 21,
         textAlign: 'center',
         color: COLORS.gray,
-        marginBottom: 24,
+        marginBottom: 16,
         fontWeight: 'bold',
-    },    
+    },
+    input: {
+        borderWidth: 1,
+        borderColor: COLORS.grayLight,
+        padding: 15,
+        marginVertical: 10,
+        borderRadius: 5,
+        height: 55,
+        paddingVertical: 0,
+    },
     // Login Btn Styles
     loginBtnWrapper: {
         height: 55,
@@ -183,7 +205,7 @@ const styles = StyleSheet.create({
     },
     linearGradient: {
         width: '100%',
-        borderRadius: 15,
+        borderRadius: 50,
     },
     loginBtn: {
         textAlign: 'center',
@@ -198,7 +220,7 @@ const styles = StyleSheet.create({
         fontWeight: '400',
     },
     forgotPassText: {
-        color: COLORS.dark,
+        color: COLORS.primary,
         textAlign: 'center',
         fontWeight: 'bold',
         marginTop: 15,

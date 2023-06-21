@@ -112,7 +112,7 @@ const CreateRecordForm = () => {
                     data={data}
                     bordered={true}
                 />
-                <View style={[styles.row]}>
+                <View style={[{ flexDirection: 'row' }]}>
                     <View style={[styles.col50]}>
                         <Counter 
                             label="Cantidad de Canastillas"
@@ -126,7 +126,8 @@ const CreateRecordForm = () => {
                 </View>
                 <Input
                     onChangeText={text => setSelectedCrop(text)}
-                    label=""
+                    label="Total de bulbos"
+                    showLabel={true}
                     placeholder=""
                     bordered={true}
                     withBg={true}
@@ -184,7 +185,7 @@ const styles = StyleSheet.create({
     },
     col50: {
         flexDirection: 'column',
-        paddingHorizontal: 10,
+        // paddingHorizontal: 10,
         width: '50%'
     },
     h1: {
@@ -192,22 +193,26 @@ const styles = StyleSheet.create({
         color: COLORS.primary,
         opacity: 0.9,
         fontWeight: 'bold',
+        fontFamily: 'Raleway-SemiBold'
     },
     h2: {
         fontSize: 26,
         color: COLORS.gray,
         opacity: 0.9,
+        fontFamily: 'Raleway-SemiBold'
     },
     h3: {
         fontSize: 20,
         color: COLORS.primary,
         opacity: 0.9,
         fontWeight: 'bold',
+        fontFamily: 'Raleway-SemiBold'
     },
     p: {
         fontSize: 16,
         color: COLORS.gray,
         opacity: 0.9,
+        fontFamily: 'Raleway-SemiBold'
     },
     centerContent: {
         justifyContent: 'center',

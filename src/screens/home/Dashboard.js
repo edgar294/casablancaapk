@@ -1,15 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native';
 import React, { startTransition } from 'react';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import { COLORS } from '../../constants';
-import UserImage from '../../assets/user.jpg'
 import Logo from '../../assets/images/logo.svg';
+import UserImage from '../../assets/images/img_perfil.png'
+import StatisticImage from '../../assets/images/graphic.png'
+import CanastillaIcon from '../../assets/images/icon_canastilla_home.svg'
+import BulbosIcon from '../../assets/images/icon_bulbos_home.svg'
 import Graphic from '../../assets/images/graphic.png'
+
 
 const Home = () => {
     return (
         <View style={styles.mainContainer}>
-            <View style={styles.row}>                
-                <Logo width={80} height={80} />
+            <View style={styles.row}>               
+                <Image source={UserImage} style={{ width: 80, height: 80, borderRadius: 15 }} />
                 <View style={styles.col}>
                     <Text style={styles.h3}>BIENVENIDO</Text>
                     <Text style={styles.p}>Nombre de Usuario</Text>
@@ -18,18 +22,22 @@ const Home = () => {
             </View>
             <View style={styles.row}> 
                 <View style={styles.centerContent}> 
-                    <Logo width={200} height={150} style=""/>
+                    <Image source={StatisticImage} style={{ width: 200, height: 150 }} />
                 </View>
             </View>
             <View style={styles.row}>
-                <Logo width={70} height={70} />
+                <View style={styles.canastillaIcon}>
+                    <CanastillaIcon width={50} height={50} fill="#fff" />
+                </View>
                 <View style={styles.col}>
                     <Text style={styles.h1}>CANASTILLAS</Text>
                     <Text style={styles.h2}>TOTAL: 1000</Text>
                 </View>
             </View>
             <View style={styles.row}>                
-                <Logo width={70} height={70} />
+                <View style={styles.bulboIcon}>
+                    <BulbosIcon width={50} height={50} fill="#fff" />
+                </View>
                 <View style={styles.col}>
                     <Text style={styles.h1}>BULBOS</Text>
                     <Text style={styles.h2}>TOTAL: 1000</Text>
@@ -65,30 +73,49 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,        
     },
     h1: {
-        fontSize: 30,
-        color: COLORS.primary,
+        fontSize: 20,
+        color: COLORS.dark,
         opacity: 0.9,
         fontWeight: 'bold',
+        fontFamily: 'Raleway-SemiBold'
     },
     h2: {
-        fontSize: 26,
+        fontSize: 18,
         color: COLORS.gray,
         opacity: 0.9,
+        fontFamily: 'Raleway-SemiBold'
     },
     h3: {
-        fontSize: 20,
-        color: COLORS.primary,
+        fontSize: 16,
+        color: COLORS.dark,
         opacity: 0.9,
         fontWeight: 'bold',
+        fontFamily: 'Raleway-SemiBold'
     },
     p: {
-        fontSize: 16,
+        fontSize: 13,
         color: COLORS.gray,
         opacity: 0.9,
+        fontFamily: 'Raleway-SemiBold'
     },
     centerContent: {
         justifyContent: 'center',
         alignItems: 'center',
         width: "100%"
+    },
+    canastillaIcon: { 
+        backgroundColor: COLORS.canastillas,
+        width: 70, height: 70,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 15
+    },
+    bulboIcon : { 
+        backgroundColor: COLORS.bulbos,
+        width: 70,
+        height: 70,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 15 
     }
 });

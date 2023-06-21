@@ -2,7 +2,8 @@ import React from 'react';
 import { View, Text, TextInput, StyleSheet, Image } from 'react-native';
 import { COLORS, IMGS } from '../constants';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Logo from '../assets/images/logo.png';
+import UserLogin from '../assets/images/icon_user_login.svg'
+import UserPass from '../assets/images/icon_user_password.svg'
 
 const Input = ({
     label,
@@ -12,13 +13,42 @@ const Input = ({
     bordered = false,    
     withBg = false,
     onFocus = () => { },
+    icon = '',
+    showLabel = false,
     ...props
 }) => {
     const [hidePassword, setHidePassword] = React.useState(password);
     const [isFocused, setIsFocused] = React.useState(false);
+
+    const Icon = () => {
+        if ((icon == 'user-login')) {
+            return (
+                <View style={{ justifyContent:'center', alignItems: 'center' }}>
+                    <UserLogin width={20} height={20} fill='#000'/>
+                </View>
+            )
+        } else if ((icon == 'user-pass')) {
+            return (
+                <View style={{ justifyContent:'center', alignItems: 'center' }}>
+                    <UserPass width={20} height={20} fill='#000'/>
+                </View>
+            )
+        }
+    }
     
+    const Label = () => {
+        if (showLabel) {
+            return (
+                <Text style={{ color: COLORS.dark, marginBottom: 5 }}> 
+                    {label}
+                </Text>
+            )
+        }
+    }
+
     return (
         <View style={{ marginBottom: 15 }}>
+            <Label />
             <View
                 style={[
                     style.inputContainer,
@@ -32,11 +62,7 @@ const Input = ({
                                 : COLORS.light,                        
                     },  
                 ]}>
-                {/* <Logo 
-                    width={30} 
-                    height={30}
-                    style={COLORS.darkBlue}
-                /> */}                
+                < Icon />
                 <TextInput
                     autoCorrect={false}
                     onFocus={() => {
@@ -84,7 +110,7 @@ const style = StyleSheet.create({
         height: 20
     },
     textInput: {
-        fontSize: 16,
+        fontSize: 12,
         color: COLORS.dark,
     },
     input: {
@@ -96,6 +122,7 @@ const style = StyleSheet.create({
         paddingVertical: 0,        
         flex: 1,
         justifyContent: 'center',
+        fontFamily: 'Raleway-SemiBold'
     },
     mr7: {
         marginRight: 7,

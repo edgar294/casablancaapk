@@ -8,6 +8,8 @@ import UserImage from '../../assets/user.jpg'
 import Logo from '../../assets/images/logo.svg';
 import Graphic from '../../assets/images/graphic.png'
 import { FlatList } from 'react-native-gesture-handler';
+import CanastillaIcon from '../../assets/images/icon_canastilla_home.svg'
+import BulbosIcon from '../../assets/images/icon_bulbos_home.svg'
 
 
 const VerifyRecord = ({ navigation, route }) => {
@@ -31,12 +33,12 @@ const VerifyRecord = ({ navigation, route }) => {
         return (
             <View style={{ flex: 1, flexDirection: 'row', paddingVertical: 5, borderBottomWidth: 1 }}>
                 <View style={{ width: 50 }}>
-                    <Text style={{ fontSize: 16, textAlign: 'center', color: COLORS.dark }}>
+                    <Text style={{ fontSize: 12, textAlign: 'center', color: COLORS.dark, fontFamily: 'Raleway-Regular' }}>
                         {item.item.id}
                     </Text>
                 </View>
                 <View>
-                    <Text style={{ fontSize: 16, color: COLORS.dark }}>
+                    <Text style={{ fontSize: 12, color: COLORS.dark, fontFamily: 'Raleway-Regular' }}>
                         {item.item.name}
                     </Text>
                 </View>
@@ -49,17 +51,17 @@ const VerifyRecord = ({ navigation, route }) => {
             <View style={{ width: '100%' }}>
                 <View style={{ flex: 1, flexDirection: 'row', paddingVertical: 5, borderBottomWidth: 1 }}>
                     <View style={{ width: 100 }}>
-                        <Text style={{ fontSize: 16, textAlign: 'center', color: COLORS.dark, textAlign: 'center' }}>
+                        <Text style={{ fontSize: 13, textAlign: 'center', color: COLORS.dark, textAlign: 'center', fontFamily: 'Raleway-SemiBold' }}>
                             BODEGA
                         </Text>
                     </View>
                     <View style={{ width: 100 }}>
-                        <Text style={{ fontSize: 16, color: COLORS.dark, textAlign: 'center'  }}>
+                        <Text style={{ fontSize: 13, color: COLORS.dark, textAlign: 'center', fontFamily: 'Raleway-SemiBold'  }}>
                             CANASTILLA
                         </Text>
                     </View>
                     <View style={{ width: 100 }}>
-                        <Text style={{ fontSize: 16, color: COLORS.dark, textAlign: 'center'  }}>
+                        <Text style={{ fontSize: 13, color: COLORS.dark, textAlign: 'center', fontFamily: 'Raleway-SemiBold'  }}>
                             BULBOS
                         </Text>
                     </View>
@@ -79,25 +81,30 @@ const VerifyRecord = ({ navigation, route }) => {
                 title="Reportar Salida"
                 type='danger'
                 onPress={() => navigation.navigate(ROUTES.SCAN_QR, { origin: ROUTES.REPORT_OUTPUT })}
+                icon='scan-qr-icon'
             />
             <ScrollView contentInsetAdjustmentBehavior='automatic' style={{ width: '100%' }}>
                 <View style={styles.row}>
-                    <Logo width={60} height={60} />
+                <View style={styles.canastillaIcon}>
+                        <CanastillaIcon width={50} height={50} fill="#fff" />
+                    </View>
                     <View style={styles.col}>
                         <Text style={styles.h1}>CANASTILLAS</Text>
                         <Text style={styles.h4}>TOTAL: 1000</Text>
                         <View style={{ display: 'flex', flexDirection: 'row' }}>
-                            <Text style={{ color: COLORS.danger }}>Salida 100</Text>
+                            <Text style={{ color: COLORS.danger, fontFamily: 'Raleway-Regular' }}>Salida 100</Text>
                         </View>
                     </View>
                 </View>
                 <View style={styles.row}>
-                    <Logo width={60} height={60} />
+                <View style={styles.bulboIcon}>
+                    <BulbosIcon width={50} height={50} fill="#fff" />
+                </View>
                     <View style={styles.col}>
                         <Text style={styles.h1}>BULBOS</Text>
                         <Text style={styles.h4}>TOTAL: 1000</Text>
                         <View style={{ display: 'flex', flexDirection: 'row' }}>
-                        <Text style={{ color: COLORS.danger }}>Salida 100</Text>
+                        <Text style={{ color: COLORS.danger, fontFamily: 'Raleway-Regular' }}>Salida 100</Text>
                         </View>
                     </View>
                 </View>
@@ -144,32 +151,37 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
     },
     h1: {
-        fontSize: 30,
-        color: COLORS.primary,
+        fontSize: 24,
+        color: COLORS.dark,
         opacity: 0.9,
         fontWeight: 'bold',
+        fontFamily: 'Raleway-SemiBold'
     },
     h2: {
-        fontSize: 26,
+        fontSize: 18,
         color: COLORS.gray,
         opacity: 0.9,
+        fontFamily: 'Raleway-SemiBold'
     },
     h3: {
-        fontSize: 20,
+        fontSize: 16,
         color: COLORS.primary,
         opacity: 0.9,
         fontWeight: 'bold',
+        fontFamily: 'Raleway-SemiBold'
     },
     h4: {
-        fontSize: 20,
+        fontSize: 14,
         color: COLORS.dark,
         opacity: 0.9,
         // fontWeight: 'bold',
+        fontFamily: 'Raleway-SemiBold'
     },
     p: {
-        fontSize: 16,
+        fontSize: 13,
         color: COLORS.gray,
         opacity: 0.9,
+        fontFamily: 'Raleway-SemiBold'
     },
     centerContent: {
         justifyContent: 'center',
@@ -185,4 +197,19 @@ const styles = StyleSheet.create({
     col50: {
         width: '50%'
     },
+    canastillaIcon: {
+        backgroundColor: COLORS.canastillas,
+        width: 70, height: 70,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 15
+    },
+    bulboIcon: {
+        backgroundColor: COLORS.bulbos,
+        width: 70,
+        height: 70,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 15
+    }
 });

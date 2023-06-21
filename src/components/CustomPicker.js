@@ -38,7 +38,7 @@ const CustomPicker = ({
                     paddingHorizontal: 10
                 }}
             >
-                <Text style={{ color: '#000', textAlign: 'center', fontSize: 16 }}>
+                <Text style={{ color: '#000', textAlign: 'center', fontSize: 11 }}>
                     {item.title}
                 </Text>
             </TouchableOpacity>
@@ -75,11 +75,6 @@ const CustomPicker = ({
                     }} />
                 </TouchableOpacity>
             </View>
-            {/* {error && (
-                <Text style={{ marginTop: 7, color: COLORS.red, fontSize: 12 }}>
-                    {error}
-                </Text>
-            )} */}
             <Modal
                 animationType='slide'
                 transparent={true}
@@ -141,7 +136,7 @@ const CustomPicker = ({
 const style = StyleSheet.create({
     label: {
         marginVertical: 5,
-        fontSize: 16,
+        fontSize: 12,
         color: COLORS.gray,
     },
     inputContainer: {
@@ -156,7 +151,7 @@ const style = StyleSheet.create({
         height: 20
     },
     textInput: {
-        fontSize: 16,
+        fontSize: 12,
         color: COLORS.dark,
     },
     input: {

@@ -1,14 +1,36 @@
 import React from 'react';
 import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
 import { COLORS } from '../constants';
-const Button = ({ title, onPress = () => { }, type = 'info' }) => {
+import FileIcon from '../assets/images/icon_file_btn_azul.svg'
+import ScanQrIcon from '../assets/images/icon_qr_btnazul.svg'
+
+const Button = ({ 
+    title, onPress = () => { },
+    type = 'info',
+    icon = null 
+}) => {
+    const Icon = () => {
+        if ((icon == 'file-icon')) {
+            return (
+                <View style={{ justifyContent:'center', alignItems: 'center' }}>
+                    <FileIcon width={20} height={20} fill='#000'/>
+                </View>
+            )
+        } else if ((icon == 'scan-qr-icon')) {
+            return (
+                <View style={{ justifyContent:'center', alignItems: 'center' }}>
+                    <ScanQrIcon width={20} height={20} fill='#000'/>
+                </View>
+            )
+        }
+    }
+
     return (
-        <View style={styles.buttonWrapper}>
+        <View style={styles.buttonWrapper}>                        
             <TouchableOpacity
                 onPress={onPress}
                 activeOpacity={0.7}
-                style={[styles.button, 
-                    type == "outline-info" ? styles.OutlineInfo :
+                style={[styles.button, { flex: 1 },                    type == "outline-info" ? styles.OutlineInfo :
                     type == "outline-success" ? styles.OutlineSuccess :
                     type == "outline-warning" ? styles.OutlineWarning :
                     type == "outline-danger" ? styles.OutlineDanger :
@@ -18,12 +40,13 @@ const Button = ({ title, onPress = () => { }, type = 'info' }) => {
                     type == "danger" ? styles.Danger :
                     styles.Info 
                 ]}>
-                <Text style={
+                < Icon />
+                <Text style={[styles.raleway, 
                     type == "outline-info" ? styles.TextOutlineInfo :
                     type == "outline-success" ? styles.TextOutlineSuccess :
                     type == "outline-warning" ? styles.TextOutlineWarning :
                     type == "outline-danger" ? styles.TextOutlineDanger :
-                    styles.Text }>
+                    styles.Text] }>
                     {title}
                 </Text>
             </TouchableOpacity>
@@ -35,27 +58,22 @@ export default Button;
 
 const styles = StyleSheet.create({ 
     button: {
-        height: 47,
-        width: '100%',        
+        height: 47, 
+        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
+        width: '100%'
     },
     buttonWrapper: {        
+        // justifyContent: 'center',
         marginVertical: 10,
         backgroundColor: COLORS.primary,
         height: 47,
         marginTop: 12,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.4,
-        shadowRadius: 3,
-        elevation: 5,
         width: '100%',
         borderRadius: 15,
+        flexDirection: 'row'
     },
     Info: {
         borderColor: COLORS.info,
@@ -123,4 +141,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: COLORS.white
     },
+    raleway: {
+        fontFamily: 'Raleway-SemiBold',
+        marginLeft: 5        
+    }
 })

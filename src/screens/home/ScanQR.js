@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import React from 'react';
 import { COLORS, ROUTES } from '../../constants';
 
@@ -8,10 +8,11 @@ import Button from '../../components/Button';
 
 const ScanQR = ({ navigation, route }) => {
     const [origin, setOrigin] = React.useState(ROUTES.HOME);
+    const [windowHeight, setWindowHeight] = React.useState(Dimensions.get('window').height)
 
     React.useEffect(() => {
         const { origin }= route.params;
-        console.log(origin)
+        setWindowHeight(Dimensions.get('window').height)
         setOrigin(origin)        
         return () => {
         }
@@ -27,10 +28,10 @@ const ScanQR = ({ navigation, route }) => {
                 reactivate={true}
                 reactivateTimeout={3000}
                 showMarker={true}
-                cameraStyle={{ height: 500 }}
-                cameraContainerStyle={{ height: 440 }}
+                cameraStyle={{ height: windowHeight - 150 }}
+                cameraContainerStyle={{ height: windowHeight - 150 }}
                 bottomContent={
-                    <View style={{ width: '90%' }}>
+                    <View style={{ width: '90%', position: 'absolute', bottom: 20 }}>
                         <Button
                             title="FINALIZAR"
                             type='danger'                            

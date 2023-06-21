@@ -4,17 +4,16 @@ import { StyleSheet, Platform, TouchableOpacity, View } from 'react-native';
 import { COLORS, ROUTES, IMGS } from '../constants';
 import { CreateRecord, VerifyRecord, ReportOutput, Dashboard, ScanQR, CreateRecordForm } from '../screens';
 import Icon from 'react-native-vector-icons/Ionicons';
-import SettingsNavigator from './SettingsNavigator';
 import CustomTabBarButton from '../components/CustomTabBarButton';
 import CustomTabBar from '../components/CustomTabBar';
 import { useNavigation } from '@react-navigation/native';
 
 import HorizontalLogo from '../assets/images/logo_horizontal.svg';
-import BtnLogout from '../assets/images/LOGO.svg'
-import BtnPefil from '../assets/images/LOGO.svg'
-import BtnIngresos from '../assets/images/LOGO.svg'
-import BtnVerificacion from '../assets/images/LOGO.svg'
-import BtnSalidas from '../assets/images/LOGO.svg'
+import BtnPerfil from '../assets/images/btn_perfil.svg';
+import BtnIngresos from '../assets/images/btn_ingresos.svg';
+import BtnVerificacion from '../assets/images/btn_verificacion.svg';
+import BtnSalidas from '../assets/images/btn_salidas.svg';
+import BtnLogout from '../assets/images/btn_logout.svg'
 
 const Tab = createBottomTabNavigator();
 
@@ -30,20 +29,17 @@ function BottomTabNavigator() {
                 tabBarInactiveTintColor: COLORS.dark,
                 tabBarStyle: styles.tabBarStyle,
                 tabBarActiveTintColor: COLORS.primary,
-                tabBarIcon: ({ color, size, focused }) => {
-                    let iconName;
+                tabBarIconStyle: styles.tabBarIconStyle,
+                tabBarIcon: ({ color, size, focused }) => {                    
                     if (route.name === ROUTES.DASHBOARD) {
-                        iconName = focused ? 'person-circle-sharp' : 'person-circle-outline';
+                        return <BtnPerfil width={35} height={35} style={styles.mr7} fill={(focused) ? COLORS.secondary : '#000'}/>
                     } else if (route.name === ROUTES.CREATE_RECORD) {
-                        iconName = focused ? 'settings' : 'settings-outline';
+                        return <BtnIngresos width={35} height={35} style={styles.mr7} fill={(focused) ? COLORS.secondary : '#000'}/>
                     } else if (route.name === ROUTES.VERIFY_RECORD) {
-                        iconName = focused ? 'ios-checkbox' : 'ios-checkbox-outline';
+                        return <BtnVerificacion width={35} height={35} style={styles.mr7} fill={(focused) ? COLORS.secondary : '#000'}/>
                     } else if (route.name === ROUTES.REPORT_OUTPUT) {
-                        iconName = focused
-                            ? 'md-notifications-sharp'
-                            : 'md-notifications-outline';
+                        return <BtnSalidas width={35} height={35} style={styles.mr7} fill={(focused) ? COLORS.secondary : '#000'}/>
                     }
-                    return <Icon name={iconName} size={30} color={color} />
                 },
                 header: () => {
                     return (
@@ -53,7 +49,7 @@ function BottomTabNavigator() {
                             </View>
                             <TouchableOpacity onPress={() => navigation.openDrawer()} style={styles.BtnLogout} >
                                 <View>
-                                    <BtnLogout width={40} height={40} />
+                                    <BtnLogout width={30} height={30} fill='#000'/>
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -125,8 +121,7 @@ export default BottomTabNavigator;
 
 const styles = StyleSheet.create({
     tabBarStyle: {
-        position: 'absolute',
-        backgroundColor: COLORS.grayLight,
+        position: 'absolute',        
         borderTopWidth: 1,
         bottom: 0,
         // right: 10,
@@ -138,11 +133,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: COLORS.white
-
+        backgroundColor: COLORS.white        
     },
     BtnLogout: {
         position: 'absolute',
         right: 10
-    }
+    },
 });

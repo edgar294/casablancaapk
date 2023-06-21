@@ -9,10 +9,12 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { COLORS, ROUTES, IMGS } from '../../constants';
 import Logo from '../../assets/images/logo.svg';
+import ForgotPassIcon from '../../assets/images/icon_forgot_password.svg';
 import { useNavigation } from '@react-navigation/native';
 
 import Button from '../../components/Button';
 import Input from '../../components/Input';
+
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '../../components/Loader';
 
@@ -78,7 +80,7 @@ const Login = props => {
             <View style={styles.container}>
                 <View style={styles.wFull}>
                     <View style={styles.row}>
-                        <Logo width={300} height={200} style={styles.mr7} />
+                        <Logo width={280} height={170} style={[styles.mr7, { color: COLORS.black}]} fill="#000"/>
                     </View>
 
                     <Text style={styles.brandName}>BIENVENIDOS</Text>
@@ -92,6 +94,7 @@ const Login = props => {
                         placeholder="Usuario"
                         error={errors.email}
                         withBg={true}
+                        icon='user-login'
                     />
 
                     <Input
@@ -102,6 +105,7 @@ const Login = props => {
                         placeholder="Contrasena"
                         error={errors.email}
                         withBg={true}
+                        icon='user-pass'
                     />
                     <Button
                         title="INGRESAR"
@@ -122,7 +126,6 @@ const Login = props => {
                             </TouchableOpacity>
                         </LinearGradient>
                     </View>  */}
-
                     {/***************** FORGOT PASSWORD BUTTON *****************/}
                     <TouchableOpacity
                         onPress={() =>
@@ -130,7 +133,9 @@ const Login = props => {
                                 userId: 'X0001',
                             })
                         }
-                        style={styles.forgotPassBtn}>
+                        style={styles.forgotPassBtn}
+                        >
+                        <ForgotPassIcon width={17} height={17} fill="#000"/> 
                         <Text style={styles.forgotPassText}>¿Olvidates tu contraseña?</Text>
                     </TouchableOpacity>
                 </View>
@@ -158,18 +163,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     brandName: {
-        fontSize: 54,
-        textAlign: 'center',
-        fontWeight: 'bold',
+        fontSize: 36,
+        textAlign: 'center',        
         color: COLORS.primary,
         opacity: 0.9,
+        fontFamily: 'Raleway-SemiBold'
     },
     loginContinueTxt: {
-        fontSize: 30,
+        fontSize: 18,
         textAlign: 'center',
         color: COLORS.gray,
-        marginBottom: 24,
-        fontWeight: 'bold',
+        marginBottom: 24,        
+        fontFamily: 'Raleway-SemiBold'
     },
     // Login Btn Styles
     loginBtnWrapper: {
@@ -197,14 +202,20 @@ const styles = StyleSheet.create({
     },
     loginText: {
         color: COLORS.white,
-        fontSize: 16,
+        fontSize: 10,
         fontWeight: '400',
     },
     forgotPassText: {
         color: COLORS.dark,
         textAlign: 'center',
-        fontWeight: 'bold',
-        marginTop: 15,
+        fontWeight: 'bold',        
+        marginLeft: 10
+    },
+    forgotPassBtn: {
+        marginTop: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',        
     },
     // footer
     footer: {

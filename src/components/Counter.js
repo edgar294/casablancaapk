@@ -19,11 +19,11 @@ const Counter = ({
     const [isFocused, setIsFocused] = React.useState(false);
     
     return (
-        <View>        
-            <Text style={{ color: COLORS.dark, textAlign: 'center' }}>{ label }</Text>
-            <View style={[style.row, { marginBottom: 20 }]}>
+        <View style={{ marginBottom: 5 }}>        
+            <Text style={{ color: COLORS.dark, textAlign: 'center', fontSize: 12, fontFamily: 'Raleway-SemiBold', marginBottom: 5 }}>{ label }</Text>
+            <View style={[style.row, { marginBottom: 5 }]}>
                 <View style={style.col25}>
-                    <TouchableOpacity>
+                    <TouchableOpacity style={{  }}>
                         <Text style={[ style.btnCounter, { backgroundColor: COLORS.danger}]} >-</Text>
                     </TouchableOpacity>
                 </View>
@@ -49,17 +49,10 @@ const Counter = ({
                         }}
                         onBlur={() => setIsFocused(false)}
                         secureTextEntry={hidePassword}
-                        style={[style.input, style.textInput]}
+                        style={[ style.textInput, {borderWidth: 1, borderColor: COLORS.dark, borderRadius: 15, width: '94%', marginHorizontal: '3%'}]}
                         placeholderTextColor={COLORS.dark}
                         {...props}
                     />
-                    {password && (
-                        <Icon
-                            onPress={() => setHidePassword(!hidePassword)}
-                            name={hidePassword ? 'eye-outline' : 'eye-off-outline'}
-                            style={{ color: COLORS.darkBlue, fontSize: 22 }}
-                        />
-                    )}
                 </View>
                 <View style={style.col25}>
                     <TouchableOpacity>
@@ -80,7 +73,7 @@ const style = StyleSheet.create({
     inputContainer: {
         height: 45,        
         flexDirection: 'row',
-        paddingHorizontal: 15,
+        // paddingHorizontal: 15,
         borderRadius: 30,
         width: '100%',
         backgroundColor: COLORS.grayLight
@@ -90,13 +83,13 @@ const style = StyleSheet.create({
         height: 20
     },
     textInput: {
-        fontSize: 16,
+        fontSize: 11,
         color: COLORS.dark,
     },
     input: {
         borderWidth: 0,        
         padding: 0,
-        marginLeft: 20,        
+        marginLeft: 20,
         marginVertical: 0,
         borderRadius: 5,
         paddingVertical: 0,        
@@ -115,10 +108,10 @@ const style = StyleSheet.create({
         borderColor: COLORS.grayLight,
     },
     col25: {
-        width:'25%'        
+        width:'25%',        
     },
     col50: {
-        width:'50%'
+        width:'50%',
     },
     row: {
         width: "100%",
@@ -126,14 +119,16 @@ const style = StyleSheet.create({
         display: "flex",
         flexDirection: 'row',
         alignItems: 'center',
-        marginVertical: 10
+        // marginVertical: 10
     },
     btnCounter: {
         color: COLORS.dark, 
         textAlign: 'center',
-        height: 25,
-        borderRadius:10,
-        fontSize: 22,
+        height: 45,
+        borderRadius:50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontSize: 30,
         color: COLORS.white
     }
 });

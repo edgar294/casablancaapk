@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
     StyleSheet,
     Text,
@@ -17,66 +17,28 @@ import Input from '../../components/Input';
 
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '../../components/Loader';
+import { AuthContext } from '../../context/AuthContext';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
-const Login = props => {
-    // const {navigation} = props;
+const Login = props => {    
     const navigation = useNavigation();
-    const [inputs, setInputs] = React.useState({ email: '', password: '' });
-    const [errors, setErrors] = React.useState({});
-    const [loading, setLoading] = React.useState(false);
-
-    const validate = async () => {
-        Keyboard.dismiss();
-        let isValid = true;
-        if (!inputs.email) {
-            handleError('Please input email', 'email');
-            isValid = false;
-        }
-        if (!inputs.password) {
-            handleError('Please input password', 'password');
-            isValid = false;
-        }
-        if (isValid) {
-            login();
-        }
-    };
-
-    const login = () => {
-        setLoading(true);
-        setTimeout(async () => {
-            setLoading(false);
-            // let userData = await AsyncStorage.getItem('userData');
-            if (userData) {
-                userData = JSON.parse(userData);
-                if (
-                    inputs.email == userData.email &&
-                    inputs.password == userData.password
-                ) {
-                    navigation.navigate('HomeScreen');
-                    // AsyncStorage.setItem(
-                    //     'userData',
-                    //     JSON.stringify({ ...userData, loggedIn: true }),
-                    // );
-                } else {
-                    Alert.alert('Error', 'Invalid Details');
-                }
-            } else {
-                Alert.alert('Error', 'User does not exist');
-            }
-        }, 3000);
-    };
+    const [inputs, setInputs] = React.useState({ email: 'admin@admin.com', password: 'secret' });
+ 
+    const { login, errors, isLoading, token, logout } = useContext(AuthContext);
 
     const handleOnchange = (text, input) => {
         setInputs(prevState => ({ ...prevState, [input]: text }));
     };
 
     const handleError = (error, input) => {
-        setErrors(prevState => ({ ...prevState, [input]: error }));
+        errors[error] = input
+        // setErrors(prevState => ({ ...prevState, [input]: error }));
     };
 
     return (
         <SafeAreaView style={styles.main}>
+            <Spinner visible={isLoading} />
             <View style={styles.container}>
                 <View style={styles.wFull}>
                     <View style={styles.row}>
@@ -85,6 +47,10 @@ const Login = props => {
 
                     <Text style={styles.brandName}>BIENVENIDOS</Text>
                     <Text style={styles.loginContinueTxt}>Sistema de Inventarios</Text>
+                    { token ? (
+                        <Text style={styles.loginContinueTxt}>Token: { token }</Text>
+                    ) : ''}
+                    
 
                     <Input
                         onChangeText={text => handleOnchange(text, 'email')}
@@ -92,7 +58,7 @@ const Login = props => {
                         iconName={IMGS.iconUserLogin}
                         label="Usuario"
                         placeholder="Usuario"
-                        error={errors.email}
+                        error={errors.email ?? ''}
                         withBg={true}
                         icon='user-login'
                     />
@@ -103,29 +69,15 @@ const Login = props => {
                         iconName={IMGS.iconUserLogin}
                         label="Contrasena"
                         placeholder="Contrasena"
-                        error={errors.email}
+                        error={errors.password ?? ''}
                         withBg={true}
                         icon='user-pass'
                     />
                     <Button
                         title="INGRESAR"
-                        onPress={() => navigation.navigate(ROUTES.HOME)}
-                    />
-                    {/* <View >
-                        <LinearGradient
-                            colors={[COLORS.primary, COLORS.primary]}
-                            style={styles.linearGradient}
-                            start={{ y: 0.0, x: 0.0 }}
-                            end={{ y: 1.0, x: 0.0 }}>*/}
-                            {/******************** LOGIN BUTTON *********************/}
-                            {/* <TouchableOpacity
-                                onPress={() => navigation.navigate(ROUTES.HOME)}
-                                activeOpacity={0.7}
-                                style={styles.loginBtn}>
-                                <Text style={styles.loginText}>Ingresar</Text>
-                            </TouchableOpacity>
-                        </LinearGradient>
-                    </View>  */}
+                        onPress={() => login(inputs.email, inputs.password)}
+                        // onPress={() => navigation.navigate(ROUTES.HOME)}
+                    />                    
                     {/***************** FORGOT PASSWORD BUTTON *****************/}
                     <TouchableOpacity
                         onPress={() =>

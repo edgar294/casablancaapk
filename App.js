@@ -1,15 +1,18 @@
-import * as React from 'react';
-import {SafeAreaView, Text} from 'react-native';
-import {DrawerActions, NavigationContainer} from '@react-navigation/native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 
 import AuthNavigator from './src/navigations/AuthNavigator';
+import { AuthProvider } from './src/context/AuthContext';
+import Toast from 'react-native-toast-message';
 
 export default function App() {
-  // isAuthenticated = is...
-  return (
-    <NavigationContainer>
-      {/* {isAuthenticated ? AuthNavigator : DrawerNavigator } */}
-      <AuthNavigator />
-    </NavigationContainer>
-  );
+
+    return (
+        <NavigationContainer>
+            <AuthProvider>
+                <AuthNavigator />
+                <Toast />
+            </AuthProvider>
+        </NavigationContainer>
+    );
 }

@@ -1,4 +1,4 @@
-import React, { startTransition } from 'react';
+import React, { startTransition, useContext, useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { COLORS } from '../../constants';
 import Logo from '../../assets/images/logo.svg';
@@ -7,17 +7,35 @@ import StatisticImage from '../../assets/images/graphic.png'
 import CanastillaIcon from '../../assets/images/icon_canastilla_home.svg'
 import BulbosIcon from '../../assets/images/icon_bulbos_home.svg'
 import Graphic from '../../assets/images/graphic.png'
+import { AuthContext } from '../../context/AuthContext';
+import { VerificationContext } from '../../context/VerificationContext';
 
+const Home = ({navigation}) => {    
+    const [isLoading, setIsLoading] = useState(false)    
+    const { user } = useContext(AuthContext)
+    const { bulbos, canastillas, fetchCounters } = useContext(VerificationContext)
 
-const Home = () => {
+    useEffect(() => {        
+        const focusHandler = navigation.addListener('focus', () => {
+            fetchCounters()
+        });
+        
+        return focusHandler;
+    }, [navigation])
+    
     return (
-        <View style={styles.mainContainer}>
+        <View style={styles.mainContainer}>            
             <View style={styles.row}>               
                 <Image source={UserImage} style={{ width: 80, height: 80, borderRadius: 15 }} />
                 <View style={styles.col}>
                     <Text style={styles.h3}>BIENVENIDO</Text>
-                    <Text style={styles.p}>Nombre de Usuario</Text>
-                    <Text style={styles.p}>Rol Usuario</Text>
+                    { user.id ? (
+                        <>
+                            <Text style={styles.p}>{ user.name }</Text>
+                            <Text style={styles.p}>{ user.rol.name }</Text>
+                        </>
+                    ) : ''}
+                    
                 </View>
             </View>
             <View style={styles.row}> 
@@ -31,7 +49,7 @@ const Home = () => {
                 </View>
                 <View style={styles.col}>
                     <Text style={styles.h1}>CANASTILLAS</Text>
-                    <Text style={styles.h2}>TOTAL: 1000</Text>
+                    <Text style={styles.h2}>TOTAL: { canastillas }</Text>
                 </View>
             </View>
             <View style={styles.row}>                
@@ -40,7 +58,7 @@ const Home = () => {
                 </View>
                 <View style={styles.col}>
                     <Text style={styles.h1}>BULBOS</Text>
-                    <Text style={styles.h2}>TOTAL: 1000</Text>
+                    <Text style={styles.h2}>TOTAL: { bulbos }</Text>
                 </View>
             </View>
         </View>

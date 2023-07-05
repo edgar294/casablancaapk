@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet, Platform, TouchableOpacity, View } from 'react-native';
 import { COLORS, ROUTES, IMGS } from '../constants';
@@ -14,11 +14,13 @@ import BtnIngresos from '../assets/images/btn_ingresos.svg';
 import BtnVerificacion from '../assets/images/btn_verificacion.svg';
 import BtnSalidas from '../assets/images/btn_salidas.svg';
 import BtnLogout from '../assets/images/btn_logout.svg'
+import { AuthContext } from '../context/AuthContext';
 
 const Tab = createBottomTabNavigator();
 
 function BottomTabNavigator() {
     const navigation = useNavigation();
+    const { logout } = useContext(AuthContext)
 
     return (
         <Tab.Navigator
@@ -47,7 +49,7 @@ function BottomTabNavigator() {
                             <View>
                                 <HorizontalLogo width={200} height={70} />
                             </View>
-                            <TouchableOpacity onPress={() => navigation.openDrawer()} style={styles.BtnLogout} >
+                            <TouchableOpacity onPress={() => logout()} style={styles.BtnLogout} >
                                 <View>
                                     <BtnLogout width={30} height={30} fill='#000'/>
                                 </View>

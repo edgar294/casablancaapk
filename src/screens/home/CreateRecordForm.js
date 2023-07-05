@@ -1,14 +1,17 @@
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { COLORS } from '../../constants';
 import Button from '../../components/Button';
 import CustomPicker from '../../components/CustomPicker';
+import CustomPicker2 from '../../components/CustomPicker2';
 import Counter from '../../components/Counter';
 import Input from '../../components/Input';
 import axios from 'axios';
+import { VerificationContext } from '../../context/VerificationContext';
+import Spinner from 'react-native-loading-spinner-overlay';
 
-const CreateRecordForm = () => {
-    const [data, setData] = React.useState([]);
+const CreateRecordForm = ({ navigation, route }) => {
+    const [selectedId, setSelectedId] = React.useState(null);
     const [selectedWarehouse, setSelectedWarehouse] = React.useState(null);
     const [selectedProduct, setSelectedProduct] = React.useState(null);
     const [selectedProvider, setSelectedProvider] = React.useState(null);
@@ -19,116 +22,217 @@ const CreateRecordForm = () => {
     const [selectedGauge, setSelectedGauge] = React.useState(null);
     const [selectedCrop, setSelectedCrop] = React.useState(null);
     const [selectedContainer, setSelectedContainer] = React.useState(null);
+    const [canastillas, setCanastillas] = React.useState(0);
+    const [bulbos, setBulbos] = React.useState(0);
+    const [totalBulbos, setTotalBulbos] = React.useState(0);
 
-    React.useEffect(() => {
-        getListPhotos();
+    const { bodegas,
+        productos,
+        proveedores,
+        tipos,
+        variedades,
+        colores,
+        calibres,
+        fetctVariedades,
+        fetctColores,
+        createRegister,
+        selected,
+    } = useContext(VerificationContext)
+
+    useEffect(() => {
+        setTotalBulbos(canastillas * bulbos)
         return () => {
         }
-    }, [])
+    }, [bulbos, canastillas])
 
-    const getListPhotos = async () => {
-        try {
-            const apiUrl = 'https://jsonplaceholder.typicode.com/photos?_limit=20&_page=1';
-            const response = await axios.get(apiUrl);
-            setData(response.data)
-        } catch (error) {
-            console.log(error)
+    useEffect(() => {
+        showProduct()
+        return () => {
+        }
+    }, [selected])
+
+    const clearProduct = () => {
+        setSelectedId(null)
+        setSelectedWarehouse(null)
+        setSelectedProduct(null)
+        setSelectedProvider(null)
+        setSelectedType(null)
+        setSelectedColor(null)
+        setSelectedVariety(null)
+        setSelectedLot(null)
+        setSelectedGauge(null)
+        setSelectedCrop(null)
+        setSelectedContainer(null)
+        setCanastillas(0)
+        setBulbos(0)
+    }
+
+    const showProduct = () => {
+        if (selected != null) {
+            setSelectedId(selected.id)
+            setSelectedWarehouse(selected.bodega_id)
+            setSelectedProduct(selected.producto_id)
+            setSelectedProvider(selected.proveedor_id)
+            setSelectedType(selected.categoria_id)
+            setSelectedColor(selected.color_id)
+            setSelectedVariety(selected.variedad_id)
+            setSelectedLot(selected.lote)
+            setSelectedGauge(selected.calibre_id)
+            setSelectedCrop(selected.crop)
+            setSelectedContainer(selected.contenedor)
+            setCanastillas(selected.cantidad)
+            setBulbos(selected.bulbos)
+
+            fetctVariedades(selected.categoria_id)
+            fetctColores(selected.variedad_id)
+        } else {
+            clearProduct()
         }
     }
-    const validate = () => {
-        console.log('Hello world')
+
+    const sendForm = () => {
+        const payload = {
+            bodega_id: selectedWarehouse,
+            producto_id: selectedProduct,
+            proveedor_id: selectedProvider,
+            categoria_id: selectedType,
+            color_id: selectedColor,
+            variedad_id: selectedVariety,
+            lote: selectedLot,
+            calibre_id: selectedGauge,
+            cantidad: canastillas,
+            bulbos: bulbos,
+            crop: selectedCrop,
+            contenedor: selectedContainer,
+        }
+        createRegister(payload, selectedId)
     }
 
     return (
-        <ScrollView contentInsetAdjustmentBehavior='automatic' style={{ width: '94%', marginLeft: '3%'}} >
+        <ScrollView contentInsetAdjustmentBehavior='automatic' style={{ width: '94%', marginLeft: '3%' }} >
             <View style={[styles.row, styles.col]}>
                 <Text style={[styles.h1, { marginBottom: 20 }]}>Crear Ingreso</Text>
-                <CustomPicker
+                <CustomPicker2
+                    key='bodega'
                     label='Bodega o Almacen'
                     selectItem={(value) => {
                         setSelectedWarehouse(value)
                     }}
                     selected={selectedWarehouse}
-                    data={data}
+                    data={bodegas}
                     bordered={true}
                 />
-                <CustomPicker
+                <CustomPicker2
+                    key='producto'
                     label='Producto'
                     selectItem={(value) => {
                         setSelectedProduct(value)
                     }}
                     selected={selectedProduct}
-                    data={data}
+                    data={productos}
                     bordered={true}
                 />
-                <CustomPicker
+                <CustomPicker2
+                    key='proveedor'
                     label='Proveedor'
                     selectItem={(value) => {
                         setSelectedProvider(value)
                     }}
                     selected={selectedProvider}
-                    data={data}
+                    data={proveedores}
                     bordered={true}
                 />
-                <CustomPicker
+                <CustomPicker2
+                    key='tipo'
                     label='Tipo'
                     selectItem={(value) => {
                         setSelectedType(value)
+                        fetctVariedades(value)
+                        setSelectedVariety(null)
+                        setSelectedColor(null)
                     }}
                     selected={selectedType}
-                    data={data}
+                    data={tipos}
                     bordered={true}
                 />
-                <CustomPicker
+                <CustomPicker2
+                    key='variedad'
+                    label='Variedad'
+                    selectItem={(value) => {
+                        setSelectedVariety(value)
+                        fetctColores(value)
+                        setSelectedColor(null)
+                    }}
+                    selected={selectedVariety}
+                    data={variedades}
+                    bordered={true}
+                />
+                <CustomPicker2
+                    key='color'
                     label='Color'
                     selectItem={(value) => {
                         setSelectedColor(value)
                     }}
                     selected={selectedColor}
-                    data={data}
-                    bordered={true}
-                />
-                <CustomPicker
-                    label='Variedad'
-                    selectItem={(value) => {
-                        setSelectedVariety(value)
-                    }}
-                    selected={selectedVariety}
-                    data={data}
+                    data={colores}
                     bordered={true}
                 />
                 <Input
                     onChangeText={text => setSelectedLot(text)}
-                    label="Lote"                    
-                    placeholder="Lote"                    
+                    label="Lote"
+                    placeholder="Lote"
                     bordered={true}
+                    defaultValue={selectedLot}
                 />
-                <CustomPicker
+                <CustomPicker2
+                    key='calibre'
                     label='Calibre'
                     selectItem={(value) => {
                         setSelectedGauge(value)
                     }}
                     selected={selectedGauge}
-                    data={data}
+                    data={calibres}
                     bordered={true}
                 />
-                <View style={[{ flexDirection: 'row' }]}>
-                    <View style={[styles.col50]}>
-                        <Counter 
-                            label="Cantidad de Canastillas"
-                        />
-                    </View>
-                    <View style={[styles.col50]}>
-                        <Counter 
-                            label="Bulbos por Canastilla"
-                        />
-                    </View>
-                </View>
+                {selectedId == null ?
+                    (<View style={[{ flexDirection: 'row' }]}>
+                        <View style={[styles.col50]}>
+                            <Counter
+                                plus={() => {
+                                    setCanastillas(canastillas + 1)
+                                }}
+                                minus={() => {
+                                    if (canastillas > 0)
+                                        setCanastillas(canastillas - 1)
+                                }}
+                                value={canastillas}
+                                label="Cantidad de Canastillas"
+                            />
+                        </View>
+                        <View style={[styles.col50]}>
+                            <Counter
+                                plus={() => {
+                                    setBulbos(bulbos + 1)
+                                }}
+                                minus={() => {
+                                    if (bulbos > 0)
+                                        setBulbos(bulbos - 1)
+                                }}
+                                value={bulbos}
+                                label="Bulbos por Canastilla"
+                            />
+                        </View>
+                    </View>)
+                    : ''
+                }
+
                 <Input
-                    onChangeText={text => setSelectedCrop(text)}
                     label="Total de bulbos"
                     showLabel={true}
+                    defaultValue={totalBulbos}
+                    editable={false}
                     placeholder=""
+                    value={totalBulbos}
                     bordered={true}
                     withBg={true}
                 />
@@ -137,14 +241,16 @@ const CreateRecordForm = () => {
                     label="CROP"
                     placeholder="CROP"
                     bordered={true}
+                    defaultValue={selectedCrop}
                 />
                 <Input
                     onChangeText={text => setSelectedContainer(text)}
-                    label="Contenedor"                    
+                    label="Contenedor"
                     placeholder="Contenedor"
                     bordered={true}
+                    defaultValue={selectedContainer}
                 />
-                <Button title="Crear Registro" onPress={validate} />
+                <Button title="Crear Registro" onPress={sendForm} icon='file-icon' />
             </View>
             <View style={{ marginBottom: 90 }}></View>
         </ScrollView>
@@ -165,7 +271,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.white,
         paddingVertical: 10,
         paddingHorizontal: 20,
-        width: "100%",        
+        width: "100%",
         borderRadius: 20,
         display: "flex",
         flexDirection: 'row',

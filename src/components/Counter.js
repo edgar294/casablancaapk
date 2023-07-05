@@ -9,21 +9,23 @@ const Counter = ({
     label,
     iconName,
     error,
-    password,
     bordered = false,    
     withBg = false,
+    value = 0,
+    minus = () => { },
+    plus = () => { },
     onFocus = () => { },
+    onChangeValue = () => {},
     ...props
 }) => {
-    const [hidePassword, setHidePassword] = React.useState(password);
-    const [isFocused, setIsFocused] = React.useState(false);
-    
+    const [isFocused, setIsFocused] = React.useState(false);    
+
     return (
         <View style={{ marginBottom: 5 }}>        
             <Text style={{ color: COLORS.dark, textAlign: 'center', fontSize: 12, fontFamily: 'Raleway-SemiBold', marginBottom: 5 }}>{ label }</Text>
             <View style={[style.row, { marginBottom: 5 }]}>
                 <View style={style.col25}>
-                    <TouchableOpacity style={{  }}>
+                    <TouchableOpacity onPress={minus}>
                         <Text style={[ style.btnCounter, { backgroundColor: COLORS.danger}]} >-</Text>
                     </TouchableOpacity>
                 </View>
@@ -41,21 +43,26 @@ const Counter = ({
                                     : COLORS.light,                        
                         },  
                     ]}>
-                    <TextInput
-                        autoCorrect={false}
-                        onFocus={() => {
-                            onFocus();
-                            setIsFocused(true);
-                        }}
-                        onBlur={() => setIsFocused(false)}
-                        secureTextEntry={hidePassword}
+                    <Text style={[ 
+                            style.textInput, 
+                            style.counter
+                        ]}>
+                        {value}
+                    </Text>
+                    {/* <TextInput                        
+                        // onFocus={() => {
+                        //     onFocus();
+                        //     setIsFocused(true);
+                        // }}
+                        value={value}
+                        // onBlur={() => setIsFocused(false)}
                         style={[ style.textInput, {borderWidth: 1, borderColor: COLORS.dark, borderRadius: 15, width: '94%', marginHorizontal: '3%'}]}
                         placeholderTextColor={COLORS.dark}
                         {...props}
-                    />
+                    /> */}
                 </View>
                 <View style={style.col25}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={plus}>
                         <Text style={[ style.btnCounter, { backgroundColor: COLORS.secondary}]} >+</Text>
                     </TouchableOpacity>
                 </View>
@@ -130,6 +137,16 @@ const style = StyleSheet.create({
         alignItems: 'center',
         fontSize: 30,
         color: COLORS.white
+    },
+    counter: {
+        borderWidth: 1, 
+        borderColor: COLORS.dark, 
+        borderRadius: 15, 
+        width: '94%', 
+        marginHorizontal: '3%', 
+        fontSize: 14, 
+        textAlign: 'center',
+        paddingTop: '12%'
     }
 });
 

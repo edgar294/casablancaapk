@@ -4,7 +4,8 @@ import { COLORS } from '../constants';
 import ScanQrIcon from '../assets/images/icon_qr_btnazul.svg'
 
 const Button = ({
-    title, onPress = () => { },
+    title, 
+    onPress = () => { },
     type = 'info',
     icon = ''
 }) => {

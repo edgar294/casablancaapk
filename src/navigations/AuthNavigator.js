@@ -1,22 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import {
     Login,
     ForgotPassword,
     Register,
-    CreateRecordForm,
+    Dashboard,    
 } from '../screens';
 import { COLORS, ROUTES } from '../constants';
 import DrawerNavigator from './DrawerNavigator';
+import { AuthContext } from '../context/AuthContext';
+
 
 const Stack = createStackNavigator();
 // Navigator, Screen, Group
 
-function AuthNavigator() {
-    console.log(Stack);
+function AuthNavigator() {    
+    const { token } = useContext(AuthContext)
+
     return (
         <Stack.Navigator screenOptions={{}} initialRouteName={ROUTES.LOGIN}>
-            <Stack.Screen
+            {/* <Stack.Screen
                 name={ROUTES.FORGOT_PASSWORD}
                 component={ForgotPassword}
                 options={({ route }) => ({
@@ -28,18 +31,25 @@ function AuthNavigator() {
                     },
                     title: route.params.userId,
                 })}
-            />
-            <Stack.Screen
+            /> */}
+            { token ?
+                (                    
+                    <Stack.Screen
+                        name={ROUTES.HOME}
+                        component={DrawerNavigator}
+                        options={{ headerShown: false }}
+                    />
+                )
+            : 
+            (
+                <Stack.Screen
                 name={ROUTES.LOGIN}
                 component={Login}
                 options={{ headerShown: false }}
             />
-            <Stack.Screen name={ROUTES.REGISTER} component={Register} />
-            <Stack.Screen
-                name={ROUTES.HOME}
-                component={DrawerNavigator}
-                options={{ headerShown: false }}
-            />
+            )}
+            
+            
         </Stack.Navigator>
     );
 }

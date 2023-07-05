@@ -14,7 +14,9 @@ const Input = ({
     withBg = false,
     onFocus = () => { },
     icon = '',
+    defaultValue = '',
     showLabel = false,
+    editable = true,
     ...props
 }) => {
     const [hidePassword, setHidePassword] = React.useState(password);
@@ -66,13 +68,15 @@ const Input = ({
                 <TextInput
                     autoCorrect={false}
                     onFocus={() => {
-                        onFocus();
+                        // onFocus();
                         setIsFocused(true);
                     }}
                     onBlur={() => setIsFocused(false)}
                     secureTextEntry={hidePassword}
                     style={[style.input, style.textInput]}
-                    placeholderTextColor={COLORS.dark}
+                    placeholderTextColor={COLORS.dark}    
+                    defaultValue={defaultValue?.toString()}                    
+                    editable={editable} 
                     {...props}
                 />
                 {password && (

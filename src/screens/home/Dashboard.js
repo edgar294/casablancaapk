@@ -10,7 +10,7 @@ import Graphic from '../../assets/images/graphic.png'
 import { AuthContext } from '../../context/AuthContext';
 import { VerificationContext } from '../../context/VerificationContext';
 
-const Home = ({navigation}) => {    
+const Dashboard = ({navigation}) => {    
     const [isLoading, setIsLoading] = useState(false)    
     const { user } = useContext(AuthContext)
     const { bulbos, canastillas, fetchCounters } = useContext(VerificationContext)
@@ -65,7 +65,7 @@ const Home = ({navigation}) => {
     );
 };
 
-export default Home;
+export default Dashboard;
 
 const styles = StyleSheet.create({
     mainContainer: {

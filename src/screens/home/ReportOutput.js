@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, SafeAreaView, Dimensions } from 'react-native';
 import React from 'react';
 import { ROUTES, COLORS } from '../../constants';
 import Button from '../../components/Button';
@@ -12,24 +12,27 @@ import CanastillaIcon from '../../assets/images/icon_canastilla_home.svg'
 import BulbosIcon from '../../assets/images/icon_bulbos_home.svg'
 
 
-const VerifyRecord = ({ navigation, route }) => {
+const ReportOutput = ({ navigation, route }) => {
     const [data, setData] = React.useState([])
+    const [windowHeight, setWindowHeight] = React.useState(Dimensions.get('window').height)
+
     React.useEffect(() => {
         const { code } = route.params;
-        (code) ? addItemToTable(code) : {}
+        (code) ? addItemToTable(code) : {}        
+        setWindowHeight(Dimensions.get('window').height)    
         return () => {
+            navigation.setParams({ code: null})
         }
-    }, [route.params])
+    }, [route.params.code])
 
     const addItemToTable = (item) => {
         setData(data => [...data, {
-            id: data.length + 2,
+            id: data.length + 1,
             name: item
         }]);
     }
 
     const renderRow = (item) => {
-        console.log(item.item.name)
         return (
             <View style={{ flex: 1, flexDirection: 'row', paddingVertical: 5, borderBottomWidth: 1 }}>
                 <View style={{ width: 50 }}>
@@ -48,33 +51,39 @@ const VerifyRecord = ({ navigation, route }) => {
 
     const Table = () => {
         return (
-            <View style={{ width: '100%' }}>
-                <View style={{ flex: 1, flexDirection: 'row', paddingVertical: 5, borderBottomWidth: 1 }}>
-                    <View style={{ width: 100 }}>
-                        <Text style={{ fontSize: 13, textAlign: 'center', color: COLORS.dark, textAlign: 'center', fontFamily: 'Raleway-SemiBold' }}>
-                            BODEGA
-                        </Text>
-                    </View>
-                    <View style={{ width: 100 }}>
-                        <Text style={{ fontSize: 13, color: COLORS.dark, textAlign: 'center', fontFamily: 'Raleway-SemiBold'  }}>
-                            CANASTILLA
-                        </Text>
-                    </View>
-                    <View style={{ width: 100 }}>
-                        <Text style={{ fontSize: 13, color: COLORS.dark, textAlign: 'center', fontFamily: 'Raleway-SemiBold'  }}>
-                            BULBOS
-                        </Text>
+            <View style={{ flex: 1, flexDirection:'column' }}>
+                <View style={{ width: '100%' }}>
+                    <View style={{ flexDirection: 'row', paddingBottom: 5, borderBottomWidth: 1}}>
+                        <View style={{ width: 100 }}>
+                            <Text style={{ fontSize: 13, textAlign: 'center', color: COLORS.dark, textAlign: 'center', fontFamily: 'Raleway-SemiBold' }}>
+                                BODEGA
+                            </Text>
+                        </View>
+                        <View style={{ width: 100 }}>
+                            <Text style={{ fontSize: 13, color: COLORS.dark, textAlign: 'center', fontFamily: 'Raleway-SemiBold'  }}>
+                                CANASTILLA
+                            </Text>
+                        </View>
+                        <View style={{ width: 100 }}>
+                            <Text style={{ fontSize: 13, color: COLORS.dark, textAlign: 'center', fontFamily: 'Raleway-SemiBold'  }}>
+                                BULBOS
+                            </Text>
+                        </View>
                     </View>
                 </View>
-                <FlatList
-                    data={data}
-                    renderItem={renderRow}
-                    keyExtractor={(item) => `key-${item.id}`}
-                >
-                </FlatList>
+                <View style={{ width: '100%', height: windowHeight / 3}}>
+                    <FlatList
+                        data={data}
+                        scrollEnabled={true}
+                        renderItem={renderRow}
+                        keyExtractor={(item) => `key-${item.id}`}
+                    >
+                    </FlatList>
+                </View>
             </View>
         )
     }
+
     return (
         <SafeAreaView style={[styles.mainContainer,]}>
             <Button
@@ -83,7 +92,7 @@ const VerifyRecord = ({ navigation, route }) => {
                 onPress={() => navigation.navigate(ROUTES.SCAN_QR, { origin: ROUTES.REPORT_OUTPUT })}
                 icon='scan-qr-icon'
             />
-            <ScrollView contentInsetAdjustmentBehavior='automatic' style={{ width: '100%' }}>
+            <View style={{ width: '100%' }}>
                 <View style={styles.row}>
                 <View style={styles.canastillaIcon}>
                         <CanastillaIcon width={50} height={50} fill="#fff" />
@@ -112,12 +121,12 @@ const VerifyRecord = ({ navigation, route }) => {
                     <Table />
                 </View>
                 <View style={{ marginBottom: 90 }}></View>
-            </ScrollView>
+            </View>
         </SafeAreaView>
     );
 };
 
-export default VerifyRecord;
+export default ReportOutput;
 
 const styles = StyleSheet.create({
     mainContainer: {

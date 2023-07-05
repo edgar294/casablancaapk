@@ -66,7 +66,6 @@ const VerifyRecord = ({ navigation, route }) => {
     }
 
     const showDetails = (product) => {
-        console.log(product)
         let alertMessage = `----------------------------------------------\n`
         alertMessage += `Cantidad de canastillas: ${product.cantidad}\n`
         alertMessage += `Cantidad de bulbos: ${product.bulbos}\n`

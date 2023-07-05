@@ -1,22 +1,22 @@
-import { StyleSheet, Text, View, ScrollView, SafeAreaView, Dimensions } from 'react-native';
-import React from 'react';
+import { StyleSheet, Text, View, ScrollView, SafeAreaView, Dimensions, Alert } from 'react-native';
+import React, { useContext, useEffect } from 'react';
 import { ROUTES, COLORS } from '../../constants';
 import Button from '../../components/Button';
 import InnerButton from '../../components/InnerButton';
 
-import UserImage from '../../assets/user.jpg'
-import Logo from '../../assets/images/logo.svg';
-import Graphic from '../../assets/images/graphic.png'
 import { FlatList } from 'react-native-gesture-handler';
 import CanastillaIcon from '../../assets/images/icon_canastilla_home.svg'
 import BulbosIcon from '../../assets/images/icon_bulbos_home.svg'
-
+import { VerificationContext } from '../../context/VerificationContext';
+import Spinner from 'react-native-loading-spinner-overlay';
+import Toast from 'react-native-toast-message'
 
 const ReportOutput = ({ navigation, route }) => {
     const [data, setData] = React.useState([])
     const [windowHeight, setWindowHeight] = React.useState(Dimensions.get('window').height)
+    const { fetchCanastillasSalidas, listCanastillasSalidas, isLoading, markAsOut } = useContext(VerificationContext)
 
-    React.useEffect(() => {
+    useEffect(() => {
         const { code } = route.params;
         (code) ? addItemToTable(code) : {}
         setWindowHeight(Dimensions.get('window').height)
@@ -25,23 +25,74 @@ const ReportOutput = ({ navigation, route }) => {
         }
     }, [route.params.code])
 
+    useEffect(() => {
+        const focusHandler = navigation.addListener('focus', () => {
+            fetchCanastillasSalidas()
+        });
+        return focusHandler;
+    }, [navigation])
+
     const addItemToTable = (item) => {
+        const filtredData = data.filter(code => code.codigo == item);
+        const filtredData2 = listCanastillasSalidas.filter(code => code.codigo == item);
+        if (filtredData.length || filtredData2.length) {
+            Toast.show({
+                type: 'error',
+                text1: 'Escanear Codigo',
+                text2: `Codigo ${item} ya se encuentra registrado`,
+                autoHide: true,
+                visibilityTime: 5000,
+                position: 'bottom'
+            })
+            return
+        }
         setData(data => [...data, {
-            code: item,
-            status: 'sVerificar',
+            codigo: item,
+            status: 'Por Verificar',
         }]);
     }
 
-    const verifyCode = async (item) => {
-        console.log(item)
+    const markAsOutCode = async (code) => {
+        const response = await markAsOut(code)
+        if (response) {
+            deleteCode(code)
+            fetchCanastillasSalidas()
+        }
     }
 
     const deleteCode = async (item) => {
-        console.log(item)
+        const filtredData = data.filter(code => code.codigo !== item);
+        setData(filtredData)
     }
 
-    const showDetails = async (item) => {
+    const showDetails = (product) => {
+        let alertMessage = `----------------------------------------------\n`
+        alertMessage += `Cantidad de canastillas: ${product.cantidad}\n`
+        alertMessage += `Cantidad de bulbos: ${product.bulbos}\n`
+        alertMessage += `Total de bulbos: ${product.bulbos * product.cantidad}\n`
+        alertMessage += `Bodega: ${product.bodega.name}\n`
+        alertMessage += `Producto: ${product.producto_admin.name}\n`
+        alertMessage += `Proveedor: ${product.proveedor.name}\n`
+        alertMessage += `Tipo: ${product.categoria.name}\n`
+        alertMessage += `Variedad: ${product.variedad.name}\n`
+        alertMessage += `Color: ${product.color.name}\n`
+        Alert.alert(
+            'Detalles de la Canastilla',
+            alertMessage,
+            [
+                {
+                    text: 'OK',
+                },
+            ],
+        );
+    }
 
+    const formatDataTable = () => {
+        const canastillas = listCanastillasSalidas.map((c) => {
+            return { ...c, status: 'Verificado' }
+
+        })
+        return data.concat(canastillas)
     }
 
     const renderRow = (item) => {
@@ -49,7 +100,7 @@ const ReportOutput = ({ navigation, route }) => {
             <View style={{ flex: 1, flexDirection: 'row', paddingVertical: 5, borderBottomWidth: 1, alignItems: 'center' }} key={item.index}>
                 <View style={{ width: 120 }}>
                     <Text style={{ fontSize: 12, textAlign: 'center', color: COLORS.dark, fontFamily: 'Raleway-Regular' }}>
-                        {item.item.code}
+                        {item.item.codigo}
                     </Text>
                 </View>
                 <View style={{ width: 100 }}>
@@ -59,26 +110,31 @@ const ReportOutput = ({ navigation, route }) => {
                 </View>
                 {item.item.status == 'Por Verificar' ? (
                     <View style={{ width: 100, flexDirection: 'row' }}>
-                        <InnerButton 
-                            icon="check" 
+                        <InnerButton
+                            icon="check"
                             onPress={() => {
-                                verifyCode(item)
-                            }} 
-                            type="success" 
-                            fit={true} 
+                                markAsOutCode(item.item.codigo)
+                            }}
+                            type="success"
+                            fit={true}
                         />
-                        <InnerButton 
-                            icon="trash" 
+                        <InnerButton
+                            icon="trash"
                             onPress={() => {
-                                deleteCode(item)
-                            }} 
-                            type="danger" 
-                            fit={true} 
+                                deleteCode(item.item.codigo)
+                            }}
+                            type="danger"
+                            fit={true}
                         />
                     </View>
                 ) : (
                     <View style={{ width: 100 }}>
-                        <InnerButton icon="eye" onPress={() => { }} type="info" />
+                        <InnerButton
+                            icon="eye"
+                            onPress={() => {
+                                showDetails(item.item)
+                            }}
+                            type="info" />
                     </View>
                 )}
             </View>
@@ -109,10 +165,10 @@ const ReportOutput = ({ navigation, route }) => {
                 </View>
                 <View style={{ width: '100%', height: windowHeight / 3 }}>
                     <FlatList
-                        data={data}
+                        data={formatDataTable()}
                         scrollEnabled={true}
                         renderItem={renderRow}
-                        keyExtractor={(item) => `key-${item.id}`}
+                        keyExtractor={(item) => `key-${item.codigo}`}
                     >
                     </FlatList>
                 </View>

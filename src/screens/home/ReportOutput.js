@@ -18,60 +18,96 @@ const ReportOutput = ({ navigation, route }) => {
 
     React.useEffect(() => {
         const { code } = route.params;
-        (code) ? addItemToTable(code) : {}        
-        setWindowHeight(Dimensions.get('window').height)    
+        (code) ? addItemToTable(code) : {}
+        setWindowHeight(Dimensions.get('window').height)
         return () => {
-            navigation.setParams({ code: null})
+            navigation.setParams({ code: null })
         }
     }, [route.params.code])
 
     const addItemToTable = (item) => {
         setData(data => [...data, {
-            id: data.length + 1,
-            name: item
+            code: item,
+            status: 'sVerificar',
         }]);
+    }
+
+    const verifyCode = async (item) => {
+        console.log(item)
+    }
+
+    const deleteCode = async (item) => {
+        console.log(item)
+    }
+
+    const showDetails = async (item) => {
+
     }
 
     const renderRow = (item) => {
         return (
-            <View style={{ flex: 1, flexDirection: 'row', paddingVertical: 5, borderBottomWidth: 1 }}>
-                <View style={{ width: 50 }}>
+            <View style={{ flex: 1, flexDirection: 'row', paddingVertical: 5, borderBottomWidth: 1, alignItems: 'center' }} key={item.index}>
+                <View style={{ width: 120 }}>
                     <Text style={{ fontSize: 12, textAlign: 'center', color: COLORS.dark, fontFamily: 'Raleway-Regular' }}>
-                        {item.item.id}
+                        {item.item.code}
                     </Text>
                 </View>
-                <View>
-                    <Text style={{ fontSize: 12, color: COLORS.dark, fontFamily: 'Raleway-Regular' }}>
-                        {item.item.name}
+                <View style={{ width: 100 }}>
+                    <Text style={{ fontSize: 12, color: COLORS.dark, fontFamily: 'Raleway-Regular', textAlign: 'center' }}>
+                        {item.item.status}
                     </Text>
                 </View>
+                {item.item.status == 'Por Verificar' ? (
+                    <View style={{ width: 100, flexDirection: 'row' }}>
+                        <InnerButton 
+                            icon="check" 
+                            onPress={() => {
+                                verifyCode(item)
+                            }} 
+                            type="success" 
+                            fit={true} 
+                        />
+                        <InnerButton 
+                            icon="trash" 
+                            onPress={() => {
+                                deleteCode(item)
+                            }} 
+                            type="danger" 
+                            fit={true} 
+                        />
+                    </View>
+                ) : (
+                    <View style={{ width: 100 }}>
+                        <InnerButton icon="eye" onPress={() => { }} type="info" />
+                    </View>
+                )}
             </View>
         )
     }
 
     const Table = () => {
         return (
-            <View style={{ flex: 1, flexDirection:'column' }}>
+            <View style={{ flex: 1, flexDirection: 'column' }}>
                 <View style={{ width: '100%' }}>
-                    <View style={{ flexDirection: 'row', paddingBottom: 5, borderBottomWidth: 1}}>
-                        <View style={{ width: 100 }}>
+                    <View style={{ flexDirection: 'row', paddingBottom: 5, borderBottomWidth: 1 }}>
+                        <View style={{ width: 120 }}>
                             <Text style={{ fontSize: 13, textAlign: 'center', color: COLORS.dark, textAlign: 'center', fontFamily: 'Raleway-SemiBold' }}>
-                                BODEGA
+                                CODIGO
                             </Text>
                         </View>
                         <View style={{ width: 100 }}>
-                            <Text style={{ fontSize: 13, color: COLORS.dark, textAlign: 'center', fontFamily: 'Raleway-SemiBold'  }}>
-                                CANASTILLA
+                            <Text style={{ fontSize: 13, color: COLORS.dark, textAlign: 'center', fontFamily: 'Raleway-SemiBold' }}>
+                                ESTADO
                             </Text>
                         </View>
-                        <View style={{ width: 100 }}>
-                            <Text style={{ fontSize: 13, color: COLORS.dark, textAlign: 'center', fontFamily: 'Raleway-SemiBold'  }}>
-                                BULBOS
+                        <View style={{ width: 70 }}>
+                            <Text style={{ fontSize: 13, color: COLORS.dark, textAlign: 'center', fontFamily: 'Raleway-SemiBold' }}>
+                                OPCIONES
                             </Text>
                         </View>
                     </View>
                 </View>
-                <View style={{ width: '100%', height: windowHeight / 3}}>
+                <View style={{ width: '100%', height: windowHeight / 3 }}>
                     <FlatList
                         data={data}
                         scrollEnabled={true}
@@ -94,7 +130,7 @@ const ReportOutput = ({ navigation, route }) => {
             />
             <View style={{ width: '100%' }}>
                 <View style={styles.row}>
-                <View style={styles.canastillaIcon}>
+                    <View style={styles.canastillaIcon}>
                         <CanastillaIcon width={50} height={50} fill="#fff" />
                     </View>
                     <View style={styles.col}>
@@ -106,14 +142,14 @@ const ReportOutput = ({ navigation, route }) => {
                     </View>
                 </View>
                 <View style={styles.row}>
-                <View style={styles.bulboIcon}>
-                    <BulbosIcon width={50} height={50} fill="#fff" />
-                </View>
+                    <View style={styles.bulboIcon}>
+                        <BulbosIcon width={50} height={50} fill="#fff" />
+                    </View>
                     <View style={styles.col}>
                         <Text style={styles.h1}>BULBOS</Text>
                         <Text style={styles.h4}>TOTAL: 1000</Text>
                         <View style={{ display: 'flex', flexDirection: 'row' }}>
-                        <Text style={{ color: COLORS.danger, fontFamily: 'Raleway-Regular' }}>Salida 100</Text>
+                            <Text style={{ color: COLORS.danger, fontFamily: 'Raleway-Regular' }}>Salida 100</Text>
                         </View>
                     </View>
                 </View>

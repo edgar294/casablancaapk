@@ -22,6 +22,8 @@ export const VerificationProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false)
     const [products, setProducts] = useState([])
 
+    const [listCanastillas, setListCanastillas] = useState([])
+
     const [selected, setSelected] = useState([])    
     const navigation = useNavigation();
 
@@ -30,8 +32,7 @@ export const VerificationProvider = ({ children }) => {
     const fetchCounters = async () => {
         try {            
             const response = await axios.get(`${BASE_URL}/verificaciones/count`)
-            const data = response.data
-            console.log(data)
+            const data = response.data            
             if (data.status) {                
                 setBulbos(data.data.bulbos)
                 setCanastillas(data.data.canastillas)
@@ -177,6 +178,55 @@ export const VerificationProvider = ({ children }) => {
         }
     }
 
+    const fetchCanastillas = async () => {
+        try{
+            setIsLoading(true)
+            const response = await axios.get(`${BASE_URL}/canastillas`)
+            const data = response.data
+            if (data.status){
+                setListCanastillas(data.data)
+            }
+            setIsLoading(false)
+        } catch (e) {
+            setIsLoading(false)
+        }
+    }
+
+    const verifyCode = async (code) => {
+        try {
+            setIsLoading(true)
+            const response = await axios.post(`${BASE_URL}/canastillas/verify/code`, {codigo: code})
+            const data = response.data
+
+            setIsLoading(false)
+            if(data.status){
+                Toast.show({
+                    type: 'success',
+                    text1: 'Verificar Canastilla',
+                    text2: data.message,
+                    autoHide: true,
+                    visibilityTime: 2500,
+                    position: 'bottom'
+                })
+                
+                return true;
+            } else {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Verificar Canastilla',
+                    text2: data.message,
+                    autoHide: true,
+                    visibilityTime: 2500,
+                    position: 'bottom'
+                })
+                return false
+            }            
+        } catch(e) {
+            setIsLoading(false)
+            return false
+        }
+    }
+
     const selectProduct = (product) => {
         setSelected(product)
     }
@@ -200,6 +250,8 @@ export const VerificationProvider = ({ children }) => {
                 calibres,
                 products,
                 selected,
+                listCanastillas,
+                fetchCanastillas,
                 selectProduct,
                 fetchCounters, 
                 fetchDataSelects,
@@ -207,7 +259,8 @@ export const VerificationProvider = ({ children }) => {
                 fetctColores,
                 createRegister,
                 fetchProducts,
-                deleteRegister
+                deleteRegister,
+                verifyCode
             }}>
             { children }
         </VerificationContext.Provider>

@@ -16,5 +16,6 @@ export default {
     info: '#2c6994',
     info2: '#0071bc',
     canastillas: '#f89924',
-    bulbos: '#139e47'
+    bulbos: '#139e47',
+    success: '#139e47',
 };

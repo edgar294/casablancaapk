@@ -1,91 +1,185 @@
-import { StyleSheet, Text, View, ScrollView, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native';
-import React from 'react';
+import { StyleSheet, Text, View, ScrollView, SafeAreaView, TouchableOpacity, Dimensions, Alert } from 'react-native';
+import React, { useContext, useEffect } from 'react';
 import { ROUTES, COLORS } from '../../constants';
 import Button from '../../components/Button';
 import InnerButton from '../../components/InnerButton';
 
-import UserImage from '../../assets/user.jpg'
-import Logo from '../../assets/images/logo.svg';
-import Graphic from '../../assets/images/graphic.png'
 import { FlatList } from 'react-native-gesture-handler';
 import CanastillaIcon from '../../assets/images/icon_canastilla_home.svg'
 import BulbosIcon from '../../assets/images/icon_bulbos_home.svg'
-
-
+import { VerificationContext } from '../../context/VerificationContext';
+import Spinner from 'react-native-loading-spinner-overlay';
+import Toast from 'react-native-toast-message'
 
 const VerifyRecord = ({ navigation, route }) => {
     const [data, setData] = React.useState([])
     const [windowHeight, setWindowHeight] = React.useState(Dimensions.get('window').height)
+    const { fetchCanastillas, listCanastillas, isLoading, verifyCode } = useContext(VerificationContext)
 
-    React.useEffect(() => {
+    useEffect(() => {
         const { code } = route.params;
         (code) ? addItemToTable(code) : {}        
-        setWindowHeight(Dimensions.get('window').height)    
+        setWindowHeight(Dimensions.get('window').height)
         return () => {
             navigation.setParams({ code: null})
         }
     }, [route.params.code])
 
+    useEffect(() => {
+        const focusHandler = navigation.addListener('focus', () => {
+            fetchCanastillas()
+        });
+        return focusHandler;
+    }, [navigation])
+
     const addItemToTable = (item) => {
+        const filtredData = data.filter(code => code.codigo == item);
+        const filtredData2 = listCanastillas.filter(code => code.codigo == item);
+        if (filtredData.length || filtredData2.length){
+            Toast.show({
+                type: 'error',
+                text1: 'Escanear Codigo',
+                text2: `Codigo ${item} ya se encuentra registrado`,
+                autoHide: true,
+                visibilityTime: 5000,
+                position: 'bottom'
+            })
+            return 
+        }
         setData(data => [...data, {
-            id: data.length + 1,
-            name: item
+            codigo: item,
+            status: 'Por Verificar',
         }]);
     }
 
-    const renderRow = (item) => {                           
+    const verifyCanastillaCode = async (code) => {
+        const response = await verifyCode(code)
+        if (response){
+            deleteCode(code)
+            fetchCanastillas()
+        }
+    }
+
+    const deleteCode = async (item) => {        
+        const filtredData = data.filter(code => code.codigo !== item);        
+        setData(filtredData)
+    }
+
+    const showDetails = (product) => {
+        console.log(product)
+        let alertMessage = `----------------------------------------------\n`
+        alertMessage += `Cantidad de canastillas: ${product.cantidad}\n`
+        alertMessage += `Cantidad de bulbos: ${product.bulbos}\n`
+        alertMessage += `Total de bulbos: ${product.bulbos * product.cantidad}\n`
+        alertMessage += `Bodega: ${product.bodega.name}\n`
+        alertMessage += `Producto: ${product.producto_admin.name}\n`
+        alertMessage += `Proveedor: ${product.proveedor.name}\n`
+        alertMessage += `Tipo: ${product.categoria.name}\n`
+        alertMessage += `Variedad: ${product.variedad.name}\n`
+        alertMessage += `Color: ${product.color.name}\n`
+        Alert.alert(
+            'Detalles de la Canastilla',
+            alertMessage,
+            [
+                {
+                    text: 'OK',                    
+                },
+            ],
+        );
+    }
+
+    const formatDataTable = () => {
+        const canastillas = listCanastillas.map((c) => { 
+            return {...c, status: 'Verificado' }
+            
+        })
+        return data.concat(canastillas)
+    }
+
+    const renderRow = (item) => {
         return (
-            <View style={{ flex: 1, flexDirection: 'row', paddingVertical: 5, borderBottomWidth: 1 }}>
-                <View style={{ width: 50 }}>
+            <View style={{ flex: 1, flexDirection: 'row', paddingVertical: 5, borderBottomWidth: 1, alignItems: 'center' }} key={item.index}>
+                <View style={{ width: 120 }}>
                     <Text style={{ fontSize: 12, textAlign: 'center', color: COLORS.dark, fontFamily: 'Raleway-Regular' }}>
-                        {item.item.id}
+                        {item.item.codigo}
                     </Text>
                 </View>
-                <View>
-                    <Text style={{ fontSize: 12, color: COLORS.dark, fontFamily: 'Raleway-Regular' }}>
-                        {item.item.name}
+                <View style={{ width: 100 }}>
+                    <Text style={{ fontSize: 12, color: COLORS.dark, fontFamily: 'Raleway-Regular', textAlign: 'center' }}>
+                        {item.item.status}
                     </Text>
                 </View>
+                {item.item.status == 'Por Verificar' ? (
+                    <View style={{ width: 100, flexDirection: 'row' }}>
+                        <InnerButton 
+                            icon="check" 
+                            onPress={() => {
+                                verifyCanastillaCode(item.item.codigo)
+                            }} 
+                            type="success" 
+                            fit={true} 
+                        />
+                        <InnerButton 
+                            icon="trash" 
+                            onPress={() => {
+                                deleteCode(item.item.codigo)
+                            }} 
+                            type="danger" 
+                            fit={true} 
+                        />
+                    </View>
+                ) : (
+                    <View style={{ width: 100 }}>
+                        <InnerButton 
+                            icon="eye" 
+                            onPress={() => { 
+                                showDetails(item.item)
+                            }} 
+                            type="info" />
+                    </View>
+                )}
             </View>
         )
     }
 
     const Table = () => {
         return (
-            <View style={{ flex: 1, flexDirection:'column' }}>
+            <View style={{ flex: 1, flexDirection: 'column' }}>
                 <View style={{ width: '100%' }}>
-                    <View style={{ flexDirection: 'row', paddingBottom: 5, borderBottomWidth: 1}}>
-                        <View style={{ width: 100 }}>
+                    <View style={{ flexDirection: 'row', paddingBottom: 5, borderBottomWidth: 1 }}>
+                        <View style={{ width: 120 }}>
                             <Text style={{ fontSize: 13, textAlign: 'center', color: COLORS.dark, textAlign: 'center', fontFamily: 'Raleway-SemiBold' }}>
-                                BODEGA
+                                CODIGO
                             </Text>
                         </View>
                         <View style={{ width: 100 }}>
-                            <Text style={{ fontSize: 13, color: COLORS.dark, textAlign: 'center', fontFamily: 'Raleway-SemiBold'  }}>
-                                CANASTILLA
+                            <Text style={{ fontSize: 13, color: COLORS.dark, textAlign: 'center', fontFamily: 'Raleway-SemiBold' }}>
+                                ESTADO
                             </Text>
                         </View>
-                        <View style={{ width: 100 }}>
-                            <Text style={{ fontSize: 13, color: COLORS.dark, textAlign: 'center', fontFamily: 'Raleway-SemiBold'  }}>
-                                BULBOS
+                        <View style={{ width: 70 }}>
+                            <Text style={{ fontSize: 13, color: COLORS.dark, textAlign: 'center', fontFamily: 'Raleway-SemiBold' }}>
+                                OPCIONES
                             </Text>
                         </View>
                     </View>
                 </View>
-                <View style={{ width: '100%', height: windowHeight / 3}}>
+                <View style={{ width: '100%', height: windowHeight / 3 }}>
                     <FlatList
-                        data={data}
+                        data={formatDataTable()}
                         scrollEnabled={true}
                         renderItem={renderRow}
-                        keyExtractor={(item) => `key-${item.id}`}
+                        keyExtractor={(item) => `key-${item.codigo}`}
                     >
                     </FlatList>
                 </View>
             </View>
         )
     }
+
     return (
         <SafeAreaView style={[styles.mainContainer,]}>
+            <Spinner visible={isLoading} />
             <Button
                 title="Verificar Registro"
                 onPress={() => navigation.navigate(ROUTES.SCAN_QR, { origin: ROUTES.VERIFY_RECORD })}
@@ -223,4 +317,4 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 15
     }
-});
+})

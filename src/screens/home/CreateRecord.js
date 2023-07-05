@@ -54,23 +54,6 @@ const CreateRecord = ({ navigation, route }) => {
         );
     }
 
-    const createTwoButtonAlert = () => {
-        Alert.alert(
-            'Alert Title',
-            'My Alert Msg',
-            [
-                {
-                    text: 'Cancel',
-                    onPress: () => console.log('Cancel Pressed'),
-                    style: 'cancel',
-                },
-                {
-                    text: 'OK',
-                    onPress: () => console.log('OK Pressed')
-                },
-            ]);
-    }
-
     const editProduct = (product) => {
         selectProduct(product)
         navigation.navigate(ROUTES.CREATE_RECORD_FORM)

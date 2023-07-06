@@ -1,10 +1,12 @@
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
 import { COLORS, ROUTES } from '../../constants';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
 import Button from '../../components/Button';
+import { VerificationContext } from '../../context/VerificationContext';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const ScanQR = ({ navigation, route }) => {
     const [origin, setOrigin] = React.useState(ROUTES.HOME);
@@ -18,16 +20,28 @@ const ScanQR = ({ navigation, route }) => {
         }
     }, [route.params])
 
+    const { verifyCode, markAsOut, isLoading } = useContext(VerificationContext)
+
+    const doAction = (data) => {        
+        if (origin == ROUTES.VERIFY_RECORD){
+            code = data.data
+            verifyCode(code)
+        } else if (origin == ROUTES.REPORT_OUTPUT){
+            code = data.data
+            markAsOut(code)
+        }
+    }
+
     return (
         <ScrollView contentInsetAdjustmentBehavior='automatic' style={{ marginTop: 0 }}>
+            <Spinner visible={isLoading} />
             <QRCodeScanner
-                onRead={(data) => {
-                    navigation.navigate(origin ,{code: data.data})
-                }}
+                onRead={doAction}
                 flashMode={RNCamera.Constants.FlashMode.off}
                 reactivate={true}
-                reactivateTimeout={3000}
+                reactivateTimeout={2000}
                 showMarker={true}
+                cameraProps={{}}
                 cameraStyle={{ height: windowHeight - 150 }}
                 cameraContainerStyle={{ height: windowHeight - 150 }}
                 bottomContent={

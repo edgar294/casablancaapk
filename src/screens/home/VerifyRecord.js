@@ -14,7 +14,7 @@ import Toast from 'react-native-toast-message'
 const VerifyRecord = ({ navigation, route }) => {
     const [data, setData] = React.useState([])
     const [windowHeight, setWindowHeight] = React.useState(Dimensions.get('window').height)
-    const { fetchCanastillas, listCanastillas, isLoading, verifyCode } = useContext(VerificationContext)
+    const { fetchCanastillas, listCanastillas, isLoading, dataToVerifyOffline } = useContext(VerificationContext)
 
     useEffect(() => {
         const { code } = route.params;
@@ -52,19 +52,6 @@ const VerifyRecord = ({ navigation, route }) => {
         }]);
     }
 
-    const verifyCanastillaCode = async (code) => {
-        const response = await verifyCode(code)
-        if (response){
-            deleteCode(code)
-            fetchCanastillas()
-        }
-    }
-
-    const deleteCode = async (item) => {        
-        const filtredData = data.filter(code => code.codigo !== item);        
-        setData(filtredData)
-    }
-
     const showDetails = (product) => {
         let alertMessage = `----------------------------------------------\n`
         alertMessage += `Cantidad de canastillas: ${product.cantidad}\n`
@@ -92,7 +79,15 @@ const VerifyRecord = ({ navigation, route }) => {
             return {...c, status: 'Verificado' }
             
         })
-        return data.concat(canastillas)
+
+        const offline = dataToVerifyOffline.map((code) => {
+            return {
+                codigo: code,
+                status: 'Por Verificar'
+            }
+        })
+
+        return offline.concat(canastillas)
     }
 
     const renderRow = (item) => {
@@ -109,24 +104,7 @@ const VerifyRecord = ({ navigation, route }) => {
                     </Text>
                 </View>
                 {item.item.status == 'Por Verificar' ? (
-                    <View style={{ width: 100, flexDirection: 'row' }}>
-                        <InnerButton 
-                            icon="check" 
-                            onPress={() => {
-                                verifyCanastillaCode(item.item.codigo)
-                            }} 
-                            type="success" 
-                            fit={true} 
-                        />
-                        <InnerButton 
-                            icon="trash" 
-                            onPress={() => {
-                                deleteCode(item.item.codigo)
-                            }} 
-                            type="danger" 
-                            fit={true} 
-                        />
-                    </View>
+                    <></>
                 ) : (
                     <View style={{ width: 100 }}>
                         <InnerButton 

@@ -12,18 +12,8 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-toast-message'
 
 const ReportOutput = ({ navigation, route }) => {
-    const [data, setData] = React.useState([])
     const [windowHeight, setWindowHeight] = React.useState(Dimensions.get('window').height)
-    const { fetchCanastillasSalidas, listCanastillasSalidas, isLoading, markAsOut } = useContext(VerificationContext)
-
-    useEffect(() => {
-        const { code } = route.params;
-        (code) ? addItemToTable(code) : {}
-        setWindowHeight(Dimensions.get('window').height)
-        return () => {
-            navigation.setParams({ code: null })
-        }
-    }, [route.params.code])
+    const { fetchCanastillasSalidas, listCanastillasSalidas, isLoading, dataMarkAsOutOffline } = useContext(VerificationContext)
 
     useEffect(() => {
         const focusHandler = navigation.addListener('focus', () => {
@@ -31,40 +21,7 @@ const ReportOutput = ({ navigation, route }) => {
         });
         return focusHandler;
     }, [navigation])
-
-    const addItemToTable = (item) => {
-        const filtredData = data.filter(code => code.codigo == item);
-        const filtredData2 = listCanastillasSalidas.filter(code => code.codigo == item);
-        if (filtredData.length || filtredData2.length) {
-            Toast.show({
-                type: 'error',
-                text1: 'Escanear Codigo',
-                text2: `Codigo ${item} ya se encuentra registrado`,
-                autoHide: true,
-                visibilityTime: 5000,
-                position: 'bottom'
-            })
-            return
-        }
-        setData(data => [...data, {
-            codigo: item,
-            status: 'Por Verificar',
-        }]);
-    }
-
-    const markAsOutCode = async (code) => {
-        const response = await markAsOut(code)
-        if (response) {
-            deleteCode(code)
-            fetchCanastillasSalidas()
-        }
-    }
-
-    const deleteCode = async (item) => {
-        const filtredData = data.filter(code => code.codigo !== item);
-        setData(filtredData)
-    }
-
+    
     const showDetails = (product) => {
         let alertMessage = `----------------------------------------------\n`
         alertMessage += `Codigo de canastilla: ${product.codigo}\n`
@@ -92,7 +49,14 @@ const ReportOutput = ({ navigation, route }) => {
             return { ...c, status: 'Fuera de Bodega' }
 
         })
-        return data.concat(canastillas)
+
+        const offline = dataMarkAsOutOffline.map((code) => {
+            return {
+                codigo: code,
+                status: 'Por Verificar'
+            }
+        })
+        return offline.concat(canastillas)
     }
 
     const renderRow = (item) => {
@@ -109,24 +73,7 @@ const ReportOutput = ({ navigation, route }) => {
                     </Text>
                 </View>
                 {item.item.status == 'Por Verificar' ? (
-                    <View style={{ width: 100, flexDirection: 'row' }}>
-                        <InnerButton
-                            icon="check"
-                            onPress={() => {
-                                markAsOutCode(item.item.codigo)
-                            }}
-                            type="success"
-                            fit={true}
-                        />
-                        <InnerButton
-                            icon="trash"
-                            onPress={() => {
-                                deleteCode(item.item.codigo)
-                            }}
-                            type="danger"
-                            fit={true}
-                        />
-                    </View>
+                    <></>
                 ) : (
                     <View style={{ width: 100 }}>
                         <InnerButton

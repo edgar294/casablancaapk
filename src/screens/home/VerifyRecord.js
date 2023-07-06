@@ -15,16 +15,7 @@ const VerifyRecord = ({ navigation, route }) => {
     const [data, setData] = React.useState([])
     const [windowHeight, setWindowHeight] = React.useState(Dimensions.get('window').height)
     const { fetchCanastillas, listCanastillas, isLoading, dataToVerifyOffline } = useContext(VerificationContext)
-
-    useEffect(() => {
-        const { code } = route.params;
-        (code) ? addItemToTable(code) : {}        
-        setWindowHeight(Dimensions.get('window').height)
-        return () => {
-            navigation.setParams({ code: null})
-        }
-    }, [route.params.code])
-
+    
     useEffect(() => {
         const focusHandler = navigation.addListener('focus', () => {
             fetchCanastillas()

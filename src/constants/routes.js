@@ -3,11 +3,6 @@ export default {
     REGISTER: 'Register',
     FORGOT_PASSWORD: 'Forgot Password',
 
-    WALLET: 'Wallet',
-    WALLET_DRAWER: 'Wallet Drawer',
-
-    NOTIFICATIONS: 'Notifications',
-    NOTIFICATIONS_DRAWER: 'Notifications Drawer',
 
     SETTINGS: 'Settings',
     ACCOUNT_SETTINGS: 'Account Settings',
@@ -16,6 +11,10 @@ export default {
     HOME: 'Home',
     HOME_TAB: 'Home Tab',
     HOME_DRAWER: 'Home Drawer',
+
+    PROFILE: 'Profile',
+    PROFILE_TAB: 'Profile Tab',
+    PROFILE_DRAWER: 'Profile Drawer',
 
     DASHBOARD: 'Dashboard',
     DASHBOARD_TAB: 'Dashboard Tab',

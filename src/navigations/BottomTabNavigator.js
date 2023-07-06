@@ -2,13 +2,14 @@ import React, { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet, Platform, TouchableOpacity, View } from 'react-native';
 import { COLORS, ROUTES, IMGS } from '../constants';
-import { CreateRecord, VerifyRecord, ReportOutput, Dashboard, ScanQR, CreateRecordForm } from '../screens';
+import { CreateRecord, VerifyRecord, ReportOutput, Dashboard, ScanQR, CreateRecordForm, Profile } from '../screens';
 import Icon from 'react-native-vector-icons/Ionicons';
 import CustomTabBarButton from '../components/CustomTabBarButton';
 import CustomTabBar from '../components/CustomTabBar';
 import { useNavigation } from '@react-navigation/native';
 
 import HorizontalLogo from '../assets/images/logo_horizontal.svg';
+import BtnHome from '../assets/images/btn_home.svg';
 import BtnPerfil from '../assets/images/btn_perfil.svg';
 import BtnIngresos from '../assets/images/btn_ingresos.svg';
 import BtnVerificacion from '../assets/images/btn_verificacion.svg';
@@ -34,6 +35,8 @@ function BottomTabNavigator() {
                 tabBarIconStyle: styles.tabBarIconStyle,
                 tabBarIcon: ({ color, size, focused }) => {                    
                     if (route.name === ROUTES.DASHBOARD) {
+                        return <BtnHome width={35} height={35} style={styles.mr7} fill={(focused) ? COLORS.secondary : '#000'}/>
+                    } else if (route.name === ROUTES.PROFILE) {
                         return <BtnPerfil width={35} height={35} style={styles.mr7} fill={(focused) ? COLORS.secondary : '#000'}/>
                     } else if (route.name === ROUTES.CREATE_RECORD) {
                         return <BtnIngresos width={35} height={35} style={styles.mr7} fill={(focused) ? COLORS.secondary : '#000'}/>
@@ -61,6 +64,14 @@ function BottomTabNavigator() {
             <Tab.Screen
                 name={ROUTES.DASHBOARD}
                 component={Dashboard}
+                options={{
+                    headerShown: true,
+                    tabBarButton: props => <CustomTabBarButton route="home" {...props} />,
+                }}
+            />
+            <Tab.Screen
+                name={ROUTES.PROFILE}
+                component={Profile}
                 options={{
                     headerShown: true,
                     tabBarButton: props => <CustomTabBarButton route="home" {...props} />,

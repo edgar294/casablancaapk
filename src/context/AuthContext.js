@@ -62,6 +62,40 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const updateUser = async (payload) => {
+        try{
+            setIsLoading(true)
+            const response = await axios.post(`${BASE_URL}/user/update`, payload)
+            const data = response.data
+            if (data.status) {                
+                setUser(data.user)
+                AsyncStorage.setItem('user', JSON.stringify(data.user))                
+                Toast.show({
+                    type: 'success',
+                    text1: 'Editar Perfil de Usuario',
+                    text2: data.message,
+                    autoHide: true,
+                    visibilityTime: 2500,
+                    position: 'bottom'
+                })                
+            } else {
+                setErrors(data.errors)
+                Toast.show({
+                    type: 'error',
+                    text1: 'Editar Perfil de Usuario',
+                    text2: data.message,
+                    autoHide: true,
+                    visibilityTime: 2500,
+                    position: 'bottom'
+                })
+            }
+
+            setIsLoading(false)
+        } catch (e) {
+            setIsLoading(false)
+        }
+    }
+
     const logout = async () => {
         setIsLoading(true)
         setToken(null)
@@ -114,7 +148,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider 
-            value={{ login, token, user, isLoading, errors, logout }}>
+            value={{ login, token, user, isLoading, errors, logout, updateUser }}>
             { children }
         </AuthContext.Provider>
     );

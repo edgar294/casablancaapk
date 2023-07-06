@@ -41,6 +41,17 @@ function DrawerNavigator() {
                 />
 
                 <Drawer.Screen
+                    name={ROUTES.PROFILE}
+                    component={BottomTabNavigator}
+                    options={{
+                        title: 'Profile',                    
+                        drawerIcon: ({ focused, color, size }) => (
+                            <Icon name="home-sharp" size={18} color={color} />
+                        ),
+                    }}
+                />
+
+                <Drawer.Screen
                     name={ROUTES.CREATE_RECORD}
                     component={CreateRecord}
                     options={{

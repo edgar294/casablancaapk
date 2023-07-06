@@ -199,26 +199,28 @@ const CreateRecordForm = ({ navigation, route }) => {
                         <View style={[styles.col50]}>
                             <Counter
                                 plus={() => {
-                                    setCanastillas(canastillas + 1)
+                                    setCanastillas(Number(canastillas) + 1)
                                 }}
                                 minus={() => {
                                     if (canastillas > 0)
-                                        setCanastillas(canastillas - 1)
+                                        setCanastillas(Number(canastillas) - 1)
                                 }}
                                 value={canastillas}
+                                onChangeText={setCanastillas}
                                 label="Cantidad de Canastillas"
                             />
                         </View>
                         <View style={[styles.col50]}>
                             <Counter
                                 plus={() => {
-                                    setBulbos(bulbos + 1)
+                                    setBulbos(Number(bulbos) + 1)
                                 }}
                                 minus={() => {
                                     if (bulbos > 0)
-                                        setBulbos(bulbos - 1)
+                                        setBulbos(Number(bulbos) - 1)
                                 }}
                                 value={bulbos}
+                                onChangeText={setBulbos}
                                 label="Bulbos por Canastilla"
                             />
                         </View>

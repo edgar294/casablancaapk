@@ -23,6 +23,39 @@ const Dashboard = ({ navigation }) => {
     const [isLoading, setIsLoading] = useState(false)
     const { user } = useContext(AuthContext)
     const { bulbos, canastillas, fetchCounters } = useContext(VerificationContext)
+    const [data1, setData1] = useState([0,0,0,0,0,0,0,0,0,0,0,0])
+    const [data2, setData2] = useState([0,0,0,0,0,0,0,0,0,0,0,0])
+
+    useEffect(() => {
+        setData1([
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100
+        ])
+        setData2([
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100
+        ])
+    }, [])
 
     useEffect(() => {
         const focusHandler = navigation.addListener('focus', () => {
@@ -55,39 +88,13 @@ const Dashboard = ({ navigation }) => {
         labels: labels,
         datasets: [
             {
-                data: [
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100
-                ],
+                data: data1,
                 name: 'Salidas',
                 color: () => `#0000ff`, // optional
                 strokeWidth: 1 // optional
             },
             {
-                data: [
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100
-                ],
+                data: data2,
                 name: 'Entradas',
                 color: () => `#ff0000`, // optional
                 strokeWidth: 1 // optional

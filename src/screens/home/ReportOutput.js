@@ -67,15 +67,15 @@ const ReportOutput = ({ navigation, route }) => {
 
     const showDetails = (product) => {
         let alertMessage = `----------------------------------------------\n`
-        alertMessage += `Cantidad de canastillas: ${product.cantidad}\n`
+        alertMessage += `Codigo de canastilla: ${product.codigo}\n`
         alertMessage += `Cantidad de bulbos: ${product.bulbos}\n`
-        alertMessage += `Total de bulbos: ${product.bulbos * product.cantidad}\n`
         alertMessage += `Bodega: ${product.bodega.name}\n`
         alertMessage += `Producto: ${product.producto_admin.name}\n`
         alertMessage += `Proveedor: ${product.proveedor.name}\n`
         alertMessage += `Tipo: ${product.categoria.name}\n`
         alertMessage += `Variedad: ${product.variedad.name}\n`
         alertMessage += `Color: ${product.color.name}\n`
+        alertMessage += `Contenedor: ${product.contenedor}\n`
         Alert.alert(
             'Detalles de la Canastilla',
             alertMessage,
@@ -89,7 +89,7 @@ const ReportOutput = ({ navigation, route }) => {
 
     const formatDataTable = () => {
         const canastillas = listCanastillasSalidas.map((c) => {
-            return { ...c, status: 'Verificado' }
+            return { ...c, status: 'Fuera de Bodega' }
 
         })
         return data.concat(canastillas)

@@ -43,23 +43,12 @@ const Counter = ({
                                     : COLORS.light,                        
                         },  
                     ]}>
-                    <Text style={[ 
-                            style.textInput, 
-                            style.counter
-                        ]}>
-                        {value}
-                    </Text>
-                    {/* <TextInput                        
-                        // onFocus={() => {
-                        //     onFocus();
-                        //     setIsFocused(true);
-                        // }}
-                        value={value}
-                        // onBlur={() => setIsFocused(false)}
-                        style={[ style.textInput, {borderWidth: 1, borderColor: COLORS.dark, borderRadius: 15, width: '94%', marginHorizontal: '3%'}]}
+                    <TextInput
+                        value={value.toString()}
+                        style={[ style.textInput, {borderWidth: 1, borderColor: COLORS.dark, borderRadius: 15, width: '94%', marginHorizontal: '3%', textAlign: 'center'}]}
                         placeholderTextColor={COLORS.dark}
                         {...props}
-                    /> */}
+                    />
                 </View>
                 <View style={style.col25}>
                     <TouchableOpacity onPress={plus}>

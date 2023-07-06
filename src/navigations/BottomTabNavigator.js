@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet, Platform, TouchableOpacity, View } from 'react-native';
 import { COLORS, ROUTES, IMGS } from '../constants';
@@ -19,9 +19,40 @@ import { AuthContext } from '../context/AuthContext';
 
 const Tab = createBottomTabNavigator();
 
-function BottomTabNavigator() {
-    const navigation = useNavigation();
+function BottomTabNavigator({ navigation, route }) {    
     const { logout } = useContext(AuthContext)
+
+    useEffect(() => {
+        const focusHandler = navigation.addListener('focus', () => {
+            switch (route.name) {
+                case ROUTES.CREATE_RECORD + 'd':
+                    navigation.navigate(ROUTES.CREATE_RECORD)
+                    break;
+
+                case ROUTES.REPORT_OUTPUT + 'd':
+                    navigation.navigate(ROUTES.REPORT_OUTPUT)
+                    break;
+
+                case ROUTES.HOME + 'd':
+                    navigation.navigate(ROUTES.HOME)
+                    break;
+
+                case ROUTES.VERIFY_RECORD + 'd':
+                    navigation.navigate(ROUTES.VERIFY_RECORD)
+                    break;
+
+                case ROUTES.PROFILE + 'd':
+                    navigation.navigate(ROUTES.PROFILE)
+                    break;
+
+                default:
+                    navigation.navigate(ROUTES.HOME)
+                    break;
+            }
+        });
+
+        return focusHandler;
+    }, [navigation])
 
     return (
         <Tab.Navigator

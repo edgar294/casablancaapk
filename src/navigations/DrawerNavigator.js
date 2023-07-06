@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { StyleSheet, Platform, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Platform, TouchableOpacity, View, Text } from 'react-native';
 import { COLORS, ROUTES } from '../constants';
 import { CreateRecord, VerifyRecord, ReportOutput, Dashboard } from '../screens';
 import BottomTabNavigator from './BottomTabNavigator';
@@ -11,10 +11,15 @@ import HorizontalLogo from '../assets/images/logo_horizontal.svg';
 import BtnLogout from '../assets/images/LOGO.svg'
 import { AuthContext } from '../context/AuthContext';
 import { VerificationProvider } from '../context/VerificationContext';
+import BtnHome from '../assets/images/btn_home.svg';
+import BtnPerfil from '../assets/images/btn_perfil.svg';
+import BtnIngresos from '../assets/images/btn_ingresos.svg';
+import BtnVerificacion from '../assets/images/btn_verificacion.svg';
+import BtnSalidas from '../assets/images/btn_salidas.svg';
 
 const Drawer = createDrawerNavigator();
 
-function DrawerNavigator() {
+function DrawerNavigator({ navigation }) {
     const logout = useContext(AuthContext)
 
     return (
@@ -27,62 +32,62 @@ function DrawerNavigator() {
                     drawerActiveTintColor: COLORS.white,
                     drawerLabelStyle: {
                         marginLeft: -20,
-                    }              
+                    }
                 }}>
                 <Drawer.Screen
-                    name={ROUTES.DASHBOARD}
+                    name={ROUTES.HOME + 'd'}
                     component={BottomTabNavigator}
                     options={{
-                        title: 'Home',                    
+                        title: 'Inicip',
                         drawerIcon: ({ focused, color, size }) => (
-                            <Icon name="home-sharp" size={18} color={color} />
+                            <BtnHome width={18} height={18} style={styles.mr7} fill={(focused) ? COLORS.secondary : '#000'}/>
                         ),
                     }}
                 />
 
                 <Drawer.Screen
-                    name={ROUTES.PROFILE}
+                    name={ROUTES.PROFILE + 'd'}
                     component={BottomTabNavigator}
                     options={{
-                        title: 'Profile',                    
+                        title: 'Perfil',
                         drawerIcon: ({ focused, color, size }) => (
-                            <Icon name="home-sharp" size={18} color={color} />
+                            <BtnPerfil width={18} height={18} style={styles.mr7} fill={(focused) ? COLORS.secondary : '#000'}/>
                         ),
                     }}
                 />
 
                 <Drawer.Screen
-                    name={ROUTES.CREATE_RECORD}
-                    component={CreateRecord}
+                    name={ROUTES.CREATE_RECORD + 'd'}
+                    component={BottomTabNavigator}
                     options={{
-                        title: 'Crear Ingreso',
+                        title: 'Ingresos',
                         headerShown: true,
                         drawerIcon: ({ focused, color, size }) => (
-                            <Icon name="wallet" size={18} color={color} />
+                            <BtnIngresos width={18} height={18} style={styles.mr7} fill={(focused) ? COLORS.secondary : '#000'}/>
                         ),
                     }}
                 />
 
                 <Drawer.Screen
-                    name={ROUTES.VERIFY_RECORD}
-                    component={VerifyRecord}
+                    name={ROUTES.VERIFY_RECORD + 'd'}
+                    component={BottomTabNavigator}
                     options={{
-                        title: 'Verificar Ingreso',
+                        title: 'Verificar Ingresos',
                         headerShown: true,
                         drawerIcon: ({ focused, color, size }) => (
-                            <Icon name="notifications" size={18} color={color} />
+                            <BtnVerificacion width={18} height={18} style={styles.mr7} fill={(focused) ? COLORS.secondary : '#000'}/>
                         ),
                     }}
                 />
 
                 <Drawer.Screen
-                    name={ROUTES.REPORT_OUTPUT}
-                    component={ReportOutput}
+                    name={ROUTES.REPORT_OUTPUT + 'd'}
+                    component={BottomTabNavigator}
                     options={{
-                        title: 'Reportar Salida',
+                        title: 'Reportar Salidas',
                         headerShown: true,
                         drawerIcon: ({ focused, color, size }) => (
-                            <Icon name="notifications" size={18} color={color} />
+                            <BtnSalidas width={18} height={18} style={styles.mr7} fill={(focused) ? COLORS.secondary : '#000'}/>
                         ),
                     }}
                 />

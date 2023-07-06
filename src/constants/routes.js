@@ -36,5 +36,4 @@ export default {
     REPORT_OUTPUT_DRAWER: 'Report Output Drawer',
 
     SETTINGS_DETAIL: 'Settings Detail',
-    PROFILE: 'My Profile',
 };

@@ -1,6 +1,6 @@
 export default {
     bgPattern: require('../assets/drawer-cover.jpeg'),
-    user: require('../assets/user.jpg'),
+    user: require('../assets/images/img_perfil.png'),
     logo: require('../assets/images/logo.png'),
     logout: require('../assets/images/btn_logout.svg'),
     profile: require('../assets/images/btn_perfil.svg'),

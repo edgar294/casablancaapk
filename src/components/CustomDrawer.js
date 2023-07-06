@@ -5,24 +5,26 @@ import {
   Image,
   View,
   Dimensions,
+  TouchableOpacity,
+  Text,
 } from 'react-native';
 import {
   DrawerContentScrollView,
   DrawerItemList,
 } from '@react-navigation/drawer';
-import {COLORS, IMGS} from '../constants';
+import { COLORS, IMGS, ROUTES } from '../constants';
 
-const {width} = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
 const CustomDrawer = props => {
   return (
     <DrawerContentScrollView {...props}>
-      <ImageBackground source={IMGS.bgPattern} style={{height: 140}}>
+      <ImageBackground source={IMGS.bgPattern} style={{ height: 140 }}>
         <Image source={IMGS.user} style={styles.userImg} />
-      </ImageBackground>
+      </ImageBackground>      
       <View style={styles.drawerListWrapper}>
         <DrawerItemList {...props} />
-      </View>
+      </View>      
     </DrawerContentScrollView>
   );
 };

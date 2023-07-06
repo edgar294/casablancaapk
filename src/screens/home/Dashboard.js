@@ -1,5 +1,5 @@
 import React, { startTransition, useContext, useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Image, Dimensions, Alert } from 'react-native';
 import { COLORS } from '../../constants';
 import Logo from '../../assets/images/logo.svg';
 import UserImage from '../../assets/images/img_perfil.png'
@@ -49,9 +49,10 @@ const Dashboard = ({ navigation }) => {
         fillShadowGradientFromOpacity: 0.2
     };
 
+    const labels = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
 
     const data = {
-        labels: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
+        labels: labels,
         datasets: [
             {
                 data: [
@@ -68,6 +69,7 @@ const Dashboard = ({ navigation }) => {
                     Math.random() * 100,
                     Math.random() * 100
                 ],
+                name: 'Salidas',
                 color: () => `#0000ff`, // optional
                 strokeWidth: 1 // optional
             },
@@ -86,6 +88,7 @@ const Dashboard = ({ navigation }) => {
                     Math.random() * 100,
                     Math.random() * 100
                 ],
+                name: 'Entradas',
                 color: () => `#ff0000`, // optional
                 strokeWidth: 1 // optional
             }
@@ -119,6 +122,15 @@ const Dashboard = ({ navigation }) => {
                     chartConfig={chartConfig}
                     bezier
                     style={{ borderRadius: 20, marginBottom: 6 }}
+                    onDataPointClick= {(value, dataset, getColor) => {
+                        const point = value.value.toFixed(0).toString()
+                        const label = value.dataset.name
+                        const month = labels[value.index]
+
+                        // console.log(value.dataset)
+                        Alert.alert(label, `Mes ${month}\nTotal ${label}: ${point}`)
+                        // console.log(value)
+                    }}
                 />
             </View>
             <View style={styles.row}>

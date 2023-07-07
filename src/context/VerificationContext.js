@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axiosInstance from '../services/axios';
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { BASE_URL } from '../config'
 import Toast from 'react-native-toast-message'
@@ -7,7 +7,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from './AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import NetInfo from "@react-native-community/netinfo";
-// import { useNetInfo } from '@react-native-community/netinfo';
 
 export const VerificationContext = createContext()
 
@@ -33,6 +32,9 @@ export const VerificationProvider = ({ children }) => {
 
     const [selected, setSelected] = useState([])
     const navigation = useNavigation();
+
+    const { token } = useContext(AuthContext)
+    const axios = axiosInstance(token)
 
     useEffect(() => {
         const unsubscribe = NetInfo.addEventListener((state) => {
@@ -101,9 +103,7 @@ export const VerificationProvider = ({ children }) => {
         const dataWithoutCodes = dataMarkAsOutOffline.filter(c => !removedCodes.includes(c));
         setDataMarkAsOutOffline(dataWithoutCodes)
         await AsyncStorage.setItem('dataMarkAsOutOffline', JSON.stringify(dataWithoutCodes))
-    }
-
-    const { token } = useContext(AuthContext)
+    }    
 
     const fetchCounters = async () => {
         try {

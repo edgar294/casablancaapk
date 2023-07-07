@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axiosInstance from '../services/axios';
 import React, { createContext, useEffect, useRef, useState} from 'react';
 import { BASE_URL } from '../config'
 import Toast from 'react-native-toast-message'
@@ -14,6 +14,7 @@ export const AuthProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false)
     const [errors, setErrors] = useState({})
     const [splasLoading, setSplasLoading] = useState({})
+    const axios = axiosInstance(token)
 
     const login = async (email, password) => {
         setIsLoading(true)        
@@ -94,6 +95,14 @@ export const AuthProvider = ({ children }) => {
             setIsLoading(false)
         } catch (e) {
             setIsLoading(false)
+            Toast.show({
+                type: 'error',
+                text1: 'Editar Perfil de Usuario',
+                text2: 'Ocurrio un error, intente mas tarde',
+                autoHide: true,
+                visibilityTime: 2500,
+                position: 'bottom'
+            })
         }
     }
 
@@ -205,10 +214,12 @@ export const AuthProvider = ({ children }) => {
         try{
             const response = await axios.post(`${BASE_URL}/update/profile/image`, imageData,{
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': 'Bearer ' + token
                 }
             })
             const data = response.data
+            console.log(data)
             if (data.status) {
                 let u = JSON.parse(JSON.stringify(user))
                 u.img_perfil = data.img_perfil                

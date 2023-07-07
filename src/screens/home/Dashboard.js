@@ -12,6 +12,7 @@ import { VerificationContext } from '../../context/VerificationContext';
 import InnerButton from '../../components/InnerButton';
 
 import { LineChart, BarChart } from "react-native-chart-kit";
+import { BASE_URL } from '../../config';
 
 const Dashboard = ({ navigation }) => {
     const [isLoading, setIsLoading] = useState(false)
@@ -114,10 +115,18 @@ const Dashboard = ({ navigation }) => {
         fillShadowGradientFromOpacity: 0.05
     };
 
+    const getProfileImage = () => {
+        return BASE_URL.slice(0,-4) + '/storage/images_perfil/' + user.img_perfil
+    }
+
     return (
         <View style={styles.mainContainer}>
             <View style={styles.row}>
-                <Image source={UserImage} style={{ width: 80, height: 80, borderRadius: 15 }} />
+                {user.img_perfil == null ? (
+                    <Image source={UserImage} style={{ width: 80, height: 80, borderRadius: 15 }} />
+                ) : (
+                    <Image source={{ uri: getProfileImage() }} style={{ width: 80, height: 80, borderRadius: 15 }} />
+                )}
                 <View style={styles.col}>
                     <Text style={styles.h3}>BIENVENIDO</Text>
                     {user.id ? (

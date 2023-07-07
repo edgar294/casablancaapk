@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, Alert } from 'react-native';
 import { COLORS } from '../../constants';
 import UserImage from '../../assets/images/img_perfil.png'
 import { AuthContext } from '../../context/AuthContext';
@@ -7,8 +7,12 @@ import { AuthContext } from '../../context/AuthContext';
 import Button from '../../components/Button';
 
 import Input from '../../components/Input';
+import InnerButton from '../../components/InnerButton'
 import Spinner from 'react-native-loading-spinner-overlay';
 import ImagePicker from 'react-native-image-crop-picker';
+import axios from 'axios';
+import { BASE_URL } from '../../config';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Profile = ({ navigation }) => {
     const [name, setName] = React.useState(null);
@@ -18,7 +22,7 @@ const Profile = ({ navigation }) => {
     const [password, setPassword] = React.useState(null);
     const [passwordConfirmation, setPasswordConfirmation] = React.useState(null);
 
-    const { user, updateUser, isLoading } = useContext(AuthContext)
+    const { user, updateUser, isLoading, updateProfileImage } = useContext(AuthContext)
 
     const sendForm = () => {
         const payload = {
@@ -52,35 +56,66 @@ const Profile = ({ navigation }) => {
         return focusHandler;
     }, [navigation])
 
-    const openCamara = () => {
-        ImagePicker.openCamera({
-            width: 300,
-            height: 400,
-            cropping: true,
-          }).then(image => {
-            console.log(image);
-          });
-        // ImagePicker.openPicker({
-        //     width: 300,
-        //     height: 400,
-        //     cropping: true
-        // }).then(image => {
-        //     console.log(image);
-        // });
+    const showOptions = () => {
+        Alert.alert('Cambiar imagen de perfil', 'Seleccione desde donde quiere cargar su imagen',
+            [
+                {
+                    text: 'Cancelar',
+                    style: 'cancel'
+                },
+                {
+                    text: 'Galeria',
+                    onPress: () => {
+                        ImagePicker.openPicker({
+                            width: 300,
+                            height: 400,
+                            cropping: true
+                        }).then(image => {
+                            updateProfileImage(image)
+                        });
+                    },
+                },
+                {
+                    text: 'Camara',
+                    onPress: () => {
+                        ImagePicker.openCamera({
+                            width: 300,
+                            height: 400,
+                            cropping: true,
+                        }).then(image => {
+                            // console.log(image);
+                            updateProfileImage(image)
+                        });
+                    }
+                },
+            ])
+    }
+
+    const getProfileImage = () => {
+        return BASE_URL.slice(0,-4) + '/storage/images_perfil/' + user.img_perfil
     }
 
     return (
         <ScrollView>
-            <View style={styles.mainContainer}>
+            <View style={styles.mainContainer}>                
                 <Spinner visible={isLoading} />
                 <View style={styles.row}>
-                    <Image source={UserImage} style={{ width: 80, height: 80, borderRadius: 15 }} />
+                    <TouchableOpacity onPress={showOptions}>
+                        { user.img_perfil == null ? (
+                            <Image source={UserImage} style={{ width: 80, height: 80, borderRadius: 15 }} />
+                        ) : (                            
+                            <Image source={{uri: getProfileImage()}}  style={{ width: 80, height: 80, borderRadius: 15 }} />
+                        )}
+                    </TouchableOpacity>
                     <View style={styles.col}>
                         <Text style={styles.h3}>BIENVENIDO</Text>
                         {user.id ? (
                             <>
                                 <Text style={styles.p}>{user.name}</Text>
                                 <Text style={styles.p}>{user.rol.name}</Text>
+                                <InnerButton type='outline-info' title="Cambiar avatar"
+                                    onPress={showOptions}>
+                                </InnerButton>
                             </>
                         ) : ''}
 
@@ -137,8 +172,7 @@ const Profile = ({ navigation }) => {
                         icon='user-pass'
                         password={true}
                     />
-                    <Button title="Actualizar perfil" onPress={sendForm} />
-                    <Button title="Abrir Galeria" onPress={openCamara} />
+                    <Button title="Actualizar perfil" onPress={sendForm} />                    
                 </View>
                 <View style={{ marginBottom: 90 }}></View>
             </View>

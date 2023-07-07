@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
             setIsLoading(true)
             const response = await axios.post(`${BASE_URL}/user/update`, payload)
             const data = response.data
-            if (data.status) {                
+            if (data.status) {
                 setUser(data.user)
                 AsyncStorage.setItem('user', JSON.stringify(data.user))                
                 Toast.show({
@@ -191,6 +191,62 @@ export const AuthProvider = ({ children }) => {
             console.log(`Error login ${e}`)
         }
     }
+    
+    const updateProfileImage = async(image) => {
+        const imageData = new FormData()
+        imageData.append('file', {
+            uri: image.path,
+            name: 'image',
+            filename: 'image.png',
+            type: image.mime
+        })
+
+        setIsLoading(true)
+        try{
+            const response = await axios.post(`${BASE_URL}/update/profile/image`, imageData,{
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            const data = response.data
+            if (data.status) {
+                let u = JSON.parse(JSON.stringify(user))
+                u.img_perfil = data.img_perfil                
+                setUser(u)                
+                AsyncStorage.setItem('user', JSON.stringify(u))
+                Toast.show({
+                    type: 'success',
+                    text1: 'Editar Perfil de Usuario',
+                    text2: data.message,
+                    autoHide: true,
+                    visibilityTime: 2500,
+                    position: 'bottom'
+                })                
+            } else {                
+                Toast.show({
+                    type: 'error',
+                    text1: 'Editar Perfil de Usuario',
+                    text2: data.message,
+                    autoHide: true,
+                    visibilityTime: 2500,
+                    position: 'bottom'
+                })
+            }
+
+            setIsLoading(false)
+            
+        } catch(e) {            
+            Toast.show({
+                type: 'error',
+                text1: 'Editar Perfil de Usuario',
+                text2: 'Ocurrio un error, por favor intente de nuevo',
+                autoHide: true,
+                visibilityTime: 2500,
+                position: 'bottom'
+            })
+            setIsLoading(false)
+        }
+    }
 
     isLogedIn = async () => {
         try{
@@ -220,7 +276,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider 
-            value={{ login, token, user, isLoading, errors, logout, updateUser, splasLoading, forgotPassword }}>
+            value={{ login, token, user, isLoading, errors, logout, updateUser, splasLoading, forgotPassword, updateProfileImage }}>
             { children }
         </AuthContext.Provider>
     );

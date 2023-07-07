@@ -24,18 +24,26 @@ const Dashboard = ({ navigation }) => {
 
     useEffect(() => {
         const focusHandler = navigation.addListener('focus', async () => {
-            fetchCounters()            
-            const response = await fetchGraphicData()
-            if (response.status) {
-                setLabels(response.data.labels)
-                setDataEntradas(response.data.entradas)
-                setDataSalidas(response.data.salidas)
-
-            }
+            initialize()
         });
 
         return focusHandler;
     }, [navigation])
+
+    useEffect(() => {
+        initialize()
+    }, [])
+
+    const initialize = async () => {
+        fetchCounters()
+        const response = await fetchGraphicData()
+        if (response.status) {
+            setLabels(response.data.labels)
+            setDataEntradas(response.data.entradas)
+            setDataSalidas(response.data.salidas)
+
+        }
+    }
 
     const screenWidth = Dimensions.get("window").width * 0.80;
 
@@ -125,7 +133,7 @@ const Dashboard = ({ navigation }) => {
                 <View style={[{ flexDirection: 'row' }]}>
                     <InnerButton title="Entradas"
                         onPress={() => {
-                            
+
                             setShowChart('entradas')
                         }}
                         type="outline-danger"

@@ -17,3 +17,5 @@ export { default as ScanQR } from './home/ScanQR';
 // Auth Screens
 export { default as Login } from './auth/Login';
 export { default as Register } from './auth/Register';
+export { default as SplashScreen } from './home/SplashScreen';
+export { default as ModalQRs } from './home/ModalQRs';

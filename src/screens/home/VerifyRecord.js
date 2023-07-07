@@ -116,18 +116,18 @@ const VerifyRecord = ({ navigation, route }) => {
                 <View style={{ width: '100%' }}>
                     <View style={{ flexDirection: 'row', paddingBottom: 5, borderBottomWidth: 1 }}>
                         <View style={{ width: 120 }}>
-                            <Text style={{ fontSize: 13, textAlign: 'center', color: COLORS.dark, textAlign: 'center', fontFamily: 'Raleway-SemiBold' }}>
+                            <Text style={{ fontSize: 13, textAlign: 'center', color: COLORS.dark, textAlign: 'center', fontFamily: 'Roboto-Medium' }}>
                                 CODIGO
                             </Text>
                         </View>
                         <View style={{ width: 100 }}>
-                            <Text style={{ fontSize: 13, color: COLORS.dark, textAlign: 'center', fontFamily: 'Raleway-SemiBold' }}>
+                            <Text style={{ fontSize: 13, color: COLORS.dark, textAlign: 'center', fontFamily: 'Roboto-Medium' }}>
                                 ESTADO
                             </Text>
                         </View>
                         <View style={{ width: 70 }}>
-                            <Text style={{ fontSize: 13, color: COLORS.dark, textAlign: 'center', fontFamily: 'Raleway-SemiBold' }}>
-                                OPCIONES
+                            <Text style={{ fontSize: 13, color: COLORS.dark, textAlign: 'center', fontFamily: 'Roboto-Medium' }}>
+                                ACCIONES
                             </Text>
                         </View>
                     </View>
@@ -228,33 +228,33 @@ const styles = StyleSheet.create({
         color: COLORS.dark,
         opacity: 0.9,
         fontWeight: 'bold',
-        fontFamily: 'Raleway-SemiBold'
+        fontFamily: 'Roboto-Medium'
     },
     h2: {
         fontSize: 18,
         color: COLORS.gray,
         opacity: 0.9,
-        fontFamily: 'Raleway-SemiBold'
+        fontFamily: 'Roboto-Medium'
     },
     h3: {
         fontSize: 16,
         color: COLORS.primary,
         opacity: 0.9,
         fontWeight: 'bold',
-        fontFamily: 'Raleway-SemiBold'
+        fontFamily: 'Roboto-Medium'
     },
     h4: {
         fontSize: 14,
         color: COLORS.dark,
         opacity: 0.9,
         // fontWeight: 'bold',
-        fontFamily: 'Raleway-SemiBold'
+        fontFamily: 'Roboto-Medium'
     },
     p: {
         fontSize: 13,
         color: COLORS.gray,
         opacity: 0.9,
-        fontFamily: 'Raleway-SemiBold'
+        fontFamily: 'Roboto-Medium'
     },
     centerContent: {
         justifyContent: 'center',

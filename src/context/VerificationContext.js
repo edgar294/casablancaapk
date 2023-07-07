@@ -264,6 +264,7 @@ export const VerificationProvider = ({ children }) => {
             }
             setIsLoading(false)
         } catch (e) {
+            console.log(`fecth canastillas error ${e}`)
             setIsLoading(false)
         }
     }

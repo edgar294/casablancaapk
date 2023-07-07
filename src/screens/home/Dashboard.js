@@ -10,21 +10,14 @@ import Graphic from '../../assets/images/graphic.png'
 import { AuthContext } from '../../context/AuthContext';
 import { VerificationContext } from '../../context/VerificationContext';
 
-import {
-    LineChart,
-    BarChart,
-    PieChart,
-    ProgressChart,
-    ContributionGraph,
-    StackedBarChart
-} from "react-native-chart-kit";
+import { LineChart } from "react-native-chart-kit";
 
 const Dashboard = ({ navigation }) => {
     const [isLoading, setIsLoading] = useState(false)
     const { user } = useContext(AuthContext)
     const { bulbos, canastillas, fetchCounters } = useContext(VerificationContext)
-    const [data1, setData1] = useState([0,0,0,0,0,0,0,0,0,0,0,0])
-    const [data2, setData2] = useState([0,0,0,0,0,0,0,0,0,0,0,0])
+    const [data1, setData1] = useState([0, 0, 0, 0])
+    const [data2, setData2] = useState([0, 0, 0, 0])
 
     useEffect(() => {
         setData1([
@@ -34,12 +27,6 @@ const Dashboard = ({ navigation }) => {
             Math.random() * 100,
             Math.random() * 100,
             Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100
         ])
         setData2([
             Math.random() * 100,
@@ -48,12 +35,6 @@ const Dashboard = ({ navigation }) => {
             Math.random() * 100,
             Math.random() * 100,
             Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100
         ])
     }, [])
 
@@ -75,14 +56,14 @@ const Dashboard = ({ navigation }) => {
         backgroundGradientToOpacity: 0.5,
         color: () => `#000`,
         strokeWidth: 2, // optional, default 3
-        barPercentage: 0.5,
+        barPercentage: 0,
         useShadowColorFromDataset: false,
         fillShadowGradientToOpacity: 0.1,
         useShadowColorFromDataset: 1,
-        fillShadowGradientFromOpacity: 0.2
+        fillShadowGradientFromOpacity: 0.05
     };
 
-    const labels = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+    const labels = ["05", "06", "07", "08", "09", "10"]
 
     const data = {
         labels: labels,
@@ -90,16 +71,15 @@ const Dashboard = ({ navigation }) => {
             {
                 data: data1,
                 name: 'Salidas',
-                color: () => `#0000ff`, // optional
+                color: () => COLORS.bulbos, // optional
                 strokeWidth: 1 // optional
             },
             {
                 data: data2,
                 name: 'Entradas',
-                color: () => `#ff0000`, // optional
+                color: () => `#ff0000`, // optional   
                 strokeWidth: 1 // optional
-            }
-
+            } 
         ],
         legend: ["Salidas", "Entradas"] // optional        
     };
@@ -120,23 +100,19 @@ const Dashboard = ({ navigation }) => {
                 </View>
             </View>
             <View >
-                <Text>Bezier Line Chart</Text>
                 <LineChart
                     data={data}
                     width={screenWidth}
                     height={200}
-                    verticalLabelRotation={30}
                     chartConfig={chartConfig}
-                    bezier
+                    bezier 
                     style={{ borderRadius: 20, marginBottom: 6 }}
-                    onDataPointClick= {(value, dataset, getColor) => {
+                    onDataPointClick={(value, dataset, getColor) => {
                         const point = value.value.toFixed(0).toString()
                         const label = value.dataset.name
                         const month = labels[value.index]
-
-                        // console.log(value.dataset)
                         Alert.alert(label, `Mes ${month}\nTotal ${label}: ${point}`)
-                        // console.log(value)
+
                     }}
                 />
             </View>
@@ -192,26 +168,26 @@ const styles = StyleSheet.create({
         color: COLORS.dark,
         opacity: 0.9,
         fontWeight: 'bold',
-        fontFamily: 'Raleway-SemiBold'
+        fontFamily: 'Roboto-Medium'
     },
     h2: {
         fontSize: 18,
         color: COLORS.gray,
         opacity: 0.9,
-        fontFamily: 'Raleway-SemiBold'
+        fontFamily: 'Roboto-Medium'
     },
     h3: {
         fontSize: 16,
         color: COLORS.dark,
         opacity: 0.9,
         fontWeight: 'bold',
-        fontFamily: 'Raleway-SemiBold'
+        fontFamily: 'Roboto-Medium'
     },
     p: {
         fontSize: 13,
         color: COLORS.gray,
         opacity: 0.9,
-        fontFamily: 'Raleway-SemiBold'
+        fontFamily: 'Roboto-Medium'
     },
     centerContent: {
         justifyContent: 'center',

@@ -58,6 +58,16 @@ const Profile = ({ navigation }) => {
         setPhone(user.telefono)
     }, [])
 
+    useEffect(() => {
+        const focusHandler = navigation.addListener('focus', () => {
+            setOldPassword(null)
+            setPassword(null)
+            setPasswordConfirmation(null)
+        });
+
+        return focusHandler;
+    }, [navigation])
+
     return (
         <ScrollView>
             <View style={styles.mainContainer}>
@@ -105,6 +115,8 @@ const Profile = ({ navigation }) => {
                     placeholder="Contraseña actual"
                     bordered={true}
                     value={oldPassword}
+                    icon='user-pass'
+                    password={true}
                 />
                 <Input
                     onChangeText={text => setPassword(text)}
@@ -112,6 +124,8 @@ const Profile = ({ navigation }) => {
                     placeholder="Nueva contraseña"
                     bordered={true}
                     value={password}
+                    icon='user-pass'
+                    password={true}
                 />
                 <Input
                     onChangeText={text => setPasswordConfirmation(text)}
@@ -119,6 +133,8 @@ const Profile = ({ navigation }) => {
                     placeholder="Confirmar contraseña"
                     bordered={true}
                     value={passwordConfirmation}
+                    icon='user-pass'
+                    password={true} 
                 />
                 <Button title="Actualizar perfil" onPress={sendForm} />
             </View>
@@ -158,26 +174,26 @@ const styles = StyleSheet.create({
         color: COLORS.dark,
         opacity: 0.9,
         fontWeight: 'bold',
-        fontFamily: 'Raleway-SemiBold'
+        fontFamily: 'Roboto-Medium'
     },
     h2: {
         fontSize: 18,
         color: COLORS.gray,
         opacity: 0.9,
-        fontFamily: 'Raleway-SemiBold'
+        fontFamily: 'Roboto-Medium'
     },
     h3: {
         fontSize: 16,
         color: COLORS.dark,
         opacity: 0.9,
         fontWeight: 'bold',
-        fontFamily: 'Raleway-SemiBold'
+        fontFamily: 'Roboto-Medium'
     },
     p: {
         fontSize: 13,
         color: COLORS.gray,
         opacity: 0.9,
-        fontFamily: 'Raleway-SemiBold'
+        fontFamily: 'Roboto-Medium'
     },
     centerContent: {
         justifyContent: 'center',

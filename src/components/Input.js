@@ -72,7 +72,7 @@ const Input = ({
                         setIsFocused(true);
                     }}
                     onBlur={() => setIsFocused(false)}
-                    secureTextEntry={hidePassword}
+                    secureTextEntry={(hidePassword && hidePassword)}
                     style={[style.input, style.textInput]}
                     placeholderTextColor={COLORS.dark}    
                     defaultValue={defaultValue?.toString()}                    
@@ -80,11 +80,15 @@ const Input = ({
                     {...props}
                 />
                 {password && (
-                    <Icon
-                        onPress={() => setHidePassword(!hidePassword)}
-                        name={hidePassword ? 'eye-outline' : 'eye-off-outline'}
-                        style={{ color: COLORS.darkBlue, fontSize: 22 }}
-                    />
+                    <></>
+                    // <Icon
+                    //     onPress={() => {
+                    //         console.log('hiding')
+                    //         setHidePassword(!hidePassword)
+                    //     }}
+                    //     name={hidePassword ? 'eye-outline' : 'eye-off-outline'}
+                    //     style={{ color: COLORS.darkBlue, fontSize: 25 }}
+                    // />
                 )}
             </View>
             {error && (
@@ -126,7 +130,7 @@ const style = StyleSheet.create({
         paddingVertical: 0,        
         flex: 1,
         justifyContent: 'center',
-        fontFamily: 'Raleway-SemiBold'
+        fontFamily: 'Roboto-Medium'
     },
     mr7: {
         marginRight: 7,

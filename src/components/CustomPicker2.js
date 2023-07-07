@@ -94,11 +94,11 @@ const style = StyleSheet.create({
         width: '100%',    
         color: COLORS.dark,
         marginTop: -9,
-        fontFamily: 'Raleway-SemiBold'
+        fontFamily: 'Roboto-Medium'
     },
     itemPicker: {
         fontSize: 13,
-        fontFamily: 'Raleway-SemiBold',
+        fontFamily: 'Roboto-Medium',
     }
 });
 

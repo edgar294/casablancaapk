@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
         color: COLORS.white
     },
     raleway: {
-        fontFamily: 'Raleway-SemiBold',
+        fontFamily: 'Roboto-Medium',
         marginLeft: 5        
     }
 })

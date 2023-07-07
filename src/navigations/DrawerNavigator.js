@@ -38,9 +38,9 @@ function DrawerNavigator({ navigation }) {
                     name={ROUTES.HOME + 'd'}
                     component={BottomTabNavigator}
                     options={{
-                        title: 'Inicip',
+                        title: 'Inici',
                         drawerIcon: ({ focused, color, size }) => (
-                            <BtnHome width={18} height={18} style={styles.mr7} fill={(focused) ? COLORS.secondary : '#000'}/>
+                            <BtnHome width={18} height={18} style={styles.mr7} fill={(focused) ? COLORS.white : '#000'}/>
                         ),
                     }}
                 />
@@ -51,7 +51,7 @@ function DrawerNavigator({ navigation }) {
                     options={{
                         title: 'Perfil',
                         drawerIcon: ({ focused, color, size }) => (
-                            <BtnPerfil width={18} height={18} style={styles.mr7} fill={(focused) ? COLORS.secondary : '#000'}/>
+                            <BtnPerfil width={18} height={18} style={styles.mr7} fill={(focused) ? COLORS.white : '#000'}/>
                         ),
                     }}
                 />
@@ -61,9 +61,8 @@ function DrawerNavigator({ navigation }) {
                     component={BottomTabNavigator}
                     options={{
                         title: 'Ingresos',
-                        headerShown: true,
                         drawerIcon: ({ focused, color, size }) => (
-                            <BtnIngresos width={18} height={18} style={styles.mr7} fill={(focused) ? COLORS.secondary : '#000'}/>
+                            <BtnIngresos width={18} height={18} style={styles.mr7} fill={(focused) ? COLORS.white : '#000'}/>
                         ),
                     }}
                 />
@@ -73,9 +72,8 @@ function DrawerNavigator({ navigation }) {
                     component={BottomTabNavigator}
                     options={{
                         title: 'Verificar Ingresos',
-                        headerShown: true,
                         drawerIcon: ({ focused, color, size }) => (
-                            <BtnVerificacion width={18} height={18} style={styles.mr7} fill={(focused) ? COLORS.secondary : '#000'}/>
+                            <BtnVerificacion width={18} height={18} style={styles.mr7} fill={(focused) ? COLORS.white : '#000'}/>
                         ),
                     }}
                 />
@@ -85,9 +83,8 @@ function DrawerNavigator({ navigation }) {
                     component={BottomTabNavigator}
                     options={{
                         title: 'Reportar Salidas',
-                        headerShown: true,
                         drawerIcon: ({ focused, color, size }) => (
-                            <BtnSalidas width={18} height={18} style={styles.mr7} fill={(focused) ? COLORS.secondary : '#000'}/>
+                            <BtnSalidas width={18} height={18} style={styles.mr7} fill={(focused) ? COLORS.white : '#000'}/>
                         ),
                     }}
                 />

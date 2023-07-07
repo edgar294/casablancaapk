@@ -1,5 +1,5 @@
 export default {
-    bgPattern: require('../assets/drawer-cover.jpeg'),
+    bgPattern: require('../assets/fondo_menu_lateral.jpg'),
     user: require('../assets/images/img_perfil.png'),
     logo: require('../assets/images/logo.png'),
     logout: require('../assets/images/btn_logout.svg'),

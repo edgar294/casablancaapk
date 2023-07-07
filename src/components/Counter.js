@@ -18,11 +18,11 @@ const Counter = ({
     onChangeValue = () => {},
     ...props
 }) => {
-    const [isFocused, setIsFocused] = React.useState(false);    
-
+    const [isFocused, setIsFocused] = React.useState(false);
+    
     return (
         <View style={{ marginBottom: 5 }}>        
-            <Text style={{ color: COLORS.dark, textAlign: 'center', fontSize: 12, fontFamily: 'Raleway-SemiBold', marginBottom: 5 }}>{ label }</Text>
+            <Text style={{ color: COLORS.dark, textAlign: 'center', fontSize: 12, fontFamily: 'Roboto-Medium', marginBottom: 5 }}>{ label }</Text>
             <View style={[style.row, { marginBottom: 5 }]}>
                 <View style={style.col25}>
                     <TouchableOpacity onPress={minus}>
@@ -47,6 +47,7 @@ const Counter = ({
                         value={value.toString()}
                         style={[ style.textInput, {borderWidth: 1, borderColor: COLORS.dark, borderRadius: 15, width: '94%', marginHorizontal: '3%', textAlign: 'center'}]}
                         placeholderTextColor={COLORS.dark}
+                        keyboardType='number-pad'
                         {...props}
                     />
                 </View>
@@ -121,10 +122,11 @@ const style = StyleSheet.create({
         color: COLORS.dark, 
         textAlign: 'center',
         height: 45,
-        borderRadius:50,
+        borderRadius:15,
         justifyContent: 'center',
         alignItems: 'center',
         fontSize: 30,
+        fontWeight: '900',
         color: COLORS.white
     },
     counter: {

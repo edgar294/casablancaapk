@@ -108,6 +108,10 @@ const CreateRecordForm = ({ navigation, route }) => {
         createRegister(payload, selectedId)
     }
 
+    const validateOnlyNumber = (text) => {
+        return text.replace(/[^0-9]/g, '')
+    }
+
     return (
         <ScrollView contentInsetAdjustmentBehavior='automatic' style={{ width: '94%', marginLeft: '3%' }} >
             <View style={[styles.row, styles.col]}>
@@ -206,7 +210,7 @@ const CreateRecordForm = ({ navigation, route }) => {
                                         setCanastillas(Number(canastillas) - 1)
                                 }}
                                 value={canastillas}
-                                onChangeText={setCanastillas}
+                                onChangeText={text => setCanastillas(validateOnlyNumber(text))}
                                 label="Cantidad de Canastillas"
                             />
                         </View>
@@ -220,7 +224,7 @@ const CreateRecordForm = ({ navigation, route }) => {
                                         setBulbos(Number(bulbos) - 1)
                                 }}
                                 value={bulbos}
-                                onChangeText={setBulbos}
+                                onChangeText={text => setBulbos(validateOnlyNumber(text))}
                                 label="Bulbos por Canastilla"
                             />
                         </View>
@@ -239,18 +243,22 @@ const CreateRecordForm = ({ navigation, route }) => {
                     withBg={true}
                 />
                 <Input
-                    onChangeText={text => setSelectedCrop(text)}
+                    onChangeText={text => setSelectedCrop(validateOnlyNumber(text))}
                     label="CROP"
                     placeholder="CROP"
                     bordered={true}
                     defaultValue={selectedCrop}
+                    value={selectedCrop}
+                    keyboardType='number-pad'
                 />
                 <Input
-                    onChangeText={text => setSelectedContainer(text)}
+                    onChangeText={text => setSelectedContainer(validateOnlyNumber(text))}
+                    value={selectedContainer}
                     label="Contenedor"
                     placeholder="Contenedor"
                     bordered={true}
                     defaultValue={selectedContainer}
+                    keyboardType='number-pad'
                 />
                 <Button title="Crear Registro" onPress={sendForm} icon='file-icon' />
             </View>
@@ -301,26 +309,26 @@ const styles = StyleSheet.create({
         color: COLORS.primary,
         opacity: 0.9,
         fontWeight: 'bold',
-        fontFamily: 'Raleway-SemiBold'
+        fontFamily: 'Roboto-Medium'
     },
     h2: {
         fontSize: 26,
         color: COLORS.gray,
         opacity: 0.9,
-        fontFamily: 'Raleway-SemiBold'
+        fontFamily: 'Roboto-Medium'
     },
     h3: {
         fontSize: 20,
         color: COLORS.primary,
         opacity: 0.9,
         fontWeight: 'bold',
-        fontFamily: 'Raleway-SemiBold'
+        fontFamily: 'Roboto-Medium'
     },
     p: {
         fontSize: 16,
         color: COLORS.gray,
         opacity: 0.9,
-        fontFamily: 'Raleway-SemiBold'
+        fontFamily: 'Roboto-Medium'
     },
     centerContent: {
         justifyContent: 'center',

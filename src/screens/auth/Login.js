@@ -47,11 +47,6 @@ const Login = props => {
 
                     <Text style={styles.brandName}>BIENVENIDOS</Text>
                     <Text style={styles.loginContinueTxt}>Sistema de Inventarios</Text>
-                    { token ? (
-                        <Text style={styles.loginContinueTxt}>Token: { token }</Text>
-                    ) : ''}
-                    
-
                     <Input
                         onChangeText={text => handleOnchange(text, 'email')}
                         onFocus={() => handleError(null, 'email')}
@@ -72,6 +67,7 @@ const Login = props => {
                         error={errors.password ?? ''}
                         withBg={true}
                         icon='user-pass'
+                        password={true}
                     />
                     <Button
                         title="INGRESAR"
@@ -81,9 +77,7 @@ const Login = props => {
                     {/***************** FORGOT PASSWORD BUTTON *****************/}
                     <TouchableOpacity
                         onPress={() =>
-                            navigation.navigate(ROUTES.FORGOT_PASSWORD, {
-                                userId: 'X0001',
-                            })
+                            navigation.navigate(ROUTES.FORGOT_PASSWORD)
                         }
                         style={styles.forgotPassBtn}
                         >
@@ -119,14 +113,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',        
         color: COLORS.primary,
         opacity: 0.9,
-        fontFamily: 'Raleway-SemiBold'
+        fontFamily: 'Roboto-Medium'
     },
     loginContinueTxt: {
         fontSize: 18,
         textAlign: 'center',
         color: COLORS.gray,
         marginBottom: 24,        
-        fontFamily: 'Raleway-SemiBold'
+        fontFamily: 'Roboto-Medium'
     },
     // Login Btn Styles
     loginBtnWrapper: {

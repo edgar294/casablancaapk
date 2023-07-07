@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, SafeAreaView, Modal, TouchableOpacity } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 import { ROUTES, COLORS } from '../../constants';
 import Button from '../../components/Button';
@@ -11,8 +11,12 @@ import { VerificationContext } from '../../context/VerificationContext';
 import { color } from 'react-native-reanimated';
 import { Alert } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
+import ModalQRs from './ModalQRs';
 
 const CreateRecord = ({ navigation, route }) => {
+    const [modalVisible, setModalVisible] = useState(false)
+    const [selectedProduct, setSelectedProduct] = useState([])
+
     useEffect(() => {
         const focusHandler = navigation.addListener('focus', () => {
             fetchProducts()
@@ -90,7 +94,10 @@ const CreateRecord = ({ navigation, route }) => {
                                 deleteProduct(product.item)
                             }}
                             type="outline-danger" />
-                        <InnerButton icon="scan-qr-icon" onPress={() => { }} type="info" />
+                        <InnerButton icon="scan-qr-icon" onPress={() => { 
+                            setSelectedProduct(product.item)
+                            setModalVisible(true)
+                        }} type="info" />
                     </View>
                 </View>
             </View>
@@ -100,6 +107,13 @@ const CreateRecord = ({ navigation, route }) => {
     return (
         <SafeAreaView style={styles.mainContainer}>
             <Spinner visible={isLoading} />
+            <ModalQRs 
+                modalVisible={modalVisible}
+                product={selectedProduct}
+                cerrarModal={() => {
+                    setModalVisible(false)
+                }}
+            />
             <Button
                 title="Crear Registro"
                 onPress={() => {
@@ -157,7 +171,7 @@ const styles = StyleSheet.create({
         color: COLORS.primary,
         opacity: 0.9,
         fontWeight: 'bold',
-        fontFamily: 'Raleway-SemiBold'
+        fontFamily: 'Roboto-Medium'
     },
     h2: {
         fontSize: 18,
@@ -175,7 +189,7 @@ const styles = StyleSheet.create({
         color: COLORS.gray,
         opacity: 0.9,
         marginTop: -4,
-        fontFamily: 'Raleway-SemiBold'
+        fontFamily: 'Roboto-Medium'
     },
     centerContent: {
         justifyContent: 'center',
@@ -184,7 +198,7 @@ const styles = StyleSheet.create({
     },
     bold: {
         fontWeight: 'bold',
-        fontFamily: 'Raleway-SemiBold'
+        fontFamily: 'Roboto-Medium'
     },
     canastillaIcon: {
         backgroundColor: COLORS.canastillas,
@@ -200,5 +214,49 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 15
-    }
+    },
+
+
+
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 22,
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 35,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+    },
+    buttonOpen: {
+        backgroundColor: '#F194FF',
+    },
+    buttonClose: {
+        backgroundColor: '#2196F3',
+    },
+    textStyle: {
+        color: 'white',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: 'center',
+    },
 });

@@ -30,6 +30,7 @@
     "react-native-camera": "^4.2.1",
     "react-native-chart-kit": "^6.12.0",
     "react-native-gesture-handler": "^2.5.0",
+    "react-native-image-crop-picker": "^0.40.0",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-loading-spinner-overlay": "^3.0.1",
     "react-native-permissions": "^3.6.1",

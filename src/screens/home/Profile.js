@@ -1,30 +1,14 @@
-import React, { startTransition, useContext, useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Image, Dimensions, Alert, ScrollView } from 'react-native';
+import React, { useContext, useEffect } from 'react';
+import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { COLORS } from '../../constants';
-import Logo from '../../assets/images/logo.svg';
 import UserImage from '../../assets/images/img_perfil.png'
-import StatisticImage from '../../assets/images/graphic.png'
-import CanastillaIcon from '../../assets/images/icon_canastilla_home.svg'
-import BulbosIcon from '../../assets/images/icon_bulbos_home.svg'
-import Graphic from '../../assets/images/graphic.png'
 import { AuthContext } from '../../context/AuthContext';
-import { VerificationContext } from '../../context/VerificationContext';
 
 import Button from '../../components/Button';
-import CustomPicker from '../../components/CustomPicker';
-import CustomPicker2 from '../../components/CustomPicker2';
-import Counter from '../../components/Counter';
+
 import Input from '../../components/Input';
 import Spinner from 'react-native-loading-spinner-overlay';
-
-import {
-    LineChart,
-    BarChart,
-    PieChart,
-    ProgressChart,
-    ContributionGraph,
-    StackedBarChart
-} from "react-native-chart-kit";
+import ImagePicker from 'react-native-image-crop-picker';
 
 const Profile = ({ navigation }) => {
     const [name, setName] = React.useState(null);
@@ -68,77 +52,95 @@ const Profile = ({ navigation }) => {
         return focusHandler;
     }, [navigation])
 
+    const openCamara = () => {
+        ImagePicker.openCamera({
+            width: 300,
+            height: 400,
+            cropping: true,
+          }).then(image => {
+            console.log(image);
+          });
+        // ImagePicker.openPicker({
+        //     width: 300,
+        //     height: 400,
+        //     cropping: true
+        // }).then(image => {
+        //     console.log(image);
+        // });
+    }
+
     return (
         <ScrollView>
             <View style={styles.mainContainer}>
-            <Spinner visible={isLoading} />
-            <View style={styles.row}>
-                <Image source={UserImage} style={{ width: 80, height: 80, borderRadius: 15 }} />
-                <View style={styles.col}>
-                    <Text style={styles.h3}>BIENVENIDO</Text>
-                    {user.id ? (
-                        <>
-                            <Text style={styles.p}>{user.name}</Text>
-                            <Text style={styles.p}>{user.rol.name}</Text>
-                        </>
-                    ) : ''}
+                <Spinner visible={isLoading} />
+                <View style={styles.row}>
+                    <Image source={UserImage} style={{ width: 80, height: 80, borderRadius: 15 }} />
+                    <View style={styles.col}>
+                        <Text style={styles.h3}>BIENVENIDO</Text>
+                        {user.id ? (
+                            <>
+                                <Text style={styles.p}>{user.name}</Text>
+                                <Text style={styles.p}>{user.rol.name}</Text>
+                            </>
+                        ) : ''}
 
+                    </View>
                 </View>
-            </View>
-            <View style={[styles.row, styles.col]}>
-                <Text style={[styles.h1, { marginBottom: 20 }]}>Actualizar Perfil</Text>
-                <Input
-                    onChangeText={text => setName(text)}
-                    label="Nombre"
-                    placeholder="Nombre"
-                    bordered={true}
-                    defaultValue={user.name}
-                />
-                <Input
-                    onChangeText={text => setEmail(text)}
-                    label="Email"
-                    placeholder="Email"
-                    bordered={true}
-                    defaultValue={user.email}
-                />
-                <Input
-                    onChangeText={text => setPhone(text)}
-                    label="Teléfono"
-                    placeholder="Teléfono"
-                    bordered={true}
-                    defaultValue={user.telefono}
-                />
-                <Text style={[styles.p, { marginBottom: 20, color: COLORS.danger }]}>Completa estos campos si desea cambiar su contraseña</Text>
-                <Input
-                    onChangeText={text => setOldPassword(text)}
-                    label="Contraseña actual"
-                    placeholder="Contraseña actual"
-                    bordered={true}
-                    value={oldPassword}
-                    icon='user-pass'
-                    password={true}
-                />
-                <Input
-                    onChangeText={text => setPassword(text)}
-                    label="Nueva contraseña"
-                    placeholder="Nueva contraseña"
-                    bordered={true}
-                    value={password}
-                    icon='user-pass'
-                    password={true}
-                />
-                <Input
-                    onChangeText={text => setPasswordConfirmation(text)}
-                    label="Confirmar contraseña"
-                    placeholder="Confirmar contraseña"
-                    bordered={true}
-                    value={passwordConfirmation}
-                    icon='user-pass'
-                    password={true} 
-                />
-                <Button title="Actualizar perfil" onPress={sendForm} />
-            </View>
-            <View style={{ marginBottom: 90 }}></View>
+                <View style={[styles.row, styles.col]}>
+                    <Text style={[styles.h1, { marginBottom: 20 }]}>Actualizar Perfil</Text>
+                    <Input
+                        onChangeText={text => setName(text)}
+                        label="Nombre"
+                        placeholder="Nombre"
+                        bordered={true}
+                        defaultValue={user.name}
+                    />
+                    <Input
+                        onChangeText={text => setEmail(text)}
+                        label="Email"
+                        placeholder="Email"
+                        bordered={true}
+                        defaultValue={user.email}
+                    />
+                    <Input
+                        onChangeText={text => setPhone(text)}
+                        label="Teléfono"
+                        placeholder="Teléfono"
+                        bordered={true}
+                        defaultValue={user.telefono}
+                    />
+                    <Text style={[styles.p, { marginBottom: 20, color: COLORS.danger }]}>Completa estos campos si desea cambiar su contraseña</Text>
+                    <Input
+                        onChangeText={text => setOldPassword(text)}
+                        label="Contraseña actual"
+                        placeholder="Contraseña actual"
+                        bordered={true}
+                        value={oldPassword}
+                        icon='user-pass'
+                        password={true}
+                    />
+                    <Input
+                        onChangeText={text => setPassword(text)}
+                        label="Nueva contraseña"
+                        placeholder="Nueva contraseña"
+                        bordered={true}
+                        value={password}
+                        icon='user-pass'
+                        password={true}
+                    />
+                    <Input
+                        onChangeText={text => setPasswordConfirmation(text)}
+                        label="Confirmar contraseña"
+                        placeholder="Confirmar contraseña"
+                        bordered={true}
+                        value={passwordConfirmation}
+                        icon='user-pass'
+                        password={true}
+                    />
+                    <Button title="Actualizar perfil" onPress={sendForm} />
+                    <Button title="Abrir Galeria" onPress={openCamara} />
+                </View>
+                <View style={{ marginBottom: 90 }}></View>
             </View>
         </ScrollView>
     );

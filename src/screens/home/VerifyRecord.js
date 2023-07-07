@@ -11,36 +11,24 @@ import { VerificationContext } from '../../context/VerificationContext';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-toast-message'
 
-const VerifyRecord = ({ navigation, route }) => {
-    const [data, setData] = React.useState([])
+const VerifyRecord = ({ navigation, route }) => {    
+    const [counters, setCounters] = React.useState({})
     const [windowHeight, setWindowHeight] = React.useState(Dimensions.get('window').height)
-    const { fetchCanastillas, listCanastillas, isLoading, dataToVerifyOffline } = useContext(VerificationContext)
+    const { fetchCanastillas, listCanastillas, isLoading, dataToVerifyOffline, fetchVerifcationsCounters } = useContext(VerificationContext)
     
     useEffect(() => {
         const focusHandler = navigation.addListener('focus', () => {
             fetchCanastillas()
+            initializeCounters()
         });
         return focusHandler;
     }, [navigation])
 
-    const addItemToTable = (item) => {
-        const filtredData = data.filter(code => code.codigo == item);
-        const filtredData2 = listCanastillas.filter(code => code.codigo == item);
-        if (filtredData.length || filtredData2.length){
-            Toast.show({
-                type: 'error',
-                text1: 'Escanear Codigo',
-                text2: `Codigo ${item} ya se encuentra registrado`,
-                autoHide: true,
-                visibilityTime: 5000,
-                position: 'bottom'
-            })
-            return 
+    const initializeCounters = async() => {
+        const data = await fetchVerifcationsCounters()
+        if (data.status){
+            setCounters(data.data)
         }
-        setData(data => [...data, {
-            codigo: item,
-            status: 'Por Verificar',
-        }]);
     }
 
     const showDetails = (product) => {
@@ -85,12 +73,12 @@ const VerifyRecord = ({ navigation, route }) => {
         return (
             <View style={{ flex: 1, flexDirection: 'row', paddingVertical: 5, borderBottomWidth: 1, alignItems: 'center' }} key={item.index}>
                 <View style={{ width: 120 }}>
-                    <Text style={{ fontSize: 12, textAlign: 'center', color: COLORS.dark, fontFamily: 'Raleway-Regular' }}>
+                    <Text style={{ fontSize: 12, textAlign: 'center', color: COLORS.dark, fontFamily: 'Roboto-Light' }}>
                         {item.item.codigo}
                     </Text>
                 </View>
                 <View style={{ width: 100 }}>
-                    <Text style={{ fontSize: 12, color: COLORS.dark, fontFamily: 'Raleway-Regular', textAlign: 'center' }}>
+                    <Text style={{ fontSize: 12, color: COLORS.dark, fontFamily: 'Roboto-Light', textAlign: 'center' }}>
                         {item.item.status}
                     </Text>
                 </View>
@@ -160,11 +148,11 @@ const VerifyRecord = ({ navigation, route }) => {
                     </View>
                     <View style={styles.col}>
                         <Text style={styles.h1}>CANASTILLAS</Text>
-                        <Text style={styles.h4}>TOTAL: 1000</Text>
+                        <Text style={styles.h4}>TOTAL: {Number(counters?.canastillasVerificadas) + Number(counters?.canastillasNoVerificadas)}</Text>
                         <View style={{ display: 'flex', flexDirection: 'row' }}>
-                            <Text style={{ color: COLORS.bulbos, fontSize: 12, fontFamily: 'Raleway-Regular' }}>Verificados 1000</Text>
+                            <Text style={{ color: COLORS.bulbos, fontSize: 12, fontFamily: 'Roboto-Light' }}>Verificados {Number(counters?.canastillasVerificadas)}</Text>
                             <Text style={{ color: COLORS.dark, fontSize: 12, marginHorizontal: 8 }}>|</Text>
-                            <Text style={{ color: COLORS.danger, fontSize: 12, fontFamily: 'Raleway-Regular' }}>Sin Verificar 1000</Text>
+                            <Text style={{ color: COLORS.danger, fontSize: 12, fontFamily: 'Roboto-Light' }}>Sin Verificar {Number(counters?.canastillasNoVerificadas)}</Text>
                         </View>
                     </View>
                 </View>
@@ -174,11 +162,11 @@ const VerifyRecord = ({ navigation, route }) => {
                     </View>
                     <View style={styles.col}>
                         <Text style={styles.h1}>BULBOS</Text>
-                        <Text style={styles.h4}>TOTAL: 1000</Text>
+                        <Text style={styles.h4}>TOTAL: {Number(counters?.bulbosVerificados) + Number(counters?.bulbosNoVerificados)}</Text>
                         <View style={{ display: 'flex', flexDirection: 'row' }}>
-                            <Text style={{ color: COLORS.bulbos, fontSize: 12, fontFamily: 'Raleway-Regular' }}>Verificados 1000</Text>
+                            <Text style={{ color: COLORS.bulbos, fontSize: 12, fontFamily: 'Roboto-Light' }}>Verificados {Number(counters?.bulbosVerificados)}</Text>
                             <Text style={{ color: COLORS.dark, fontSize: 12, marginHorizontal: 8 }}>|</Text>
-                            <Text style={{ color: COLORS.danger, fontSize: 12, fontFamily: 'Raleway-Regular' }}>Sin Verificar 1000</Text>
+                            <Text style={{ color: COLORS.danger, fontSize: 12, fontFamily: 'Roboto-Light' }}>Sin Verificar {Number(counters?.bulbosNoVerificados)}</Text>
                         </View>
                     </View>
                 </View>

@@ -12,15 +12,24 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-toast-message'
 
 const ReportOutput = ({ navigation, route }) => {
+    const [counters, setCounters] = React.useState({})
     const [windowHeight, setWindowHeight] = React.useState(Dimensions.get('window').height)
-    const { fetchCanastillasSalidas, listCanastillasSalidas, isLoading, dataMarkAsOutOffline } = useContext(VerificationContext)
+    const { fetchCanastillasSalidas, listCanastillasSalidas, isLoading, dataMarkAsOutOffline, fetchReportAsOutCounters } = useContext(VerificationContext)
 
     useEffect(() => {
         const focusHandler = navigation.addListener('focus', () => {
             fetchCanastillasSalidas()
+            initializeCounters()
         });
         return focusHandler;
     }, [navigation])
+
+    const initializeCounters = async() => {
+        const data = await fetchReportAsOutCounters()
+        if (data.status){
+            setCounters(data.data)
+        }
+    }
     
     const showDetails = (product) => {
         let alertMessage = `----------------------------------------------\n`
@@ -63,12 +72,12 @@ const ReportOutput = ({ navigation, route }) => {
         return (
             <View style={{ flex: 1, flexDirection: 'row', paddingVertical: 5, borderBottomWidth: 1, alignItems: 'center' }} key={item.index}>
                 <View style={{ width: 120 }}>
-                    <Text style={{ fontSize: 12, textAlign: 'center', color: COLORS.dark, fontFamily: 'Raleway-Regular' }}>
+                    <Text style={{ fontSize: 12, textAlign: 'center', color: COLORS.dark, fontFamily: 'Roboto-Light' }}>
                         {item.item.codigo}
                     </Text>
                 </View>
                 <View style={{ width: 100 }}>
-                    <Text style={{ fontSize: 12, color: COLORS.dark, fontFamily: 'Raleway-Regular', textAlign: 'center' }}>
+                    <Text style={{ fontSize: 12, color: COLORS.dark, fontFamily: 'Roboto-Light', textAlign: 'center' }}>
                         {item.item.status}
                     </Text>
                 </View>
@@ -138,9 +147,9 @@ const ReportOutput = ({ navigation, route }) => {
                     </View>
                     <View style={styles.col}>
                         <Text style={styles.h1}>CANASTILLAS</Text>
-                        <Text style={styles.h4}>TOTAL: 1000</Text>
+                        <Text style={styles.h4}>TOTAL: {counters?.totalCanastillas}</Text>
                         <View style={{ display: 'flex', flexDirection: 'row' }}>
-                            <Text style={{ color: COLORS.danger, fontFamily: 'Raleway-Regular' }}>Salida 100</Text>
+                            <Text style={{ color: COLORS.danger, fontFamily: 'Roboto-Light' }}>Salida {counters?.canastillasEnSalida}</Text>
                         </View>
                     </View>
                 </View>
@@ -150,9 +159,9 @@ const ReportOutput = ({ navigation, route }) => {
                     </View>
                     <View style={styles.col}>
                         <Text style={styles.h1}>BULBOS</Text>
-                        <Text style={styles.h4}>TOTAL: 1000</Text>
+                        <Text style={styles.h4}>TOTAL: {counters?.totalBulbos}</Text>
                         <View style={{ display: 'flex', flexDirection: 'row' }}>
-                            <Text style={{ color: COLORS.danger, fontFamily: 'Raleway-Regular' }}>Salida 100</Text>
+                            <Text style={{ color: COLORS.danger, fontFamily: 'Roboto-Light' }}>Salida {counters?.bulbosEnSalida}</Text>
                         </View>
                     </View>
                 </View>

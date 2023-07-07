@@ -451,6 +451,30 @@ export const VerificationProvider = ({ children }) => {
         }
     }
 
+    const fetchVerifcationsCounters = async () => {
+        try{
+            const response = await axios.post(`${BASE_URL}/fecth/verification/counters`)
+            const data = response.data            
+            return data
+        } catch(e){
+            console.log(`Error fetching graphic data ${e}`)
+        }
+    }
+
+    useEffect(() => {
+        fetchDataSelects()
+    }, [])
+
+    const fetchReportAsOutCounters = async () => {
+        try{
+            const response = await axios.post(`${BASE_URL}/fecth/report/out/counters`)
+            const data = response.data            
+            return data
+        } catch(e){
+            console.log(`Error fetching graphic data ${e}`)
+        }
+    }
+
     useEffect(() => {
         fetchDataSelects()
     }, [])
@@ -486,7 +510,9 @@ export const VerificationProvider = ({ children }) => {
                 deleteRegister,
                 verifyCode,
                 markAsOut,
-                fetchGraphicData
+                fetchGraphicData,
+                fetchVerifcationsCounters,
+                fetchReportAsOutCounters
             }}>
             {children}
         </VerificationContext.Provider>

@@ -441,6 +441,16 @@ export const VerificationProvider = ({ children }) => {
         setSelected(product)
     }
 
+    const fetchGraphicData = async () => {
+        try{
+            const response = await axios.post(`${BASE_URL}/dashboard/graphic/data`)
+            const data = response.data            
+            return data
+        } catch(e){
+            console.log(`Error fetching graphic data ${e}`)
+        }
+    }
+
     useEffect(() => {
         fetchDataSelects()
     }, [])
@@ -475,7 +485,8 @@ export const VerificationProvider = ({ children }) => {
                 fetchProducts,
                 deleteRegister,
                 verifyCode,
-                markAsOut
+                markAsOut,
+                fetchGraphicData
             }}>
             {children}
         </VerificationContext.Provider>

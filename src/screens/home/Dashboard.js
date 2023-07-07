@@ -9,79 +9,101 @@ import BulbosIcon from '../../assets/images/icon_bulbos_home.svg'
 import Graphic from '../../assets/images/graphic.png'
 import { AuthContext } from '../../context/AuthContext';
 import { VerificationContext } from '../../context/VerificationContext';
+import InnerButton from '../../components/InnerButton';
 
-import { LineChart } from "react-native-chart-kit";
+import { LineChart, BarChart } from "react-native-chart-kit";
 
 const Dashboard = ({ navigation }) => {
     const [isLoading, setIsLoading] = useState(false)
     const { user } = useContext(AuthContext)
-    const { bulbos, canastillas, fetchCounters } = useContext(VerificationContext)
-    const [data1, setData1] = useState([0, 0, 0, 0])
-    const [data2, setData2] = useState([0, 0, 0, 0])
+    const { bulbos, canastillas, fetchCounters, fetchGraphicData } = useContext(VerificationContext)
+    const [dataEntradas, setDataEntradas] = useState([0, 0, 0, 0, 0, 0])
+    const [dataSalidas, setDataSalidas] = useState([0, 0, 0, 0, 0, 0])
+    const [labels, setLabels] = useState(['-', '-', '-', '-', '-', '-'])
+    const [showChart, setShowChart] = useState('entradas')
 
     useEffect(() => {
-        setData1([
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-        ])
-        setData2([
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-        ])
-    }, [])
+        const focusHandler = navigation.addListener('focus', async () => {
+            fetchCounters()            
+            const response = await fetchGraphicData()
+            if (response.status) {
+                setLabels(response.data.labels)
+                setDataEntradas(response.data.entradas)
+                setDataSalidas(response.data.salidas)
 
-    useEffect(() => {
-        const focusHandler = navigation.addListener('focus', () => {
-            fetchCounters()
+            }
         });
 
         return focusHandler;
     }, [navigation])
 
-    const screenWidth = Dimensions.get("window").width * 0.94;
+    const screenWidth = Dimensions.get("window").width * 0.80;
 
-    const chartConfig = {
-        backgroundGradientFrom: "#fff",
-        backgroundGradientTo: "#fff",
-        backgroundGradientFromOpacity: 1,
-        backgroundColor: '#fff',
-        backgroundGradientToOpacity: 0.5,
-        color: () => `#000`,
-        strokeWidth: 2, // optional, default 3
-        barPercentage: 0,
-        useShadowColorFromDataset: false,
-        fillShadowGradientToOpacity: 0.1,
-        useShadowColorFromDataset: 1,
-        fillShadowGradientFromOpacity: 0.05
-    };
+    // const chartConfig = {
+    //     backgroundGradientFrom: "#fff",
+    //     backgroundGradientFromOpacity: 1,
+    //     backgroundGradientTo: "#fff",
+    //     backgroundGradientToOpacity: 0.5,
+    //     backgroundColor: '#fff',
+    //     color: () => `#000`,
+    //     strokeWidth: 2, // optional, default 3
+    //     barPercentage: 0,
+    //     useShadowColorFromDataset: false,
+    //     fillShadowGradientToOpacity: 0.1,
+    //     useShadowColorFromDataset: 1,
+    //     fillShadowGradientFromOpacity: 0.05
+    // };
 
-    const labels = ["05", "06", "07", "08", "09", "10"]
+    // const data = {
+    //     labels: labels,
+    //     datasets: [
+    //         {
+    //             data: dataSalidas,
+    //             name: 'Salidas',
+    //             color: () => COLORS.bulbos, // optional
+    //             // strokeWidth: 1 // optional
+    //         },
+    //         {
+    //             data: dataEntradas,
+    //             name: 'Entradas',
+    //             color: () => `#ff0000`, // optional   
+    //             // strokeWidth: 1 // optional
+    //         }
+    //     ],
+    //     legend: ["Salidas", "Entradas"] // optional        
+    // };
 
-    const data = {
+    const databarEntradas = {
         labels: labels,
         datasets: [
             {
-                data: data1,
-                name: 'Salidas',
-                color: () => COLORS.bulbos, // optional
-                strokeWidth: 1 // optional
+                data: dataEntradas,
             },
+        ]
+    };
+
+    const databarSalidas = {
+        labels: labels,
+        datasets: [
             {
-                data: data2,
-                name: 'Entradas',
-                color: () => `#ff0000`, // optional   
-                strokeWidth: 1 // optional
-            } 
-        ],
-        legend: ["Salidas", "Entradas"] // optional        
+                data: dataSalidas,
+            },
+        ]
+    };
+
+    const chartConfigbar = {
+        backgroundGradientFrom: "#fff",
+        backgroundGradientFromOpacity: 1,
+        backgroundGradientTo: "#fff",
+        backgroundGradientToOpacity: 0.5,
+        backgroundColor: '#fff',
+        color: () => showChart == 'entradas' ? '#ff0000' : COLORS.bulbos,
+        strokeWidth: 2, // optional, default 3
+        barPercentage: 0.5,
+        useShadowColorFromDataset: false,
+        fillShadowGradientToOpacity: 0.1,
+        // useShadowColorFromDataset: 1,
+        fillShadowGradientFromOpacity: 0.05
     };
 
     return (
@@ -99,22 +121,38 @@ const Dashboard = ({ navigation }) => {
 
                 </View>
             </View>
-            <View >
-                <LineChart
-                    data={data}
-                    width={screenWidth}
-                    height={200}
-                    chartConfig={chartConfig}
-                    bezier 
-                    style={{ borderRadius: 20, marginBottom: 6 }}
-                    onDataPointClick={(value, dataset, getColor) => {
-                        const point = value.value.toFixed(0).toString()
-                        const label = value.dataset.name
-                        const month = labels[value.index]
-                        Alert.alert(label, `Mes ${month}\nTotal ${label}: ${point}`)
+            <View style={[styles.row, { flexDirection: 'column' }]}>
+                <View style={[{ flexDirection: 'row' }]}>
+                    <InnerButton title="Entradas"
+                        onPress={() => {
+                            
+                            setShowChart('entradas')
+                        }}
+                        type="outline-danger"
+                    />
+                    <InnerButton title="Salidas"
+                        onPress={() => {
+                            setShowChart('salidas')
+                        }}
+                        type="outline-success"
+                    />
 
-                    }}
-                />
+                </View>
+                {(showChart == 'entradas') ? (
+                    <BarChart
+                        data={databarEntradas}
+                        width={screenWidth}
+                        height={200}
+                        chartConfig={chartConfigbar}
+                    />
+                ) : (
+                    <BarChart
+                        data={databarSalidas}
+                        width={screenWidth}
+                        height={200}
+                        chartConfig={chartConfigbar}
+                    />
+                )}
             </View>
             <View style={styles.row}>
                 <View style={styles.canastillaIcon}>

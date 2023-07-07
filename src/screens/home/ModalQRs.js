@@ -4,6 +4,7 @@ import { ROUTES, COLORS } from '../../constants';
 import QRCode from 'react-native-qrcode-svg';
 import Logo from '../../assets/images/logo-qr.png'
 import InnerButton from '../../components/InnerButton';
+import Barcode from "react-native-barcode-builder";
 
 const ModalQRs = ({ modalVisible, product = {}, cerrarModal = () => { } }) => {
     const [index, setIndex] = useState(0)
@@ -64,11 +65,13 @@ const ModalQRs = ({ modalVisible, product = {}, cerrarModal = () => { } }) => {
                         </Text>
                         <View style={{ alignItems: 'center' }}>
                             {canastillas.length ? (
-                                <QRCode
-                                    value={canastillas[index].codigo}
-                                    size={220}
-                                    logo={Logo}
-                                />
+                                <>
+                                    <QRCode
+                                        value={canastillas[index].codigo}
+                                        size={220}
+                                        logo={Logo}
+                                    />
+                                    </>
                             ) :
                                 <></>
                             }

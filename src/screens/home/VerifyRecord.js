@@ -105,7 +105,7 @@ const VerifyRecord = ({ navigation, route }) => {
                     <View style={{ flexDirection: 'row', paddingBottom: 5, borderBottomWidth: 1 }}>
                         <View style={{ width: 120 }}>
                             <Text style={{ fontSize: 13, textAlign: 'center', color: COLORS.dark, textAlign: 'center', fontFamily: 'Roboto-Medium' }}>
-                                CODIGO
+                                CÓDIGO
                             </Text>
                         </View>
                         <View style={{ width: 100 }}>

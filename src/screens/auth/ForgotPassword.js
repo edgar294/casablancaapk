@@ -58,7 +58,7 @@ const ForgotPassword = props => {
                     />
                     
                     <Button
-                        title="INGRESAR"
+                        title="RECUPERAR CONTRASEÑA"
                         onPress={() => forgotPassword(inputs.email)}
                         // onPress={() => navigation.navigate(ROUTES.HOME)}
                     />                    

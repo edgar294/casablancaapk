@@ -38,7 +38,7 @@ function DrawerNavigator({ navigation }) {
                     name={ROUTES.HOME + 'd'}
                     component={BottomTabNavigator}
                     options={{
-                        title: 'Inici',
+                        title: 'Inicio',
                         drawerIcon: ({ focused, color, size }) => (
                             <BtnHome width={18} height={18} style={styles.mr7} fill={(focused) ? COLORS.white : '#000'}/>
                         ),

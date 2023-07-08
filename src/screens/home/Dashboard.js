@@ -106,7 +106,7 @@ const Dashboard = ({ navigation }) => {
         backgroundGradientTo: "#fff",
         backgroundGradientToOpacity: 0.5,
         backgroundColor: '#fff',
-        color: () => showChart == 'entradas' ? '#ff0000' : COLORS.bulbos,
+        color: () => showChart == 'entradas' ? COLORS.bulbos : '#ff0000' ,
         strokeWidth: 2, // optional, default 3
         barPercentage: 0.5,
         useShadowColorFromDataset: false,
@@ -145,13 +145,13 @@ const Dashboard = ({ navigation }) => {
 
                             setShowChart('entradas')
                         }}
-                        type="outline-danger"
+                        type="outline-success"
                     />
                     <InnerButton title="Salidas"
                         onPress={() => {
                             setShowChart('salidas')
                         }}
-                        type="outline-success"
+                        type="outline-danger"
                     />
 
                 </View>

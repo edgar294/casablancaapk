@@ -62,8 +62,8 @@ const Login = props => {
                         onChangeText={text => handleOnchange(text, 'password')}
                         onFocus={() => handleError(null, 'password')}
                         iconName={IMGS.iconUserLogin}
-                        label="Contrasena"
-                        placeholder="Contrasena"
+                        label="Contraseña"
+                        placeholder="Contraseña"
                         error={errors.password ?? ''}
                         withBg={true}
                         icon='user-pass'

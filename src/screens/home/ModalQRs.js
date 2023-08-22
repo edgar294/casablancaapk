@@ -68,8 +68,7 @@ const ModalQRs = ({ modalVisible, product = {}, cerrarModal = () => { } }) => {
                                 <>
                                     <QRCode
                                         value={canastillas[index].codigo}
-                                        size={220}
-                                        logo={Logo}
+                                        size={220}                                        
                                     />
                                     </>
                             ) :

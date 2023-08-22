@@ -85,7 +85,7 @@ function BottomTabNavigator({ navigation, route }) {
                             </View>
                             <TouchableOpacity onPress={() => logout()} style={styles.BtnLogout} >
                                 <View>
-                                    <BtnLogout width={30} height={30} fill='#000'/>
+                                    <BtnLogout width={25} height={25} fill='#000'/>
                                 </View>
                             </TouchableOpacity>
                         </View>

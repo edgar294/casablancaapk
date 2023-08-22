@@ -23,7 +23,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 const Login = props => {    
     const navigation = useNavigation();
-    const [inputs, setInputs] = React.useState({ email: 'admin@admin.com', password: 'secret' });
+    const [inputs, setInputs] = React.useState({ email: '', password: '' });
  
     const { login, errors, isLoading, token, logout } = useContext(AuthContext);
 
@@ -54,7 +54,9 @@ const Login = props => {
                         label="Usuario"
                         placeholder="Usuario"
                         error={errors.email ?? ''}
-                        withBg={true}
+                        withBg={true}                        
+                        textContentType='emailAddress'
+                        autoCapitalize='none'
                         icon='user-login'
                     />
 
@@ -68,6 +70,8 @@ const Login = props => {
                         withBg={true}
                         icon='user-pass'
                         password={true}
+                        textContentType='password'
+                        autoCapitalize='none'
                     />
                     <Button
                         title="INGRESAR"
@@ -82,7 +86,7 @@ const Login = props => {
                         style={styles.forgotPassBtn}
                         >
                         <ForgotPassIcon width={17} height={17} fill="#000"/> 
-                        <Text style={styles.forgotPassText}>¿Olvidates tu contraseña?</Text>
+                        <Text style={styles.forgotPassText}>¿Olvidaste tu contraseña?</Text>
                     </TouchableOpacity>
                 </View>
             </View>

@@ -71,12 +71,12 @@ const Input = ({
                         // onFocus();
                         setIsFocused(true);
                     }}
-                    onBlur={() => setIsFocused(false)}
+                    onBlur={() => setIsFocused(false)}                    
                     secureTextEntry={(hidePassword && hidePassword)}
                     style={[style.input, style.textInput]}
                     placeholderTextColor={COLORS.dark}    
                     defaultValue={defaultValue?.toString()}                    
-                    editable={editable} 
+                    editable={editable}
                     {...props}
                 />
                 {password && (
@@ -120,6 +120,7 @@ const style = StyleSheet.create({
     textInput: {
         fontSize: 12,
         color: COLORS.dark,
+        
     },
     input: {
         borderWidth: 0,        

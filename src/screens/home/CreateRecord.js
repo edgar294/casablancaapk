@@ -12,14 +12,16 @@ import { color } from 'react-native-reanimated';
 import { Alert } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import ModalQRs from './ModalQRs';
+import { AuthContext } from '../../context/AuthContext';
 
 const CreateRecord = ({ navigation, route }) => {
     const [modalVisible, setModalVisible] = useState(false)
     const [selectedProduct, setSelectedProduct] = useState([])
+    const { user } = useContext(AuthContext)
 
     useEffect(() => {
         const focusHandler = navigation.addListener('focus', () => {
-            fetchProducts()
+            fetchProducts()            
         });
 
         return focusHandler;
@@ -69,7 +71,7 @@ const CreateRecord = ({ navigation, route }) => {
                 <View style={styles.canastillaIcon}>
                     <CanastillaIcon width={50} height={50} fill="#fff" />
                 </View>
-                <View style={styles.col}>
+                <View style={[styles.col, {width:'80%'}]}>
                     <Text style={styles.p}>
                         <Text style={styles.bold}>Cantidad de Canastillas: </Text>
                         {product.item.cantidad}
@@ -82,18 +84,22 @@ const CreateRecord = ({ navigation, route }) => {
                         <Text style={styles.bold}>Bodega: </Text>
                         {product.item.bodega}
                     </Text>
-                    <View style={styles.innerRow}>
-                        <InnerButton
-                            title="Editar"
-                            onPress={() => {
-                                editProduct(product.item)
-                            }}
-                            type="outline-warning" />
-                        <InnerButton title="Eliminar"
-                            onPress={() => {
-                                deleteProduct(product.item)
-                            }}
-                            type="outline-danger" />
+                    <View style={[styles.innerRow]}>
+                    { user?.rol?.name !== 'Operador' && 
+                        <>
+                            <InnerButton
+                                title="Editar"
+                                onPress={() => {
+                                    editProduct(product.item)
+                                }}
+                                type="outline-warning" />
+                            <InnerButton title="Eliminar"
+                                onPress={() => {
+                                    deleteProduct(product.item)
+                                }}
+                                type="outline-danger" />
+                        </>
+                    }
                         <InnerButton icon="scan-qr-icon" onPress={() => { 
                             setSelectedProduct(product.item)
                             setModalVisible(true)
@@ -114,14 +120,14 @@ const CreateRecord = ({ navigation, route }) => {
                     setModalVisible(false)
                 }}
             />
-            <Button
+            { user?.rol?.name !== 'Operador' && <Button
                 title="Crear Registro"
                 onPress={() => {
                     selectProduct(null)
                     navigation.navigate(ROUTES.CREATE_RECORD_FORM)
                 }}
                 icon='file-icon'
-            />
+            />}            
             <FlatList
                 data={products}
                 renderItem={renderProduct}

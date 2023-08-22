@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { COLORS, ROUTES, IMGS } from '../../constants';
 import Logo from '../../assets/images/logo.svg';
-import ForgotPassIcon from '../../assets/images/icon_forgot_password.svg';
+import UserLoginIcon from '../../assets/images/icon_user_login.svg';
 import { useNavigation } from '@react-navigation/native';
 
 import Button from '../../components/Button';
@@ -55,6 +55,8 @@ const ForgotPassword = props => {
                         error={errors.email ?? ''}
                         withBg={true}
                         icon='user-login'
+                        textContentType='emailAddress'
+                        autoCapitalize='none'
                     />
                     
                     <Button
@@ -69,6 +71,7 @@ const ForgotPassword = props => {
                         }
                         style={styles.forgotPassBtn}
                         >
+                        <UserLoginIcon width={17} height={17} fill="#000"/> 
                         <Text style={styles.forgotPassText}>Iniciar sesión</Text>
                     </TouchableOpacity>
                 </View>

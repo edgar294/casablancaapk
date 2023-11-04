@@ -498,6 +498,7 @@ export const VerificationProvider = ({ children }) => {
                 listCanastillasSalidas,
                 dataToVerifyOffline,
                 dataMarkAsOutOffline,
+                isConected,
                 fetchCanastillas,
                 fetchCanastillasSalidas,
                 selectProduct,

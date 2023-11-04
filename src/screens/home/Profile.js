@@ -10,9 +10,8 @@ import Input from '../../components/Input';
 import InnerButton from '../../components/InnerButton'
 import Spinner from 'react-native-loading-spinner-overlay';
 import ImagePicker from 'react-native-image-crop-picker';
-import axios from 'axios';
 import { BASE_URL } from '../../config';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 const Profile = ({ navigation }) => {
     const [name, setName] = React.useState(null);

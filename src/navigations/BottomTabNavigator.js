@@ -15,12 +15,15 @@ import BtnIngresos from '../assets/images/btn_ingresos.svg';
 import BtnVerificacion from '../assets/images/btn_verificacion.svg';
 import BtnSalidas from '../assets/images/btn_salidas.svg';
 import BtnLogout from '../assets/images/btn_logout.svg'
+import IconOffilne from '../assets/images/icon_offline.svg'
 import { AuthContext } from '../context/AuthContext';
+import { VerificationContext } from '../context/VerificationContext';
 
 const Tab = createBottomTabNavigator();
 
 function BottomTabNavigator({ navigation, route }) {    
     const { logout } = useContext(AuthContext)
+    const { isConected } = useContext(VerificationContext)
 
     useEffect(() => {
         const focusHandler = navigation.addListener('focus', () => {
@@ -80,6 +83,13 @@ function BottomTabNavigator({ navigation, route }) {
                 header: () => {
                     return (
                         <View style={styles.header}>
+                            {
+                                !isConected && <TouchableOpacity onPress={() => logout()} style={styles.BtnConnection} >
+                                    <View>
+                                        <IconOffilne width={15} height={15} fill='#f44336'/>
+                                    </View>
+                                </TouchableOpacity>
+                            }
                             <View>
                                 <HorizontalLogo width={200} height={70} />
                             </View>
@@ -182,5 +192,9 @@ const styles = StyleSheet.create({
     BtnLogout: {
         position: 'absolute',
         right: 10
+    },
+    BtnConnection: {
+        position: 'absolute',
+        left: 10
     },
 });

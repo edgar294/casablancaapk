@@ -3,7 +3,6 @@ import React, { useContext, useEffect } from 'react';
 import { ROUTES, COLORS } from '../../constants';
 import Button from '../../components/Button';
 import InnerButton from '../../components/InnerButton';
-
 import { FlatList } from 'react-native-gesture-handler';
 import CanastillaIcon from '../../assets/images/icon_canastilla_home.svg'
 import BulbosIcon from '../../assets/images/icon_bulbos_home.svg'
@@ -24,13 +23,13 @@ const ReportOutput = ({ navigation, route }) => {
         return focusHandler;
     }, [navigation])
 
-    const initializeCounters = async() => {
+    const initializeCounters = async () => {
         const data = await fetchReportAsOutCounters()
-        if (data.status){
+        if (data.status) {
             setCounters(data.data)
         }
     }
-    
+
     const showDetails = (product) => {
         let alertMessage = `----------------------------------------------\n`
         alertMessage += `Codigo de canastilla: ${product.codigo}\n`
@@ -104,7 +103,7 @@ const ReportOutput = ({ navigation, route }) => {
                     <View style={{ flexDirection: 'row', paddingBottom: 5, borderBottomWidth: 1 }}>
                         <View style={{ width: 120 }}>
                             <Text style={{ fontSize: 13, textAlign: 'center', color: COLORS.dark, textAlign: 'center', fontFamily: 'Roboto-Medium' }}>
-                                CÓDIGO 
+                                CÓDIGO
                             </Text>
                         </View>
                         <View style={{ width: 100 }}>

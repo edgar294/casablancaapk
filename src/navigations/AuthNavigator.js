@@ -20,26 +20,12 @@ function AuthNavigator() {
 
     return (
         <Stack.Navigator screenOptions={{}} initialRouteName={ROUTES.LOGIN}>
-            {/* <Stack.Screen
-                name={ROUTES.FORGOT_PASSWORD}
-                component={ForgotPassword}
-                options={({ route }) => ({
-                    headerTintColor: COLORS.white,
-                    // headerBackTitle: 'Back',
-                    headerBackTitleVisible: false,
-                    headerStyle: {
-                        backgroundColor: COLORS.primary,
-                    },
-                    title: route.params.userId,
-                })}
-            /> */}
             {splasLoading ? (
                 <Stack.Screen
                     name={ROUTES.HOME}
                     component={SplashScreen}
                     options={{ headerShown: false }}
                 />
-
             ) : (
                 <>
                     {token ?
@@ -50,7 +36,7 @@ function AuthNavigator() {
                                 options={{ headerShown: false }}
                             />
                         )
-                        :
+                    :
                         (
                             <>
                                 <Stack.Screen

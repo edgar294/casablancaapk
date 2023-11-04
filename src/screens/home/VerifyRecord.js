@@ -9,12 +9,19 @@ import CanastillaIcon from '../../assets/images/icon_canastilla_home.svg'
 import BulbosIcon from '../../assets/images/icon_bulbos_home.svg'
 import { VerificationContext } from '../../context/VerificationContext';
 import Spinner from 'react-native-loading-spinner-overlay';
-import Toast from 'react-native-toast-message'
 
 const VerifyRecord = ({ navigation, route }) => {    
     const [counters, setCounters] = React.useState({})
     const [windowHeight, setWindowHeight] = React.useState(Dimensions.get('window').height)
-    const { fetchCanastillas, listCanastillas, isLoading, dataToVerifyOffline, fetchVerifcationsCounters } = useContext(VerificationContext)
+    const { 
+        fetchCanastillas, 
+        listCanastillas, 
+        isLoading, 
+        dataToVerifyOffline, 
+        fetchVerifcationsCounters,
+        isConected,
+        startOfflineVerification
+    } = useContext(VerificationContext)
     
     useEffect(() => {
         const focusHandler = navigation.addListener('focus', () => {
@@ -26,7 +33,7 @@ const VerifyRecord = ({ navigation, route }) => {
 
     const initializeCounters = async() => {
         const data = await fetchVerifcationsCounters()
-        if (data.status){
+        if (data?.status){
             setCounters(data.data)
         }
     }
@@ -56,11 +63,11 @@ const VerifyRecord = ({ navigation, route }) => {
     const formatDataTable = () => {
         const canastillas = listCanastillas.map((c) => { 
             return {...c, status: 'Verificado' }
-            
         })
 
         const offline = dataToVerifyOffline.map((code) => {
             return {
+                id: (Math.random() * 10000),
                 codigo: code,
                 status: 'Por Verificar'
             }
@@ -71,7 +78,7 @@ const VerifyRecord = ({ navigation, route }) => {
 
     const renderRow = (item) => {
         return (
-            <View style={{ flex: 1, flexDirection: 'row', paddingVertical: 5, borderBottomWidth: 1, alignItems: 'center' }} key={item.index}>
+            <View style={{ flex: 1, flexDirection: 'row', paddingVertical: 5, borderBottomWidth: 1, alignItems: 'center' }}>
                 <View style={{ width: 120 }}>
                     <Text style={{ fontSize: 12, textAlign: 'center', color: COLORS.dark, fontFamily: 'Roboto-Light' }}>
                         {item.item.codigo}
@@ -125,7 +132,7 @@ const VerifyRecord = ({ navigation, route }) => {
                         data={formatDataTable()}
                         scrollEnabled={true}
                         renderItem={renderRow}
-                        keyExtractor={(item) => `key-${item.codigo}`}
+                        keyExtractor={(item) => `key-${(Math.random() * 1000)}`}
                     >
                     </FlatList>
                 </View>
@@ -148,11 +155,11 @@ const VerifyRecord = ({ navigation, route }) => {
                     </View>
                     <View style={styles.col}>
                         <Text style={styles.h1}>CANASTILLAS</Text>
-                        <Text style={styles.h4}>TOTAL: {Number(counters?.canastillasVerificadas) + Number(counters?.canastillasNoVerificadas)}</Text>
+                        <Text style={styles.h4}>TOTAL: {Number(counters?.canastillasVerificadas ?? 0) + Number(counters?.canastillasNoVerificadas ?? 0)}</Text>
                         <View style={{ display: 'flex', flexDirection: 'row' }}>
-                            <Text style={{ color: COLORS.bulbos, fontSize: 12, fontFamily: 'Roboto-Light' }}>Verificados {Number(counters?.canastillasVerificadas)}</Text>
+                            <Text style={{ color: COLORS.bulbos, fontSize: 12, fontFamily: 'Roboto-Light' }}>Verificados {counters?.canastillasVerificadas }</Text>
                             <Text style={{ color: COLORS.dark, fontSize: 12, marginHorizontal: 8 }}>|</Text>
-                            <Text style={{ color: COLORS.danger, fontSize: 12, fontFamily: 'Roboto-Light' }}>Sin Verificar {Number(counters?.canastillasNoVerificadas)}</Text>
+                            <Text style={{ color: COLORS.danger, fontSize: 12, fontFamily: 'Roboto-Light' }}>Sin Verificar {counters?.canastillasNoVerificadas}</Text>
                         </View>
                     </View>
                 </View>
@@ -162,14 +169,31 @@ const VerifyRecord = ({ navigation, route }) => {
                     </View>
                     <View style={styles.col}>
                         <Text style={styles.h1}>BULBOS</Text>
-                        <Text style={styles.h4}>TOTAL: {Number(counters?.bulbosVerificados) + Number(counters?.bulbosNoVerificados)}</Text>
+                        <Text style={styles.h4}>TOTAL: {Number(counters?.bulbosVerificados ?? 0) + Number(counters?.bulbosNoVerificados ?? 0)}</Text>
                         <View style={{ display: 'flex', flexDirection: 'row' }}>
-                            <Text style={{ color: COLORS.bulbos, fontSize: 12, fontFamily: 'Roboto-Light' }}>Verificados {Number(counters?.bulbosVerificados)}</Text>
+                            <Text style={{ color: COLORS.bulbos, fontSize: 12, fontFamily: 'Roboto-Light' }}>Verificados {counters?.bulbosVerificados}</Text>
                             <Text style={{ color: COLORS.dark, fontSize: 12, marginHorizontal: 8 }}>|</Text>
-                            <Text style={{ color: COLORS.danger, fontSize: 12, fontFamily: 'Roboto-Light' }}>Sin Verificar {Number(counters?.bulbosNoVerificados)}</Text>
+                            <Text style={{ color: COLORS.danger, fontSize: 12, fontFamily: 'Roboto-Light' }}>Sin Verificar {counters?.bulbosNoVerificados}</Text>
                         </View>
                     </View>
                 </View>
+                { (dataToVerifyOffline.length > 0) && 
+                    <View style={[styles.row, { justifyContent: 'space-between' }]}>
+                        <View style={styles.col}>
+                            <Text style={[styles.h4, { fontWeight: 'bold' }]}>Modo Offline</Text>
+                            <Text style={styles.h4}>Pendientes por verificar: {dataToVerifyOffline.length}</Text>
+                        </View>
+                        <View style={styles.col}>
+                        {
+                            isConected && <InnerButton 
+                            title={'Verificar'}
+                            onPress={() => { 
+                                startOfflineVerification(dataToVerifyOffline)
+                            }} 
+                            type="info" />}
+                        </View>
+                    </View>
+                }
                 <View style={styles.row}>
                     <Table />
                 </View>                
@@ -196,7 +220,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         display: "flex",
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'center',        
         marginVertical: 10
     },
     innerRow: {

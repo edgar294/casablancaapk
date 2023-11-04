@@ -61,27 +61,23 @@ export const VerificationProvider = ({ children }) => {
         AsyncStorage.getItem('dataToVerifyOffline').then((datos) => {
             if (datos) {
                 setDataToVerifyOffline(JSON.parse(datos))
-                startOfflineVerification(JSON.parse(datos))
             }
         })
 
         AsyncStorage.getItem('dataMarkAsOutOffline').then((datos) => {
             if (datos) {
                 setDataMarkAsOutOffline(JSON.parse(datos))
-                startOfflineMasAsOut(JSON.parse(datos))
             }
         })
     }
 
     const startOfflineVerification = async (data) => {
         const removedCodes = []
-        if (isConected) {
-            for (let i = 0; i < data.length; i++) {
-                const code = data[i];
-                let result = await verifyCode(code, true)
-                if (result) {
-                    removedCodes.push(code)
-                }
+        for (let i = 0; i < data.length && isConected; i++) {
+            const code = data[i];
+            let result = await verifyCode(code, true)
+            if (result) {
+                removedCodes.push(code)
             }
         }
         const dataWithoutCodes = dataToVerifyOffline.filter(c => !removedCodes.includes(c));
@@ -91,13 +87,11 @@ export const VerificationProvider = ({ children }) => {
 
     const startOfflineMasAsOut = async (data) => {
         const removedCodes = []
-        if (isConected) {
-            for (let i = 0; i < data.length; i++) {
-                const code = data[i];
-                let result = await markAsOut(code, true)
-                if (result) {
-                    removedCodes.push(code)
-                }
+        for (let i = 0; i < data.length && isConected; i++) {
+            const code = data[i];
+            let result = await markAsOut(code, true)
+            if (result) {
+                removedCodes.push(code)
             }
         }
         const dataWithoutCodes = dataMarkAsOutOffline.filter(c => !removedCodes.includes(c));
@@ -106,6 +100,7 @@ export const VerificationProvider = ({ children }) => {
     }    
 
     const fetchCounters = async () => {
+        if (!isConected) return 
         try {
             const response = await axios.get(`${BASE_URL}/verificaciones/count`)
             const data = response.data
@@ -126,6 +121,7 @@ export const VerificationProvider = ({ children }) => {
     }
 
     const fetchDataSelects = async () => {
+        if (!isConected) return 
         try {
             const bodegasResponse = await axios.post(`${BASE_URL}/get/bodegas`)
             setBodegas(bodegasResponse.data.data)
@@ -148,6 +144,7 @@ export const VerificationProvider = ({ children }) => {
     }
 
     const fetctVariedades = async (tipo) => {
+        if (!isConected) return 
         try {
             setIsLoading(true)
             setVariedades([])
@@ -160,6 +157,7 @@ export const VerificationProvider = ({ children }) => {
     }
 
     const fetctColores = async (variedad) => {
+        if (!isConected) return 
         try {
             setIsLoading(true)
             setColores([])
@@ -172,6 +170,7 @@ export const VerificationProvider = ({ children }) => {
     }
 
     const createRegister = async (payload, id = null) => {
+        if (!isConected) return 
         try {
             setIsLoading(true)
             const url = `${BASE_URL}/products` + ((id) ? `/${id}` : '')
@@ -204,6 +203,7 @@ export const VerificationProvider = ({ children }) => {
     }
 
     const deleteRegister = async (id) => {
+        if (!isConected) return 
         try {
             setIsLoading(true)
             const url = `${BASE_URL}/products/${id}`
@@ -236,6 +236,7 @@ export const VerificationProvider = ({ children }) => {
     }
 
     const fetchProducts = async () => {
+        if (!isConected) return 
         try {
             setIsLoading(true)
             const response = await axios.get(`${BASE_URL}/products`)
@@ -255,6 +256,7 @@ export const VerificationProvider = ({ children }) => {
     }
 
     const fetchCanastillas = async () => {
+        if (!isConected) return 
         try {
             setIsLoading(true)
             const response = await axios.get(`${BASE_URL}/canastillas`)
@@ -270,6 +272,7 @@ export const VerificationProvider = ({ children }) => {
     }
 
     const fetchCanastillasSalidas = async () => {
+        if (!isConected) return 
         try {
             setIsLoading(true)
             const response = await axios.get(`${BASE_URL}/canastillas/salidas`)
@@ -399,7 +402,6 @@ export const VerificationProvider = ({ children }) => {
                 return false
             }
         } catch (e) {
-            console.log(e)
             setIsLoading(false)
             Toast.show({
                 type: 'error',
@@ -442,6 +444,7 @@ export const VerificationProvider = ({ children }) => {
     }
 
     const fetchGraphicData = async () => {
+        if (!isConected) return 
         try{
             const response = await axios.post(`${BASE_URL}/dashboard/graphic/data`)
             const data = response.data            
@@ -452,6 +455,7 @@ export const VerificationProvider = ({ children }) => {
     }
 
     const fetchVerifcationsCounters = async () => {
+        if (!isConected) return 
         try{
             const response = await axios.post(`${BASE_URL}/fecth/verification/counters`)
             const data = response.data            
@@ -466,6 +470,7 @@ export const VerificationProvider = ({ children }) => {
     }, [])
 
     const fetchReportAsOutCounters = async () => {
+        if (!isConected) return 
         try{
             const response = await axios.post(`${BASE_URL}/fecth/report/out/counters`)
             const data = response.data            
@@ -513,7 +518,9 @@ export const VerificationProvider = ({ children }) => {
                 markAsOut,
                 fetchGraphicData,
                 fetchVerifcationsCounters,
-                fetchReportAsOutCounters
+                fetchReportAsOutCounters,
+                startOfflineVerification,
+                startOfflineMasAsOut,
             }}>
             {children}
         </VerificationContext.Provider>

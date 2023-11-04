@@ -13,7 +13,14 @@ import Toast from 'react-native-toast-message'
 const ReportOutput = ({ navigation, route }) => {
     const [counters, setCounters] = React.useState({})
     const [windowHeight, setWindowHeight] = React.useState(Dimensions.get('window').height)
-    const { fetchCanastillasSalidas, listCanastillasSalidas, isLoading, dataMarkAsOutOffline, fetchReportAsOutCounters } = useContext(VerificationContext)
+    const { 
+        fetchCanastillasSalidas, 
+        listCanastillasSalidas, 
+        dataMarkAsOutOffline, 
+        fetchReportAsOutCounters,
+        isConected,
+        startOfflineMasAsOut
+    } = useContext(VerificationContext)
 
     useEffect(() => {
         const focusHandler = navigation.addListener('focus', () => {
@@ -25,7 +32,7 @@ const ReportOutput = ({ navigation, route }) => {
 
     const initializeCounters = async () => {
         const data = await fetchReportAsOutCounters()
-        if (data.status) {
+        if (data?.status) {
             setCounters(data.data)
         }
     }
@@ -69,7 +76,7 @@ const ReportOutput = ({ navigation, route }) => {
 
     const renderRow = (item) => {
         return (
-            <View style={{ flex: 1, flexDirection: 'row', paddingVertical: 5, borderBottomWidth: 1, alignItems: 'center' }} key={item.index}>
+            <View style={{ flex: 1, flexDirection: 'row', paddingVertical: 5, borderBottomWidth: 1, alignItems: 'center' }}>
                 <View style={{ width: 120 }}>
                     <Text style={{ fontSize: 12, textAlign: 'center', color: COLORS.dark, fontFamily: 'Roboto-Light' }}>
                         {item.item.codigo}
@@ -123,7 +130,7 @@ const ReportOutput = ({ navigation, route }) => {
                         data={formatDataTable()}
                         scrollEnabled={true}
                         renderItem={renderRow}
-                        keyExtractor={(item) => `key-${item.codigo}`}
+                        keyExtractor={(item) => `key-${(Math.random() * 1000)}`}
                     >
                     </FlatList>
                 </View>
@@ -164,6 +171,23 @@ const ReportOutput = ({ navigation, route }) => {
                         </View>
                     </View>
                 </View>
+                { (dataMarkAsOutOffline.length > 0) && 
+                    <View style={[styles.row, { justifyContent: 'space-between' }]}>
+                        <View style={styles.col}>
+                            <Text style={[styles.h4, { fontWeight: 'bold' }]}>Modo Offline</Text>
+                            <Text style={styles.h4}>Pendientes por reportar: {dataMarkAsOutOffline.length}</Text>
+                        </View>
+                        <View style={styles.col}>
+                        {
+                            isConected && <InnerButton 
+                            title={'Reportar'}
+                            onPress={() => { 
+                                startOfflineMasAsOut(dataMarkAsOutOffline)
+                            }} 
+                            type="danger" />}
+                        </View>
+                    </View>
+                }
                 <View style={styles.row}>
                     <Table />
                 </View>

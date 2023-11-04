@@ -16,7 +16,6 @@ export default function App() {
                 // text1NumberOfLines={2}
                 // text2Style={styles.text2Style}
                 text2NumberOfLines={2}
-                
             />
         ),
         error: (props) => (

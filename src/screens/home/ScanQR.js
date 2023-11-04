@@ -7,6 +7,7 @@ import { RNCamera } from 'react-native-camera';
 import Button from '../../components/Button';
 import { VerificationContext } from '../../context/VerificationContext';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { playSoundNotification } from '../../services/utils';
 
 const ScanQR = ({ navigation, route }) => {
     const [origin, setOrigin] = React.useState(ROUTES.HOME);
@@ -23,6 +24,7 @@ const ScanQR = ({ navigation, route }) => {
     const { verifyCode, markAsOut, isLoading } = useContext(VerificationContext)
 
     const doAction = (data) => {        
+        playSoundNotification()
         if (origin == ROUTES.VERIFY_RECORD){
             code = data.data
             verifyCode(code)

@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet, Platform, TouchableOpacity, View } from 'react-native';
 import { COLORS, ROUTES, IMGS } from '../constants';
-import { CreateRecord, VerifyRecord, ReportOutput, Dashboard, ScanQR, CreateRecordForm, Profile } from '../screens';
+import { CreateRecord, VerifyRecord, ReportOutput, Dashboard, ScanQR, CreateRecordForm, Profile, ScanCodebar } from '../screens';
 import Icon from 'react-native-vector-icons/Ionicons';
 import CustomTabBarButton from '../components/CustomTabBarButton';
 import CustomTabBar from '../components/CustomTabBar';
@@ -149,6 +149,17 @@ function BottomTabNavigator({ navigation, route }) {
             <Tab.Screen
                 name={ROUTES.SCAN_QR}
                 component={ScanQR}
+                options={{
+                    headerShown: true,
+                    tabBarButton: props => (
+                        <CustomTabBarButton route="settings" {...props} hide={true} />
+                    ),
+                }}
+                initialParams={{ origin: '' }}
+            />
+            <Tab.Screen
+                name={ROUTES.SCAN_CODEBAR}
+                component={ScanCodebar}
                 options={{
                     headerShown: true,
                     tabBarButton: props => (

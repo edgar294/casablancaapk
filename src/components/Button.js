@@ -3,11 +3,13 @@ import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
 import { COLORS } from '../constants';
 import FileIcon from '../assets/images/icon_file_btn_azul.svg'
 import ScanQrIcon from '../assets/images/icon_qr_btnazul.svg'
+import CodeBarIcon from '../assets/images/icon-code-bar.svg'
 
 const Button = ({ 
     title, onPress = () => { },
     type = 'info',
-    icon = null 
+    icon = null,
+    style = {},
 }) => {
     const Icon = () => {
         if ((icon == 'file-icon')) {
@@ -22,11 +24,17 @@ const Button = ({
                     <ScanQrIcon width={20} height={20} fill='#000'/>
                 </View>
             )
+        } else if ((icon == 'code-bar-icon')) {
+            return (
+                <View style={{ justifyContent:'center', alignItems: 'center' }}>
+                    <CodeBarIcon width={20} height={20} fill='#000'/>
+                </View>
+            )
         }
     }
 
     return (
-        <View style={styles.buttonWrapper}>                        
+        <View style={[styles.buttonWrapper, style]}>
             <TouchableOpacity
                 onPress={onPress}
                 activeOpacity={0.7}

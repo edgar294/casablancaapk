@@ -10,6 +10,7 @@ export { default as CreateRecordForm } from './home/CreateRecordForm';
 export { default as VerifyRecord } from './home/VerifyRecord';
 export { default as ReportOutput } from './home/ReportOutput';
 export { default as ScanQR } from './home/ScanQR';
+export { default as ScanCodebar } from './home/ScanCodebar';
 
 // Auth Screens
 export { default as Login } from './auth/Login';

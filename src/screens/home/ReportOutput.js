@@ -140,12 +140,22 @@ const ReportOutput = ({ navigation, route }) => {
 
     return (
         <SafeAreaView style={[styles.mainContainer,]}>
-            <Button
-                title="Reportar Salida"
-                type='danger'
-                onPress={() => navigation.navigate(ROUTES.SCAN_QR, { origin: ROUTES.REPORT_OUTPUT })}
-                icon='scan-qr-icon'
-            />
+            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: '100%' }}>
+                <Button
+                    style={{ width: '48%' }}
+                    title="Reportar"
+                    type='danger'
+                    onPress={() => navigation.navigate(ROUTES.SCAN_QR, { origin: ROUTES.REPORT_OUTPUT })}
+                    icon='scan-qr-icon'
+                />
+                <Button
+                    style={{ width: '48%' }}
+                    title="Reportar"
+                    type='danger'
+                    onPress={() => navigation.navigate(ROUTES.SCAN_CODEBAR, { origin: ROUTES.REPORT_OUTPUT })}
+                    icon='code-bar-icon'
+                />
+            </View>
             <View style={{ width: '100%' }}>
                 <View style={styles.row}>
                     <View style={styles.canastillaIcon}>

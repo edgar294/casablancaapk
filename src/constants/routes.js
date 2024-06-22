@@ -26,6 +26,7 @@ export default {
 
     CREATE_RECORD_FORM: 'Create-Record-Form',
     SCAN_QR: 'Scan-QR',
+    SCAN_CODEBAR: 'Scan-Codebar',
 
     VERIFY_RECORD: 'Verify-Record',
     VERIFY_RECORD_TAB: 'Verify Record Tab',

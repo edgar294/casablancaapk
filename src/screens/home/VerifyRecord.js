@@ -143,11 +143,20 @@ const VerifyRecord = ({ navigation, route }) => {
     return (
         <SafeAreaView style={[styles.mainContainer,]}>
             <Spinner visible={isLoading} />
-            <Button
-                title="Verificar Registro"
-                onPress={() => navigation.navigate(ROUTES.SCAN_QR, { origin: ROUTES.VERIFY_RECORD })}
-                icon='scan-qr-icon'
-            />
+            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: '100%' }}>
+                <Button
+                    style={{ width: '48%' }}
+                    title="Verificar"
+                    onPress={() => navigation.navigate(ROUTES.SCAN_QR, { origin: ROUTES.VERIFY_RECORD })}
+                    icon='scan-qr-icon'
+                />
+                <Button
+                    style={{ width: '48%' }}
+                    title="Verificar"
+                    onPress={() => navigation.navigate(ROUTES.SCAN_CODEBAR, { origin: ROUTES.VERIFY_RECORD })}
+                    icon='code-bar-icon'
+                />
+            </View>
             <View contentInsetAdjustmentBehavior='automatic' style={{ width: '100%' }}>
                 <View style={styles.row}>
                     <View style={styles.canastillaIcon}>
@@ -295,6 +304,6 @@ const styles = StyleSheet.create({
         height: 70,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 15
+        borderRadius: 15,                
     }
 })

@@ -17,6 +17,7 @@ const Input = ({
     defaultValue = '',
     showLabel = false,
     editable = true,
+    styles,
     ...props
 }) => {
     const [hidePassword, setHidePassword] = React.useState(password);
@@ -73,7 +74,7 @@ const Input = ({
                     }}
                     onBlur={() => setIsFocused(false)}                    
                     secureTextEntry={(hidePassword && hidePassword)}
-                    style={[style.input, style.textInput]}
+                    style={[style.input, style.textInput, styles]}
                     placeholderTextColor={COLORS.dark}    
                     defaultValue={defaultValue?.toString()}                    
                     editable={editable}

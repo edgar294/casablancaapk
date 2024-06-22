@@ -54,12 +54,7 @@ const ScanQR = ({ navigation, route }) => {
             return dataToVerifyOffline.length + " códigos por verificar"
         } else if (origin == ROUTES.REPORT_OUTPUT) {
             return dataMarkAsOutOffline.length + " códigos por reportar"
-        }        
-        return codes.map((codigo, index) => (
-            <Text style={{color: 'black', marginBottom: 15}} key={codigo}>
-                {codes.length - index}.- Código: {codigo}
-            </Text>
-        ));
+        }
     };
 
     return (

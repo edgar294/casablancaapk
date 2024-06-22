@@ -1,8 +1,6 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet, Image } from 'react-native';
 import { COLORS, IMGS } from '../constants';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Logo from '../assets/images/logo.png';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Counter = ({

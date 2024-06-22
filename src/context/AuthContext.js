@@ -180,7 +180,7 @@ export const AuthProvider = ({ children }) => {
         imageData.append('file', {
             uri: image.path,
             name: 'image',
-            filename: 'image.png',
+            filename: 'image.jpg',
             type: image.mime
         })
 

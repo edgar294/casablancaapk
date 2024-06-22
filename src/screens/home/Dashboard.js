@@ -2,11 +2,9 @@ import React, { startTransition, useContext, useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, Alert } from 'react-native';
 import { COLORS } from '../../constants';
 import Logo from '../../assets/images/logo.svg';
-import UserImage from '../../assets/images/img_perfil.png'
-import StatisticImage from '../../assets/images/graphic.png'
+import UserImage from '../../assets/images/img_perfil.jpg'
 import CanastillaIcon from '../../assets/images/icon_canastilla_home.svg'
 import BulbosIcon from '../../assets/images/icon_bulbos_home.svg'
-import Graphic from '../../assets/images/graphic.png'
 import { AuthContext } from '../../context/AuthContext';
 import { VerificationContext } from '../../context/VerificationContext';
 import InnerButton from '../../components/InnerButton';

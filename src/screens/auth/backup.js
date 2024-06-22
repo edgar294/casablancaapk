@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { COLORS, ROUTES, IMGS } from '../../constants';
-import Logo from '../../assets/images/logo.png';
+import Logo from '../../assets/images/logo.jpg';
 import UserIcon from '../../assets/images/btn_ingresos.svg'
 import { useNavigation } from '@react-navigation/native';
 

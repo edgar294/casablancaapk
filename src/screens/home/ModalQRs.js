@@ -2,7 +2,6 @@ import { StyleSheet, Text, View, SafeAreaView, Modal, TouchableOpacity } from 'r
 import React, { useContext, useEffect, useState } from 'react';
 import { ROUTES, COLORS } from '../../constants';
 import QRCode from 'react-native-qrcode-svg';
-import Logo from '../../assets/images/logo-qr.png'
 import InnerButton from '../../components/InnerButton';
 import Barcode from "react-native-barcode-builder";
 

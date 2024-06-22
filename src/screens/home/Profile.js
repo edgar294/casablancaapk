@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, Alert } from 'react-native';
 import { COLORS } from '../../constants';
-import UserImage from '../../assets/images/img_perfil.png'
+import UserImage from '../../assets/images/img_perfil.jpg'
 import { AuthContext } from '../../context/AuthContext';
 
 import Button from '../../components/Button';

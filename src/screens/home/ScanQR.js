@@ -21,7 +21,7 @@ const ScanQR = ({ navigation, route }) => {
         }
     }, [route.params])
 
-    const { verifyCode, markAsOut, isLoading } = useContext(VerificationContext)
+    const { verifyCode, markAsOut, isLoading, dataToVerifyOffline, dataMarkAsOutOffline } = useContext(VerificationContext)
 
     const doAction = (data) => {        
         playSoundNotification()
@@ -34,9 +34,20 @@ const ScanQR = ({ navigation, route }) => {
         }
     }
 
+    const countCodes = () => {
+        if (origin == ROUTES.VERIFY_RECORD) {
+            return dataToVerifyOffline.length + " códigos por verificar"
+        } else if (origin == ROUTES.REPORT_OUTPUT) {
+            return dataMarkAsOutOffline.length + " códigos por reportar"
+        }
+    };
+
     return (
         <ScrollView contentInsetAdjustmentBehavior='automatic' style={{ marginTop: 0 }}>
             <Spinner visible={isLoading} />
+            <Text style={{position: 'absolute', color: 'white', backgroundColor: 'black', top: 15, zIndex: 99, right: 10, paddingVertical: 5, paddingHorizontal: 15, borderRadius: 10}}>
+                {countCodes()}
+            </Text>
             <QRCodeScanner
                 onRead={doAction}
                 flashMode={RNCamera.Constants.FlashMode.off}
